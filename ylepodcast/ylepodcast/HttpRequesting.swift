@@ -59,7 +59,6 @@ class HttpRequesting {
     
     
     func httpGetApi () {
-        self.error = true
         
         let parameters: Parameters = ["username": "podcast", "password": "podcast16"]
         
@@ -70,9 +69,35 @@ class HttpRequesting {
                     
                     //Tulostaa api keyn
                     //print(self.getApiKey())
+                    self.httpGetPodCasts()
                 }else{
                     self.setMessage(statusMessage: "Ei toimi")
                 }
         }
+    }
+    
+    func httpGetPodCasts () {
+        let parameters: Parameters = ["key": self.getApiKey(), "category": ""]
+        
+        Alamofire.request("http://dev.mw.metropolia.fi/aanimaisema/plugins/api_audio_search/index.php/", method: .get, parameters:parameters)
+            .responseJSON{response in
+                if let json = response.result.value {
+                    
+                    if let array = json as? [Any] {
+                        
+                        for object in array {
+                            print(object)
+                        }
+                        
+                        for case let string as String in array {
+                            print(string)
+                        }
+                    }
+                    
+                }else{
+                    print("ei toimi")
+                }
+        }
+
     }
 }

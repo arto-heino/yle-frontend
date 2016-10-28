@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         let post = HttpRequesting()
         post.httpGetApi()
-        print("Toimiiko")
         return true
     }
 
