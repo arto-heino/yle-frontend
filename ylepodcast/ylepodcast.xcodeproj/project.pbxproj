@@ -10,6 +10,7 @@
 		13C60A771DC1D8C000A6917D /* ylepodcast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C60A6D1DC1D8C000A6917D /* ylepodcast.framework */; };
 		13C60A7C1DC1D8C000A6917D /* ylepodcastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C60A7B1DC1D8C000A6917D /* ylepodcastTests.swift */; };
 		13C60A7E1DC1D8C000A6917D /* ylepodcast.h in Headers */ = {isa = PBXBuildFile; fileRef = 13C60A701DC1D8C000A6917D /* ylepodcast.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		74DACBBE1DC2682D00FECB3F /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74DACBBD1DC2682D00FECB3F /* Storyboard.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		13C60A761DC1D8C000A6917D /* ylepodcastTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ylepodcastTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		13C60A7B1DC1D8C000A6917D /* ylepodcastTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ylepodcastTests.swift; sourceTree = "<group>"; };
 		13C60A7D1DC1D8C000A6917D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		74DACBBD1DC2682D00FECB3F /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				13C60A701DC1D8C000A6917D /* ylepodcast.h */,
+				74DACBBD1DC2682D00FECB3F /* Storyboard.storyboard */,
 				13C60A711DC1D8C000A6917D /* Info.plist */,
 			);
 			path = ylepodcast;
@@ -179,6 +182,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74DACBBE1DC2682D00FECB3F /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +398,7 @@
 				13C60A831DC1D8C000A6917D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		13C60A841DC1D8C000A6917D /* Build configuration list for PBXNativeTarget "ylepodcastTests" */ = {
 			isa = XCConfigurationList;
@@ -402,6 +407,7 @@
 				13C60A861DC1D8C000A6917D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
