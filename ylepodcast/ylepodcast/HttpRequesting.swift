@@ -66,9 +66,6 @@ class HttpRequesting {
             .responseJSON{response in
                 if let json = response.result.value as? [String: String] {
                     self.setApiKey(apiKey: json["api_key"]!)
-                    
-                    //Tulostaa api keyn
-                    //print(self.getApiKey())
                     self.httpGetPodCasts()
                 }else{
                     self.setMessage(statusMessage: "Ei toimi")
@@ -82,18 +79,19 @@ class HttpRequesting {
         Alamofire.request("http://dev.mw.metropolia.fi/aanimaisema/plugins/api_audio_search/index.php/", method: .get, parameters:parameters)
             .responseJSON{response in
                 if let json = response.result.value {
-                    
                     if let array = json as? [Any] {
                         
-                        for object in array {
-                            print(object)
+                        for (index, item) in array.enumerated() {
+                            if let details = item as? [[String:Any]] {
+                                let title = details[0]["Original filename"]
+                                //let date = details[0]["Creation date"]
+                                print(title)
+                                //print(date)
+                            }
                         }
-                        
-                        for case let string as String in array {
-                            print(string)
-                        }
-                    }
                     
+                    
+                    }
                 }else{
                     print("ei toimi")
                 }
