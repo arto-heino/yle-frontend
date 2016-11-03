@@ -81,12 +81,11 @@ class HttpRequesting {
                 if let json = response.result.value {
                     if let array = json as? [Any] {
                         
-                        for (index, item) in array.enumerated() {
+                        for (_, item) in array.enumerated() {
                             if let details = item as? [[String:Any]] {
                                 let title = details[0]["Original filename"]
-                                //let date = details[0]["Creation date"]
-                                print(title)
-                                //print(date)
+                                
+                                print(title ?? "tyhjä")
                             }
                         }
                     

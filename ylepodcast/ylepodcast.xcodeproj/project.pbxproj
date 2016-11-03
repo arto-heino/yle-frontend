@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		135BA2941DC34C61009C5611 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 135BA2931DC34C61009C5611 /* Alamofire.framework */; };
 		135BA2961DC34D74009C5611 /* HttpRequesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135BA2951DC34D74009C5611 /* HttpRequesting.swift */; };
-		135BA2981DC35564009C5611 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 135BA2931DC34C61009C5611 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		13A5D3461DC3389400CEB0D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */; };
 		13A5D3481DC3389400CEB0D4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3471DC3389400CEB0D4 /* ViewController.swift */; };
 		13A5D34B1DC3389400CEB0D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A5D3491DC3389400CEB0D4 /* Main.storyboard */; };
@@ -17,6 +15,11 @@
 		13A5D3501DC3389400CEB0D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A5D34E1DC3389400CEB0D4 /* LaunchScreen.storyboard */; };
 		13A5D35B1DC3389400CEB0D4 /* ylepodcastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D35A1DC3389400CEB0D4 /* ylepodcastTests.swift */; };
 		13A5D3661DC3389500CEB0D4 /* ylepodcastUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3651DC3389500CEB0D4 /* ylepodcastUITests.swift */; };
+		13E5A4681DCB3249005AE6E7 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13E5A4661DCB305C005AE6E7 /* Alamofire.framework */; };
+		13E5A4691DCB33F4005AE6E7 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 13E5A4661DCB305C005AE6E7 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		13E5A46B1DCB4470005AE6E7 /* PodcastsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E5A46A1DCB4470005AE6E7 /* PodcastsTableViewCell.swift */; };
+		13E5A46D1DCB4EC1005AE6E7 /* PodcastsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E5A46C1DCB4EC1005AE6E7 /* PodcastsTableViewController.swift */; };
+		13E5A46F1DCB59A5005AE6E7 /* Podcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E5A46E1DCB59A5005AE6E7 /* Podcast.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,14 +46,13 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				135BA2981DC35564009C5611 /* Alamofire.framework in CopyFiles */,
+				13E5A4691DCB33F4005AE6E7 /* Alamofire.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		135BA2931DC34C61009C5611 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = ylepodcast/Alamofire.framework; sourceTree = "<group>"; };
 		135BA2951DC34D74009C5611 /* HttpRequesting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequesting.swift; sourceTree = "<group>"; };
 		13A5D3421DC3389400CEB0D4 /* ylepodcast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ylepodcast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +67,10 @@
 		13A5D3611DC3389500CEB0D4 /* ylepodcastUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ylepodcastUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A5D3651DC3389500CEB0D4 /* ylepodcastUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ylepodcastUITests.swift; sourceTree = "<group>"; };
 		13A5D3671DC3389500CEB0D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		13E5A4661DCB305C005AE6E7 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		13E5A46A1DCB4470005AE6E7 /* PodcastsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastsTableViewCell.swift; sourceTree = "<group>"; };
+		13E5A46C1DCB4EC1005AE6E7 /* PodcastsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastsTableViewController.swift; sourceTree = "<group>"; };
+		13E5A46E1DCB59A5005AE6E7 /* Podcast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Podcast.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				135BA2941DC34C61009C5611 /* Alamofire.framework in Frameworks */,
+				13E5A4681DCB3249005AE6E7 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,7 +102,7 @@
 		13A5D3391DC3389400CEB0D4 = {
 			isa = PBXGroup;
 			children = (
-				135BA2931DC34C61009C5611 /* Alamofire.framework */,
+				13E5A4661DCB305C005AE6E7 /* Alamofire.framework */,
 				13A5D3441DC3389400CEB0D4 /* ylepodcast */,
 				13A5D3591DC3389400CEB0D4 /* ylepodcastTests */,
 				13A5D3641DC3389500CEB0D4 /* ylepodcastUITests */,
@@ -120,6 +126,9 @@
 				13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */,
 				13A5D3471DC3389400CEB0D4 /* ViewController.swift */,
 				13A5D3491DC3389400CEB0D4 /* Main.storyboard */,
+				13E5A46C1DCB4EC1005AE6E7 /* PodcastsTableViewController.swift */,
+				13E5A46E1DCB59A5005AE6E7 /* Podcast.swift */,
+				13E5A46A1DCB4470005AE6E7 /* PodcastsTableViewCell.swift */,
 				13A5D34C1DC3389400CEB0D4 /* Assets.xcassets */,
 				13A5D34E1DC3389400CEB0D4 /* LaunchScreen.storyboard */,
 				13A5D3511DC3389400CEB0D4 /* Info.plist */,
@@ -284,8 +293,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13E5A46D1DCB4EC1005AE6E7 /* PodcastsTableViewController.swift in Sources */,
 				135BA2961DC34D74009C5611 /* HttpRequesting.swift in Sources */,
+				13E5A46F1DCB59A5005AE6E7 /* Podcast.swift in Sources */,
 				13A5D3481DC3389400CEB0D4 /* ViewController.swift in Sources */,
+				13E5A46B1DCB4470005AE6E7 /* PodcastsTableViewCell.swift in Sources */,
 				13A5D3461DC3389400CEB0D4 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,6 +455,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ylepodcast",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ylepodcast/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -461,6 +474,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ylepodcast",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ylepodcast/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
