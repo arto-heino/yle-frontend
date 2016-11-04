@@ -24,5 +24,5 @@ class Podcast {
         self.description = description
         self.duration = duration
     
-}
+    }
 }
