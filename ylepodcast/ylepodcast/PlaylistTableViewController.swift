@@ -17,9 +17,10 @@ class PlaylistTableViewController: UITableViewController {
         func loadSamplePods() {
             
             let photo1 = UIImage(named: "defaultImage")!
-            let podcast1 = Podcast(collection: "lolasdasdasdasd", photo: photo1, description: "jeejeeasdasdasdasdasd asd asdasdasdasd asd asdasdasdasdasd sad asdasdasdasd asd asdasdasdasd asd asd ", duration: "10.15")!
             
-            let podcast2 = Podcast(collection: "yo", photo: photo1, description: "tosi jee", duration: "20.00")!
+            let podcast1 = Podcast(collection: "lolasdasdasdasd", photo: photo1, description: "milosartocarla jeejeeasdasdasdasdasd asd asdasdasdasd asd asdasdasdasdasd sad asdasdasdasd asd asdasdasdasd asd asd", duration: "10.15", tags: ["milos", "carla", "arto"])!
+            
+            let podcast2 = Podcast(collection: "yo", photo: photo1, description: "jarielisakenitosi jee", duration: "20.00", tags: ["jari", "elisa", "keni"])!
             
             
             podcasts += [podcast1, podcast2]
