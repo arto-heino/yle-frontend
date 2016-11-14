@@ -8,44 +8,89 @@
 
 import UIKit
 
-class SearchTableViewController: UITableViewController {
+class SearchTableViewController: UITableViewController , UISearchBarDelegate, UISearchResultsUpdating {
+    
+    let searchController = UISearchController(searchResultsController: nil)
+    var searchResults = [Podcast?]()
 
     override func viewDidLoad() {
+    
+        
+        //luodaan searchbar
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        definesPresentationContext = true
+        searchController.dimsBackgroundDuringPresentation = false
+        tableView.tableHeaderView = searchController.searchBar
+    
+        //Tässä haetaan podcastit
+        //AppDelegate.loadSamplePods()
     }
+    //Päivittää hakutulokset
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchText: searchController.searchBar.text!)
+    }
+    //filtteröi hakusanan mukaan
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        filterContentForSearchText(searchText: searchBar.text!)
 
+    }
+    //filtteröi koko datasta hakusanan mukaiset podcastit
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        /// etsitään collectioneista hakusanalla
+        let collectionSearchResults = AppDelegate.dummyData.filter { podcast in
+            return podcast.collection.lowercased().contains(searchText.lowercased())
+        }
+        // etsitään descriptioneista hakusanalla
+        let descriptionSearchResults = AppDelegate.dummyData.filter { podcast in
+            return podcast.description.lowercased().contains(searchText.lowercased())
+        }
+        // etsitään tageista hakusanalla
+        let tagsSearchResults = AppDelegate.dummyData.filter { podcast in
+            for tag in podcast.tags {
+                if tag.lowercased().contains(searchText.lowercased()) {
+                    return true
+                }
+            }
+            return false
+        }
+        
+        // eka setti joka sisältää collection-osumat
+        let set1:Set<Podcast> = Set(collectionSearchResults)
+        // sekä description-osumat että tags-osumat
+        searchResults = Array(set1.union(descriptionSearchResults).union(tagsSearchResults))
+        
+        tableView.reloadData()
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    // MARK: - Table view data source
+    
+    
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
-
+    //palauttaa listviewiin haun tulokset
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return searchResults.count
     }
 
-    /*
+    //piirtää tulokset listaan
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchItemTableViewCell", for: indexPath ) as! SearchItemTableViewCell
 
-        // Configure the cell...
+        let podcast = searchResults[indexPath.row]
+        cell.collectionLabel.text = podcast?.collection
+        cell.descriptionLabel.text = podcast?.description
 
         return cell
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.

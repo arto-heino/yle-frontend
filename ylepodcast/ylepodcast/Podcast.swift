@@ -17,7 +17,6 @@ class Podcast: Hashable {
     var duration: String
     var tags = [String]()
     
-    
     init? (collection: String, photo: UIImage, description: String, duration: String, tags:  [String]) {
         
         self.collection = collection
@@ -25,9 +24,9 @@ class Podcast: Hashable {
         self.description = description
         self.duration = duration
         self.tags = tags
-        
     }
-    
+
+    //tekee collectionista ja descriptionista uniikin hashValuen
     var hashValue : Int {
         get {
             return "\(self.collection),\(self.description)".hashValue
@@ -36,6 +35,7 @@ class Podcast: Hashable {
     
 }
 
+//vertailu kahden hashvaluen välillä
 func ==(lhs: Podcast, rhs: Podcast) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }

@@ -10,9 +10,9 @@ import UIKit
 
 class HistoryTableViewController: UITableViewController {
 
-    var podcasts = [Podcast]()
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
            }
@@ -32,7 +32,7 @@ class HistoryTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return podcasts.count
+        return 0
     }
     
     
@@ -40,14 +40,6 @@ class HistoryTableViewController: UITableViewController {
         
         let cellIdentifier = "PodcastCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PodcastTableViewCell
-        
-        let podcast = podcasts[indexPath.row]
-        
-        cell.collectionLabel.text = podcast.collection
-        cell.podcastImageView.image = podcast.photo
-        cell.descriptionLabel.text = podcast.description
-        cell.durationLabel.text = podcast.duration
-        
         
         return cell
     }

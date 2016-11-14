@@ -47,11 +47,11 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+
         return self.podcasts.count
     }
 
-    
+    //luo solun tableviewiin
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cellIdentifier = "PodcastCell"
@@ -60,7 +60,6 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
         cell.collectionLabel.text = self.podcasts[indexPath.row].collection
         cell.descriptionLabel.text = self.podcasts[indexPath.row].description
         cell.durationLabel.text = self.podcasts[indexPath.row].duration
-        
         
         return cell
     }
