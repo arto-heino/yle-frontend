@@ -38,11 +38,7 @@ class AudioController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        //path = Bundle.main.path(forResource: "Icarus_ZBII.wav", ofType:nil)!
-        //let url = URL(fileURLWithPath: path)
         setUpPlayer()
-        print("View loaded.")
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             print("AVAudioSession Category Playback OK")
@@ -56,12 +52,7 @@ class AudioController: UIViewController {
             print(error.localizedDescription)
         }
         
-        commandCenter.previousTrackCommand.isEnabled = true
-        //commandCenter.previousTrackCommand.addTarget(self, action: "previousTrack")
-        
-        commandCenter.nextTrackCommand.isEnabled = true
-        //commandCenter.nextTrackCommand.addTarget(self, action: "nextTrack")
-        
+        // MPRemoteCommandCenter commands init
         commandCenter.playCommand.isEnabled = true
         commandCenter.playCommand.addTarget(self, action: #selector(AudioController.PlayPauseClick))
         
@@ -91,9 +82,6 @@ class AudioController: UIViewController {
         playerLayer.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         self.view.layer.addSublayer(playerLayer)
         updater = CADisplayLink(target: self, selector: #selector(AudioController.trackAudio))
-        //theProgressBar.minimumValue = 0
-        //theProgressBar.maximumValue = Float(CMTimeGetSeconds((self.player?.currentItem?.duration)!))
-        //theProgressBar.maximumValue = 100 // Percentage
         addObserver(self, forKeyPath: #keyPath(AudioController.player.currentItem.duration), options: [.new, .initial], context: &myContext)
     }
     
