@@ -14,23 +14,7 @@ class PlaylistTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        func loadSamplePods() {
-            
-            let photo1 = UIImage(named: "defaultImage")!
-            let podcast1 = Podcast(collection: "lolasdasdasdasd", photo: photo1, description: "jeejeeasdasdasdasdasd asd asdasdasdasd asd asdasdasdasdasd sad asdasdasdasd asd asdasdasdasd asd asd ", duration: "10.15")!
-            
-            let podcast2 = Podcast(collection: "yo", photo: photo1, description: "tosi jee", duration: "20.00")!
-            
-            
-            podcasts += [podcast1, podcast2]
-            
-        }
-        
-        
-        
-        loadSamplePods()
-        
-    }
+           }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

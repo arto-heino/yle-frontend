@@ -9,20 +9,33 @@
 import UIKit
 
 
-class Podcast {
+class Podcast: Hashable {
     
     var collection: String
-    var photo: UIImage?
+    var photo: UIImage
     var description: String
     var duration: String
-
-
-    init? (collection: String, photo: UIImage?, description: String, duration: String) {
+    var tags = [String]()
+    
+    
+    init? (collection: String, photo: UIImage, description: String, duration: String, tags:  [String]) {
         
         self.collection = collection
         self.photo = photo
         self.description = description
         self.duration = duration
-    
+        self.tags = tags
+        
     }
+    
+    var hashValue : Int {
+        get {
+            return "\(self.collection),\(self.description)".hashValue
+        }
+    }
+    
+}
+
+func ==(lhs: Podcast, rhs: Podcast) -> Bool {
+    return lhs.hashValue == rhs.hashValue
 }

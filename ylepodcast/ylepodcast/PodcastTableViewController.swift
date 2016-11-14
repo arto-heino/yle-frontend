@@ -8,30 +8,31 @@
 
 import UIKit
 
-class PodcastTableViewController: UITableViewController {
+class PodcastTableViewController: UITableViewController, DataParserObserver {
     
     var podcasts = [Podcast]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        func loadSamplePods() {
-            
-            let photo1 = UIImage(named: "defaultImage")!
-            let podcast1 = Podcast(collection: "lolasdasdasdasd", photo: photo1, description: "jeejeeasdasdasdasdasd asd asdasdasdasd asd asdasdasdasdasd sad asdasdasdasd asd asdasdasdasd asd asd ", duration: "10.15")!
-            
-            let podcast2 = Podcast(collection: "yo", photo: photo1, description: "tosi jee", duration: "20.00")!
-            
-            
-            podcasts += [podcast1, podcast2]
-            
-        }
         
-
+        self.podcasts = [Podcast]()
+        let dataParser = HttpRequesting()
         
-        loadSamplePods()
+        // Set and Get the podcasts to observer
+        dataParser.httpGetPodCasts(parserObserver: self)
         
     }
 
+    // Run after the podcasts have been parsed in HttpRequesting
+    func podcastsParsed(podcasts: [Podcast]) {
+        self.podcasts = podcasts
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            return
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -47,7 +48,7 @@ class PodcastTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return podcasts.count
+        return self.podcasts.count
     }
 
     
@@ -56,12 +57,9 @@ class PodcastTableViewController: UITableViewController {
         let cellIdentifier = "PodcastCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PodcastTableViewCell
         
-        let podcast = podcasts[indexPath.row]
-        
-        cell.collectionLabel.text = podcast.collection
-        cell.podcastImageView.image = podcast.photo
-        cell.descriptionLabel.text = podcast.description
-        cell.durationLabel.text = podcast.duration
+        cell.collectionLabel.text = self.podcasts[indexPath.row].collection
+        cell.descriptionLabel.text = self.podcasts[indexPath.row].description
+        cell.durationLabel.text = self.podcasts[indexPath.row].duration
         
         
         return cell
