@@ -18,17 +18,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     
-    //DUMMYDATA FOR TESTING
+    //Dummydata testausta varten; kunnes podcastien parsiminen ja listaus on valmis
     
     static var dummyData = [Podcast]()
     
     static func loadSamplePods() {
         
+        AppDelegate.dummyData =  [Podcast]()
+        
         let photo1 = UIImage(named: "defaultImage")!
         
         let podcast1 = Podcast(collection: "Avara luonto", photo: photo1, description: "Tropiikin linnut pesäpuuhissa. ", duration: "10.15", tags: ["luonto", "linnut", "kasvit"])!
         
-        let podcast2 = Podcast(collection: "Amerikan historia", photo: photo1, description: "Intiaanit.", duration: "20.00", tags: ["amerikka", "historia", "intiaani"])!
+        let podcast2 = Podcast(collection: "Maailman historia", photo: photo1, description: "Intiaanit.", duration: "20.00", tags: ["amerikka", "historia", "intiaani"])!
         
         let podcast3 = Podcast(collection: "Aamulypsyn parhaat", photo: photo1, description: "Jaajo ja perälä perseilee.", duration: "00.33", tags: ["jaajo", "lypsy", "perälä"])!
         

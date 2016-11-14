@@ -15,6 +15,8 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
 
     override func viewDidLoad() {
     
+        
+        //luodaan searchbar
         super.viewDidLoad()
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
@@ -24,11 +26,11 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
     
         AppDelegate.loadSamplePods()
     }
-    
+    //Päivittää hakutulokset
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchText: searchController.searchBar.text!)
     }
-    
+    //filtteröi hakusanan mukaan
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         filterContentForSearchText(searchText: searchBar.text!)
 

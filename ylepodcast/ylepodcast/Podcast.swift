@@ -27,7 +27,7 @@ class Podcast: Hashable {
         self.tags = tags
     
     }
-    
+    //tekee collectionista ja descriptionista uniikin hashValuen
     var hashValue : Int {
         get {
             return "\(self.collection),\(self.description)".hashValue
@@ -36,6 +36,7 @@ class Podcast: Hashable {
     
 }
 
+//vertailu kahden hashvaluen välillä
 func ==(lhs: Podcast, rhs: Podcast) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }

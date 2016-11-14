@@ -10,28 +10,12 @@ import UIKit
 
 class HistoryTableViewController: UITableViewController {
 
-    var podcasts = [Podcast]()
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-        func loadSamplePods() {
-            
-            let photo1 = UIImage(named: "defaultImage")!
-            
-            let podcast1 = Podcast(collection: "lolasdasdasdasd", photo: photo1, description: "LINNUTasdasdasdasd asd asdasdasdasd asd asdasdasdasdasd sad asdasdasdasd asd asdasdasdasd asd asd ", duration: "10.15", tags: ["luonto", "linnut", "kasvit"])!
-            
-            let podcast2 = Podcast(collection: "yo", photo: photo1, description: "tosi jee, OMG", duration: "20.00", tags: ["lol", "omg", "yolo"])!
-            
-            let podcast3 = Podcast(collection: "liibalaaba", photo: photo1, description: "testtiAPINA", duration: "00.33", tags: ["apina", "urpo", "daa"])!
-            
-            
-            podcasts += [podcast1, podcast2, podcast3]
-            
-        }
-        
-        
-        
-        loadSamplePods()
+        AppDelegate.loadSamplePods()
+
         
     }
     
@@ -50,7 +34,7 @@ class HistoryTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return podcasts.count
+        return AppDelegate.dummyData.count
     }
     
     
@@ -59,7 +43,7 @@ class HistoryTableViewController: UITableViewController {
         let cellIdentifier = "PodcastCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PodcastTableViewCell
         
-        let podcast = podcasts[indexPath.row]
+        let podcast = AppDelegate.dummyData[indexPath.row]
         
         cell.collectionLabel.text = podcast.collection
         cell.podcastImageView.image = podcast.photo

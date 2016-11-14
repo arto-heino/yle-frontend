@@ -10,27 +10,10 @@ import UIKit
 
 class PodcastTableViewController: UITableViewController {
     
-    var podcasts = [Podcast]()
-
-    override func viewDidLoad() {
+        override func viewDidLoad() {
+        
         super.viewDidLoad()
-        func loadSamplePods() {
-            
-            let photo1 = UIImage(named: "defaultImage")!
-            
-            let podcast1 = Podcast(collection: "lolasdasdasdasd", photo: photo1, description: "LUONTOsdasdasd asd asdasdasdasd asd asdasdasdasdasd sad asdasdasdasd asd asdasdasdasd asd asd ", duration: "10.15", tags: ["luonto", "linnut", "kasvit"])!
-            
-            let podcast2 = Podcast(collection: "yo", photo: photo1, description: "politiikka", duration: "20.00", tags: ["politiikka", "vakavuus"])!
-            
-            
-            podcasts += [podcast1, podcast2]
-            
-        }
-        
-
-        
-        loadSamplePods()
-        
+        AppDelegate.loadSamplePods()
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,16 +31,16 @@ class PodcastTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return podcasts.count
+        return AppDelegate.dummyData.count
     }
 
-    
+    //luo solun tableviewiin
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cellIdentifier = "PodcastCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PodcastTableViewCell
         
-        let podcast = podcasts[indexPath.row]
+        let podcast = AppDelegate.dummyData[indexPath.row]
         
         cell.collectionLabel.text = podcast.collection
         cell.podcastImageView.image = podcast.photo
