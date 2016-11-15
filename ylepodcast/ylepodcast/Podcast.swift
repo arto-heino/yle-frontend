@@ -11,14 +11,13 @@ import UIKit
 
 class Podcast: Hashable {
     
-    var collection: String
-    var photo: UIImage
-    var description: String
-    var duration: String
+    let photo: UIImage
+    let description: String
+    let duration: String
     var tags = [String]()
+    let collection: String
     
-    init? (collection: String, photo: UIImage, description: String, duration: String, tags:  [String]) {
-        
+    init? (collection: String, photo: UIImage, description: String, duration: String, tags: [String]) {
         self.collection = collection
         self.photo = photo
         self.description = description

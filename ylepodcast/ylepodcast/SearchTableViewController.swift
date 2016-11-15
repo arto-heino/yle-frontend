@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchTableViewController: UITableViewController , UISearchBarDelegate, UISearchResultsUpdating {
+class SearchTableViewController: UITableViewController , UISearchBarDelegate{
     
     let searchController = UISearchController(searchResultsController: nil)
     var searchResults = [Podcast?]()
@@ -18,17 +18,17 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
         
         //luodaan searchbar
         super.viewDidLoad()
-        searchController.searchResultsUpdater = self
+        //searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         definesPresentationContext = true
         searchController.dimsBackgroundDuringPresentation = false
         tableView.tableHeaderView = searchController.searchBar
     
-        //Tässä haetaan podcastit
+        
         //AppDelegate.loadSamplePods()
     }
     //Päivittää hakutulokset
-    func updateSearchResults(for searchController: UISearchController) {
+    /*func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchText: searchController.searchBar.text!)
     }
     //filtteröi hakusanan mukaan
@@ -37,6 +37,7 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
 
     }
     //filtteröi koko datasta hakusanan mukaiset podcastit
+    /*
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         /// etsitään collectioneista hakusanalla
         let collectionSearchResults = AppDelegate.dummyData.filter { podcast in
@@ -136,5 +137,7 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
         // Pass the selected object to the new view controller.
     }
     */
+ */
+ */
 
 }

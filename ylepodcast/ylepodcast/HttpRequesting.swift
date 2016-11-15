@@ -17,6 +17,7 @@ class HttpRequesting {
     var alertMessage: String
     var error: Bool
     var done: Bool
+    var apiKeyLogin: String
     
     init () {
         self.message = ""
@@ -24,6 +25,7 @@ class HttpRequesting {
         self.error = true
         self.done = false
         self.apiKey = ""
+        self.apiKeyLogin = ""
     }
     
     func setMessage(statusMessage: String) {
@@ -42,12 +44,20 @@ class HttpRequesting {
         self.apiKey = apiKey
     }
     
+    func setApiKeyLogin(apiKeyLogin: String) {
+        self.apiKeyLogin = apiKeyLogin
+    }
+    
     func getMessage() -> String {
         return self.alertMessage
     }
     
     func getApiKey() -> String {
         return self.apiKey
+    }
+    
+    func getApiKeyLogin() -> String {
+        return self.apiKeyLogin
     }
     
     func getStatus() -> Bool {
@@ -78,6 +88,7 @@ class HttpRequesting {
     
     // Gets podcast from the server using apikey and category
     func httpGetPodCasts (parserObserver: DataParserObserver) {
+        self.httpGetApi2()
         let parameters: Parameters = ["key": "495i4orWwXCqiW5IuOQUzuAlGmfFeky7BzMPe-X19inh9MRm5RqGhQDUEh5avkZNFjC6mYT6w2xGXdQjm9XfakwHloH027i-tkLX77yFMZJlC3wGWqIjyHIXnvPzvHzW", "category": ""]
         var podcasts: [Podcast] = [Podcast]()
         
@@ -97,7 +108,6 @@ class HttpRequesting {
                                 let photo = UIImage(named: "defaultImage")!
                                     
                                 let podcast = Podcast(collection: cName, photo: photo, description: description, duration: duration, tags: [tags])
-                                        
                                 podcasts.append(podcast!)
                                     
                                 parserObserver.podcastsParsed(podcasts: podcasts)
@@ -116,4 +126,46 @@ class HttpRequesting {
                 }
         }
     }
-}
+    
+    // Hae Apikey 2 backendista.
+    func httpGetApi2 () {
+        let parameters: Parameters = ["username": "moi", "password": "heps"]
+        
+        Alamofire.request("http://media.mw.metropolia.fi/arsu/login", method: .post, parameters:parameters, encoding: JSONEncoding.default)
+            .responseJSON{response in
+                if let json = response.result.value as? [String: String] {
+                    // Set the apikey
+                    self.setApiKeyLogin(apiKeyLogin: json["token"]!)
+                    print(self.getApiKeyLogin())
+                }else{
+                    self.setMessage(statusMessage: "Ei toimi")
+                }
+        }
+    }
+    
+    func addUser(){
+        let parameters: Parameters = ["username": "moi", "password": "heps"]
+        Alamofire.request("http://82.196.15.60:8081/attend/",method: .post, parameters: parameters,encoding: JSONEncoding.default)
+            .responseJSON{response in
+                if let httpStatusCode = response.response?.statusCode {
+                    print(httpStatusCode)
+                    switch(httpStatusCode) {
+                    case 200:
+                        self.error = false
+                        self.message = ""
+                        break
+                    default:
+                        self.message = "Oops! Something went wrong. Try again later."
+                        break
+                    }
+                } else {
+                    //message = error.localizedDescription
+                }
+                //self.setMessage(self.message)
+                //self.setError(self.error)
+                //self.viewController.shouldPerformSegueWithIdentifier("SignIn", sender: self)
+        }
+        
+    }
+    }
+

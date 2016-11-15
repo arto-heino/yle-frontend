@@ -10,10 +10,11 @@ import UIKit
 
 class HistoryTableViewController: UITableViewController {
 
+    var podcasts = [Podcast]()
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+        self.podcasts = [Podcast]()
         
            }
     

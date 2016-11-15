@@ -18,6 +18,7 @@
 		13E849181DD0690C00B655D5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13E849171DD0690C00B655D5 /* Alamofire.framework */; };
 		13E8491A1DD0694100B655D5 /* HttpRequesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E849191DD0694100B655D5 /* HttpRequesting.swift */; };
 		13E8491D1DD06F7900B655D5 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 13E849171DD0690C00B655D5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		13FA90091DDAFCB7001DB3CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FA90081DDAFCB7001DB3CF /* LoginViewController.swift */; };
 		74031AF11DCC89A300000BB1 /* HistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74031AF01DCC89A300000BB1 /* HistoryTableViewController.swift */; };
 		74031AF31DCC89BE00000BB1 /* PlaylistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74031AF21DCC89BE00000BB1 /* PlaylistTableViewController.swift */; };
 		74031AF51DCC89D400000BB1 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74031AF41DCC89D400000BB1 /* SearchTableViewController.swift */; };
@@ -74,6 +75,7 @@
 		13B54E8D1DD492DD000B2E6F /* DataParserObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataParserObserver.swift; sourceTree = "<group>"; };
 		13E849171DD0690C00B655D5 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		13E849191DD0694100B655D5 /* HttpRequesting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequesting.swift; sourceTree = "<group>"; };
+		13FA90081DDAFCB7001DB3CF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		74031AF01DCC89A300000BB1 /* HistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewController.swift; sourceTree = "<group>"; };
 		74031AF21DCC89BE00000BB1 /* PlaylistTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewController.swift; sourceTree = "<group>"; };
 		74031AF41DCC89D400000BB1 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				13A5D34C1DC3389400CEB0D4 /* Assets.xcassets */,
 				13A5D34E1DC3389400CEB0D4 /* LaunchScreen.storyboard */,
 				13A5D3511DC3389400CEB0D4 /* Info.plist */,
+				13FA90081DDAFCB7001DB3CF /* LoginViewController.swift */,
 			);
 			path = ylepodcast;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13FA90091DDAFCB7001DB3CF /* LoginViewController.swift in Sources */,
 				13E8491A1DD0694100B655D5 /* HttpRequesting.swift in Sources */,
 				74D312541DC77504002C1E3C /* PodcastTableViewController.swift in Sources */,
 				13B54E8E1DD492DD000B2E6F /* DataParserObserver.swift in Sources */,
