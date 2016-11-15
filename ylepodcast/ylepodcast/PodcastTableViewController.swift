@@ -11,6 +11,7 @@ import UIKit
 class PodcastTableViewController: UITableViewController, DataParserObserver {
     
     var podcasts = [Podcast]()
+    var url: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,14 +65,21 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let index = tableView.indexPathForSelectedRow?.row
+        url = self.podcasts[index!].url
+        print("URL: " + url)
+        performSegue(withIdentifier: "AudioSegue1", sender: Any?.self)
+    }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if segue.identifier == "AudioSegue1" {
+            let destination = segue.destination as! AudioController
+            destination.podcastUrl = url
+        }
+    }
     
     //MARK: PROPERTIES
-    
-    
-    
-    
-
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

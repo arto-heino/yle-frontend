@@ -39,29 +39,29 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
     //filtteröi koko datasta hakusanan mukaiset podcastit
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         /// etsitään collectioneista hakusanalla
-        let collectionSearchResults = AppDelegate.dummyData.filter { podcast in
+        /*let collectionSearchResults = AppDelegate.dummyData.filter { podcast in
             return podcast.collection.lowercased().contains(searchText.lowercased())
-        }
+        }*/
         // etsitään descriptioneista hakusanalla
-        let descriptionSearchResults = AppDelegate.dummyData.filter { podcast in
+        /*let descriptionSearchResults = AppDelegate.dummyData.filter { podcast in
             return podcast.description.lowercased().contains(searchText.lowercased())
-        }
+        }*/
         // etsitään tageista hakusanalla
-        let tagsSearchResults = AppDelegate.dummyData.filter { podcast in
+        /*let tagsSearchResults = AppDelegate.dummyData.filter { podcast in
             for tag in podcast.tags {
                 if tag.lowercased().contains(searchText.lowercased()) {
                     return true
                 }
             }
             return false
-        }
+        }*/
         
         // eka setti joka sisältää collection-osumat
-        let set1:Set<Podcast> = Set(collectionSearchResults)
+        /*let set1:Set<Podcast> = Set(collectionSearchResults)
         // sekä description-osumat että tags-osumat
         searchResults = Array(set1.union(descriptionSearchResults).union(tagsSearchResults))
         
-        tableView.reloadData()
+        tableView.reloadData()*/
     }
     
     

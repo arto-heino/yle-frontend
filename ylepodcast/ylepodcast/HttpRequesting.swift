@@ -78,7 +78,7 @@ class HttpRequesting {
     
     // Gets podcast from the server using apikey and category
     func httpGetPodCasts (parserObserver: DataParserObserver) {
-        let parameters: Parameters = ["key": "495i4orWwXCqiW5IuOQUzuAlGmfFeky7BzMPe-X19inh9MRm5RqGhQDUEh5avkZNFjC6mYT6w2xGXdQjm9XfakwHloH027i-tkLX77yFMZJlC3wGWqIjyHIXnvPzvHzW", "category": ""]
+        let parameters: Parameters = ["key": "495i4orWwXCqiW5IuOQUzuAlGmfFeky7BzMPe-X19inh9MRm5RqGhQDUEh5avkZNFjC6mYT6w2xGXdQjm9XfakwHloH027i-tkLX77yFMZJlC3wGWqIjyHIXnvPzvHzW", "category": "", "link": "true"]
         var podcasts: [Podcast] = [Podcast]()
         
         Alamofire.request("http://dev.mw.metropolia.fi/aanimaisema/plugins/api_audio_search/index.php/", method: .get, parameters:parameters)
@@ -95,19 +95,21 @@ class HttpRequesting {
                                 let duration = item["Length (sec)"] as? String ?? ""
                                 let description = item["Description"] as? String ?? ""
                                 let photo = UIImage(named: "defaultImage")!
+                                let pUrl = item["Download link"] as? String ?? ""
                                     
-                                let podcast = Podcast(collection: cName, photo: photo, description: description, duration: duration, tags: [tags])
+                                    let podcast = Podcast(collection: cName, photo: photo, description: description, duration: duration, tags: [tags], url: pUrl)
                                         
                                 podcasts.append(podcast!)
                                     
-                                parserObserver.podcastsParsed(podcasts: podcasts)
                                     
                                 }
                                 //let collection = details[0]["Collection name"]
                                 //let description = details[0]["Description"]
                                 //let duration = details[0]["Length (sec)"]
-                                    }
+                            }
+                            
                         }
+                        parserObserver.podcastsParsed(podcasts: podcasts)
                         
                         
                     }
