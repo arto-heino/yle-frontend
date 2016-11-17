@@ -12,8 +12,31 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var podcasts = [Podcast]()
     
-    static var history = [Podcast]()
+
+    private func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        
+        self.podcasts = [Podcast]()
+        let dataParser = HttpRequesting()
+        
+        // Set and Get the podcasts to observer
+        dataParser.httpGetPodCasts(parserObserver: self as! DataParserObserver)
+        
+        
+        // Run after the podcasts have been parsed in HttpRequesting
+        func podcastsParsed(podcasts: [Podcast]) {
+            self.podcasts = podcasts
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "podcastsParsed"), object: nil)
+        }
+        
+        return true
+        
+
+        
+    }
+    
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

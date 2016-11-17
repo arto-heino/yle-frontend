@@ -11,22 +11,24 @@ import UIKit
 class SearchTableViewController: UITableViewController , UISearchBarDelegate, UISearchResultsUpdating {
     
     let searchController = UISearchController(searchResultsController: nil)
-    var searchResults = [Podcast?]()
+    var searchResults = [Podcast]()
 
     override func viewDidLoad() {
-    
+        
+        super.viewDidLoad()
         
         //luodaan searchbar
-        super.viewDidLoad()
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         definesPresentationContext = true
         searchController.dimsBackgroundDuringPresentation = false
         tableView.tableHeaderView = searchController.searchBar
+
+        
+
+        }
+
     
-        //Tässä haetaan podcastit
-        //AppDelegate.loadSamplePods()
-    }
     //Päivittää hakutulokset
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchText: searchController.searchBar.text!)
@@ -39,16 +41,16 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
     //filtteröi koko datasta hakusanan mukaiset podcastit
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         /// etsitään collectioneista hakusanalla
-        let collectionSearchResults = AppDelegate.dummyData.filter { podcast in
-            return podcast.collection.lowercased().contains(searchText.lowercased())
+        let collectionSearchResults = searchResults.filter { podcast in
+            return (podcast.collection.lowercased().contains(searchText.lowercased()))
         }
         // etsitään descriptioneista hakusanalla
-        let descriptionSearchResults = AppDelegate.dummyData.filter { podcast in
-            return podcast.description.lowercased().contains(searchText.lowercased())
+        let descriptionSearchResults = searchResults.filter { podcast in
+            return (podcast.description.lowercased().contains(searchText.lowercased()))
         }
         // etsitään tageista hakusanalla
-        let tagsSearchResults = AppDelegate.dummyData.filter { podcast in
-            for tag in podcast.tags {
+        let tagsSearchResults = searchResults.filter { podcast in
+            for tag in (podcast.tags) {
                 if tag.lowercased().contains(searchText.lowercased()) {
                     return true
                 }
@@ -57,7 +59,7 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
         }
         
         // eka setti joka sisältää collection-osumat
-        let set1:Set<Podcast> = Set(collectionSearchResults)
+        let set1:Set<Podcast> = Set<Podcast>(collectionSearchResults)
         // sekä description-osumat että tags-osumat
         searchResults = Array(set1.union(descriptionSearchResults).union(tagsSearchResults))
         
@@ -85,8 +87,8 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchItemTableViewCell", for: indexPath ) as! SearchItemTableViewCell
 
         let podcast = searchResults[indexPath.row]
-        cell.collectionLabel.text = podcast?.collection
-        cell.descriptionLabel.text = podcast?.description
+        cell.collectionLabel.text = podcast.collection
+        cell.descriptionLabel.text = podcast.description
 
         return cell
     }

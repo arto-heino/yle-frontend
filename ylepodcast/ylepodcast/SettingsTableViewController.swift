@@ -1,65 +1,44 @@
 //
-//  HistoryTableViewController.swift
+//  SettingsTableViewController.swift
 //  ylepodcast
 //
-//  Created by Carla Miettinen on 04/11/2016.
+//  Created by Carla Miettinen on 16/11/2016.
 //  Copyright © 2016 Metropolia. All rights reserved.
 //
 
 import UIKit
 
-class HistoryTableViewController: UITableViewController {
-    
-    
-    var recentlyViewed = [Podcast]()
+class SettingsTableViewController: UITableViewController {
 
-    
+
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(HistoryTableViewController.podcastsParsed), name: NSNotification.Name(rawValue: "podcastsParsed"), object: nil)
 
-    }
-    
-    func podcastsParsed(sender: AnyObject?) {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
 
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    @IBOutlet weak var loginButton: UIButton!
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-    
+
     // MARK: - Table view data source
-    
+
     override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
         return 1
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return self.recentlyViewed.count
+        // #warning Incomplete implementation, return the number of rows
+        return 2
     }
-    
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cellIdentifier = "PodcastCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PodcastTableViewCell
-        
-        cell.collectionLabel.text = self.recentlyViewed[indexPath.row].collection
-        cell.descriptionLabel.text = self.recentlyViewed[indexPath.row].description
-        cell.durationLabel.text = self.recentlyViewed[indexPath.row].duration
-        
-        return cell
-    }
-    
+
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)

@@ -8,30 +8,24 @@
 
 import UIKit
 
-class PodcastTableViewController: UITableViewController, DataParserObserver {
+class PodcastTableViewController: UITableViewController {
     
-    var podcasts = [Podcast]()
+    private var podcasts = [Podcast]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.podcasts = [Podcast]()
-        let dataParser = HttpRequesting()
         
-        // Set and Get the podcasts to observer
-        dataParser.httpGetPodCasts(parserObserver: self)
-        
-    }
+        NotificationCenter.default.addObserver(self, selector: #selector(PodcastTableViewController.podcastsParsed), name: NSNotification.Name(rawValue: "podcastsParsed"), object: nil)
 
-    // Run after the podcasts have been parsed in HttpRequesting
-    func podcastsParsed(podcasts: [Podcast]) {
-        self.podcasts = podcasts
-        
+    }
+    
+    func podcastsParsed(sender: AnyObject?) {
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            return
         }
     }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

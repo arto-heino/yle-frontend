@@ -9,11 +9,24 @@
 import UIKit
 
 class PlaylistTableViewController: UITableViewController {
+    
+    var playlist = [Podcast]()
 
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-           }
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(PlaylistTableViewController.podcastsParsed), name: NSNotification.Name(rawValue: "podcastsParsed"), object: nil)
+        
+    }
+    func podcastsParsed(sender: AnyObject?) {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -30,7 +43,7 @@ class PlaylistTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 0
+        return self.playlist.count
     }
     
     
@@ -38,6 +51,10 @@ class PlaylistTableViewController: UITableViewController {
         
         let cellIdentifier = "PodcastCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PodcastTableViewCell
+        
+        cell.collectionLabel.text = self.playlist[indexPath.row].collection
+        cell.descriptionLabel.text = self.playlist[indexPath.row].description
+        cell.durationLabel.text = self.playlist[indexPath.row].duration
         
         return cell
     }
