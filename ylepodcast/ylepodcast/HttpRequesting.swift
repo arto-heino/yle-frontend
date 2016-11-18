@@ -18,6 +18,7 @@ class HttpRequesting {
     var error: Bool
     var done: Bool
     var apiKeyLogin: String
+    var opQueue = OperationQueue()
     
     init () {
         self.message = ""
@@ -26,6 +27,7 @@ class HttpRequesting {
         self.done = false
         self.apiKey = ""
         self.apiKeyLogin = ""
+        self.opQueue.maxConcurrentOperationCount = 1
     }
     
     func setMessage(statusMessage: String) {
@@ -71,25 +73,33 @@ class HttpRequesting {
     
     // Gets the apikey from the server
     func httpGetApi () {
-        
-        let parameters: Parameters = ["username": "podcast", "password": "podcast16"]
-    
-        Alamofire.request("http://dev.mw.metropolia.fi/aanimaisema/plugins/api_auth/auth.php", method: .post, parameters:parameters, encoding: JSONEncoding.default)
+        opQueue.addOperation({() -> Void in
+            let sem = DispatchSemaphore(value: 0)
+            
+            let parameters: Parameters = ["username": "podcast", "password": "podcast16"]
+            
+            Alamofire.request("http://dev.mw.metropolia.fi/aanimaisema/plugins/api_auth/auth.php", method: .post, parameters:parameters, encoding: JSONEncoding.default)
             .responseJSON{response in
                 if let json = response.result.value as? [String: String] {
                     // Set the apikey
                     self.setApiKey(apiKey: json["api_key"]!)
-                    print(self.getApiKey())
+                    sem.signal()
                 }else{
                     self.setMessage(statusMessage: "Ei toimi")
                 }
-        }
+            }
+            
+            sem.wait(timeout: DispatchTime.distantFuture)
+        })
     }
     
     // Gets podcast from the server using apikey and category
     func httpGetPodCasts (parserObserver: DataParserObserver) {
-        self.httpGetApi2()
-        let parameters: Parameters = ["key": "495i4orWwXCqiW5IuOQUzuAlGmfFeky7BzMPe-X19inh9MRm5RqGhQDUEh5avkZNFjC6mYT6w2xGXdQjm9XfakwHloH027i-tkLX77yFMZJlC3wGWqIjyHIXnvPzvHzW", "category": ""]
+        opQueue.addOperation({() -> Void in
+            let sem = DispatchSemaphore(value: 0)
+        print(self.getApiKey())
+        //self.httpGetApi2()
+        let parameters: Parameters = ["key": self.getApiKey(), "category": ""]
         var podcasts: [Podcast] = [Podcast]()
         
         Alamofire.request("http://dev.mw.metropolia.fi/aanimaisema/plugins/api_audio_search/index.php/", method: .get, parameters:parameters)
@@ -109,9 +119,10 @@ class HttpRequesting {
                                     
                                 let podcast = Podcast(collection: cName, photo: photo, description: description, duration: duration, tags: [tags])
                                 podcasts.append(podcast!)
-                                    
+                                
                                 parserObserver.podcastsParsed(podcasts: podcasts)
-                                    
+                                
+                                sem.signal()
                                 }
                                 //let collection = details[0]["Collection name"]
                                 //let description = details[0]["Description"]
@@ -125,6 +136,8 @@ class HttpRequesting {
                     print("Ei mene if lauseen läpi")
                 }
         }
+            sem.wait(timeout: DispatchTime.distantFuture)
+        })
     }
     
     // Hae Apikey 2 backendista.
