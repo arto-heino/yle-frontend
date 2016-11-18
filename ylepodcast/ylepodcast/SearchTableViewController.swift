@@ -85,8 +85,8 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchItemTableViewCell", for: indexPath ) as! SearchItemTableViewCell
 
         let podcast = searchResults[indexPath.row]
-        cell.collectionLabel.text = podcast?.collection
-        cell.descriptionLabel.text = podcast?.description
+        cell.collectionLabel.text = podcast?.collection as! String
+        cell.descriptionLabel.text = podcast?.description as! String
 
         return cell
     }

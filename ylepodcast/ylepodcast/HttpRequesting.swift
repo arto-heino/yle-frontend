@@ -78,41 +78,30 @@ class HttpRequesting {
     
     // Gets podcast from the server using apikey and category
     func httpGetPodCasts (parserObserver: DataParserObserver) {
-        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.24h:desc"]
+        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"20" ]
         var podcasts: [Podcast] = [Podcast]()
         
         Alamofire.request("https://external.api.yle.fi/v1/programs/items.json", method: .get, parameters:parameters2, encoding: URLEncoding.default)
             .responseJSON{response in
                 if let json = response.result.value {
-                    print(json)
-                    if let array = json as? [Any] {
-                        
-                        for (_, item) in array.enumerated() {
-                            if let details = item as? [[String:Any]] {
-                                for (_, item) in details.enumerated() {
-                                    
-                                let tags = item["Tags"] as? String ?? ""
-                                let cName = item["Collection name"] as? String ?? ""
-                                let duration = item["Length (sec)"] as? String ?? ""
-                                let description = item["Description"] as? String ?? ""
+                    if let array = json as? [String:Any]{
+                        if let details = array["data"] as? [[String:Any]] {
+                            for (_, item) in details.enumerated() {
+                                let tags = item["tags"] as? String ?? ""
+                                let cName = item["title"] as? [String:Any]
+                                let duration = item["duration"] as? String ?? ""
+                                let description = item["description"] as? [String:Any]
                                 let photo = UIImage(named: "defaultImage")!
                                 let pUrl = item["Download link"] as? String ?? ""
-                                    
-                                    let podcast = Podcast(collection: cName, photo: photo, description: description, duration: duration, tags: [tags], url: pUrl)
-                                        
+                                
+                                let podcast = Podcast(collection: cName!, photo: photo, description: description!, duration: duration, tags: [tags], url: pUrl)
+                                
                                 podcasts.append(podcast!)
-                                    
-                                    
-                                }
-                                //let collection = details[0]["Collection name"]
-                                //let description = details[0]["Description"]
-                                //let duration = details[0]["Length (sec)"]
+                    
                             }
-                            
                         }
+                     
                         parserObserver.podcastsParsed(podcasts: podcasts)
-                        
-                        
                     }
                 }else{
                     print("Ei mene if lauseen läpi")
