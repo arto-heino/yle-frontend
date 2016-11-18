@@ -10,5 +10,11 @@ import Foundation
 
 protocol DataParserObserver {
     
-    func podcastsParsed (podcasts: [Podcast])    
+    static var apiKeyServer: Int { get set }
+    static var ApiKeyPodcast: Int { get set }
+    
+    func podcastsParsed (podcasts: [Podcast])
+    func apiKey_podcast (apikey1: String)
+    func apiKey_server (apikey2: String)
+
 }
