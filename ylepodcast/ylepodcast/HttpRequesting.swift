@@ -78,12 +78,13 @@ class HttpRequesting {
     
     // Gets podcast from the server using apikey and category
     func httpGetPodCasts (parserObserver: DataParserObserver) {
-        let parameters: Parameters = ["key": "495i4orWwXCqiW5IuOQUzuAlGmfFeky7BzMPe-X19inh9MRm5RqGhQDUEh5avkZNFjC6mYT6w2xGXdQjm9XfakwHloH027i-tkLX77yFMZJlC3wGWqIjyHIXnvPzvHzW", "category": " ", "link": "true"]
+        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.24h:desc"]
         var podcasts: [Podcast] = [Podcast]()
         
-        Alamofire.request("http://dev.mw.metropolia.fi/aanimaisema/plugins/api_audio_search/index.php/", method: .get, parameters:parameters)
+        Alamofire.request("https://external.api.yle.fi/v1/programs/items.json", method: .get, parameters:parameters2, encoding: URLEncoding.default)
             .responseJSON{response in
                 if let json = response.result.value {
+                    print(json)
                     if let array = json as? [Any] {
                         
                         for (_, item) in array.enumerated() {
