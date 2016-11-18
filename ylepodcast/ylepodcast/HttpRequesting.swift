@@ -78,7 +78,7 @@ class HttpRequesting {
     
     // Gets podcast from the server using apikey and category
     func httpGetPodCasts (parserObserver: DataParserObserver) {
-        let parameters: Parameters = ["key": "495i4orWwXCqiW5IuOQUzuAlGmfFeky7BzMPe-X19inh9MRm5RqGhQDUEh5avkZNFjC6mYT6w2xGXdQjm9XfakwHloH027i-tkLX77yFMZJlC3wGWqIjyHIXnvPzvHzW", "category": ""]
+        let parameters: Parameters = ["key": "495i4orWwXCqiW5IuOQUzuAlGmfFeky7BzMPe-X19inh9MRm5RqGhQDUEh5avkZNFjC6mYT6w2xGXdQjm9XfakwHloH027i-tkLX77yFMZJlC3wGWqIjyHIXnvPzvHzW", "category": " "]
         var podcasts: [Podcast] = [Podcast]()
         
         Alamofire.request("http://dev.mw.metropolia.fi/aanimaisema/plugins/api_audio_search/index.php/", method: .get, parameters:parameters)
