@@ -23,7 +23,8 @@ class Podcast: Hashable {
         self.collection = collection
         self.photo = photo
         self.description = description
-        self.duration = duration
+        let replaced = duration.stringByReplacingOccurrencesOfString(" ", withString: "+", options: nil, range: nil)
+        self.duration = replaced
         self.tags = tags
         self.url = url
     }

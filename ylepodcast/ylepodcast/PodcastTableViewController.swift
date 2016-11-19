@@ -58,8 +58,8 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
         let cellIdentifier = "PodcastCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PodcastTableViewCell
         
-        cell.collectionLabel.text = self.podcasts[indexPath.row].collection["fi"] as? String
-        cell.descriptionLabel.text = self.podcasts[indexPath.row].description["fi"] as? String
+        cell.collectionLabel.text = self.podcasts[indexPath.row].collection["fi"] as? String ?? "Ei otsikkoa saatavilla"
+        cell.descriptionLabel.text = self.podcasts[indexPath.row].description["fi"] as? String ?? "Ei kuvausta saatavilla"
         cell.durationLabel.text = self.podcasts[indexPath.row].duration
         
         return cell

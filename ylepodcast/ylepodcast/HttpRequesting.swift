@@ -78,7 +78,7 @@ class HttpRequesting {
     
     // Gets podcast from the server using apikey and category
     func httpGetPodCasts (parserObserver: DataParserObserver) {
-        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"20" ]
+        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"80", "type": "radioprogram" ]
         var podcasts: [Podcast] = [Podcast]()
         
         Alamofire.request("https://external.api.yle.fi/v1/programs/items.json", method: .get, parameters:parameters2, encoding: URLEncoding.default)
