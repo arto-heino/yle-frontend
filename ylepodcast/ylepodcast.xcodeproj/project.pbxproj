@@ -23,6 +23,8 @@
 		7409F2E61DD3B26C007E3F4A /* SearchItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */; };
 		7416C13F1DDC918C0029E6EC /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7416C13E1DDC918C0029E6EC /* SettingsTableViewController.swift */; };
 		7416C1411DDC923E0029E6EC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7416C1401DDC923E0029E6EC /* LoginViewController.swift */; };
+		7416C1451DDF25420029E6EC /* TagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7416C1441DDF25420029E6EC /* TagTableViewController.swift */; };
+		7416C1471DDF268D0029E6EC /* ListofTagsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7416C1461DDF268D0029E6EC /* ListofTagsTableViewCell.swift */; };
 		7454A6241DD9DF6E004570D8 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 13E849171DD0690C00B655D5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		74D312521DC76DF7002C1E3C /* PodcastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */; };
 		74D312541DC77504002C1E3C /* PodcastTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D312531DC77504002C1E3C /* PodcastTableViewController.swift */; };
@@ -82,6 +84,8 @@
 		7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchItemTableViewCell.swift; sourceTree = "<group>"; };
 		7416C13E1DDC918C0029E6EC /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		7416C1401DDC923E0029E6EC /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		7416C1441DDF25420029E6EC /* TagTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagTableViewController.swift; sourceTree = "<group>"; };
+		7416C1461DDF268D0029E6EC /* ListofTagsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListofTagsTableViewCell.swift; sourceTree = "<group>"; };
 		74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastTableViewCell.swift; sourceTree = "<group>"; };
 		74D312531DC77504002C1E3C /* PodcastTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastTableViewController.swift; sourceTree = "<group>"; };
 		74DF0CF61DC9ED6300773775 /* Podcast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Podcast.swift; sourceTree = "<group>"; };
@@ -145,8 +149,10 @@
 				74031AF41DCC89D400000BB1 /* SearchTableViewController.swift */,
 				7416C13E1DDC918C0029E6EC /* SettingsTableViewController.swift */,
 				7416C1401DDC923E0029E6EC /* LoginViewController.swift */,
+				7416C1441DDF25420029E6EC /* TagTableViewController.swift */,
 				74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */,
 				7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */,
+				7416C1461DDF268D0029E6EC /* ListofTagsTableViewCell.swift */,
 				74DF0CF61DC9ED6300773775 /* Podcast.swift */,
 				13B54E8D1DD492DD000B2E6F /* DataParserObserver.swift */,
 				13E849191DD0694100B655D5 /* HttpRequesting.swift */,
@@ -316,6 +322,7 @@
 			files = (
 				13E8491A1DD0694100B655D5 /* HttpRequesting.swift in Sources */,
 				74D312541DC77504002C1E3C /* PodcastTableViewController.swift in Sources */,
+				7416C1451DDF25420029E6EC /* TagTableViewController.swift in Sources */,
 				13B54E8E1DD492DD000B2E6F /* DataParserObserver.swift in Sources */,
 				13A5D3481DC3389400CEB0D4 /* TabBarController.swift in Sources */,
 				74031AF31DCC89BE00000BB1 /* PlaylistTableViewController.swift in Sources */,
@@ -327,6 +334,7 @@
 				7409F2E61DD3B26C007E3F4A /* SearchItemTableViewCell.swift in Sources */,
 				7416C1411DDC923E0029E6EC /* LoginViewController.swift in Sources */,
 				74031AF51DCC89D400000BB1 /* SearchTableViewController.swift in Sources */,
+				7416C1471DDF268D0029E6EC /* ListofTagsTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

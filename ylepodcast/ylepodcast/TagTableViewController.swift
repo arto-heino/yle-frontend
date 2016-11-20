@@ -1,15 +1,18 @@
 //
-//  SettingsTableViewController.swift
+//  TagTableViewController.swift
 //  ylepodcast
 //
-//  Created by Carla Miettinen on 16/11/2016.
+//  Created by Carla Miettinen on 18/11/2016.
 //  Copyright © 2016 Metropolia. All rights reserved.
 //
 
 import UIKit
 
-class SettingsTableViewController: UITableViewController {
-
+class TagTableViewController: UITableViewController {
+    
+    
+    var listOfTags: [String] = ["Viihde", "Urheilu", "Luonto", "Dokumentit", "Musiikki", "Uutiset"]
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +23,6 @@ class SettingsTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
-    @IBOutlet weak var loginButton: UIButton!
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -35,19 +37,54 @@ class SettingsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 3
+   
+        return listOfTags.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        
+        let cellIdentifier = "ListofTagsCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ListofTagsTableViewCell
+        
+        
+        
+        cell.tagLabel.text = self.listOfTags[indexPath.row]
 
-        // Configure the cell...
+        
 
         return cell
     }
+    
+    // checkmarks when tapped
+    
+   /*
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath)  {
+        if let cell = tableView.cellForRow(at: indexPath as IndexPath) {
+            cell.accessoryType = .none
+        }
+    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)  {
+        if let cell = tableView.cellForRow(at: indexPath as IndexPath) {
+            cell.accessoryType = .checkmark
+            
+        }
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ListofTagsCell", for: indexPath as IndexPath)
+        
+        if indexPath.row == 0 {
+            cell.accessoryType = .checkmark
+            tableView.selectRow(at: indexPath as IndexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom)
+        } else {
+            cell.accessoryType = .none
+        }
+    return cell
+    }
+
     */
+
 
     /*
     // Override to support conditional editing of the table view.
