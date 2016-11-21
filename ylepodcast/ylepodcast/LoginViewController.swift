@@ -18,10 +18,75 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var loginInfoButton: UIButton!
     
+    let login = HttpPosts()
+    var preferences = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if self.preferences.object(forKey: "userKey") != nil
+        {
+            LoginDone()
+        }
+        else
+        {
+            LoginToDo()
+        }
 
         // Do any additional setup after loading the view.
+    }
+    
+    @IBAction func DoLogin(_ sender: AnyObject) {
+        
+        if(loginInfoButton.titleLabel?.text == "Kirjaudu ulos")
+        {
+            self.preferences.removeObject(forKey: "userKey")
+            self.preferences.removeObject(forKey: "userName")
+
+            LoginToDo()
+        }
+        else{
+            login_now(username:usernameLabel.text!, password: passwordLabel.text!)
+        }
+        
+    }
+    
+    func login_now(username:String, password:String)
+    {
+        login.httpLogin(username: username, password: password) { success in
+            if success {
+                self.LoginDone()
+            } else {
+                self.LoginToDo()
+
+            }
+        }
+        
+    }
+    
+    func LoginDone()
+    {
+        usernameLabel.text = self.preferences.object(forKey: "userName") as? String
+        passwordLabel.text = ""
+        usernameLabel.isEnabled = false
+        passwordLabel.isEnabled = false
+        
+        loginInfoButton.isEnabled = true
+        
+        
+        loginInfoButton.setTitle("Kirjaudu ulos", for: .normal)
+    }
+    
+    func LoginToDo()
+    {
+        usernameLabel.text = ""
+        usernameLabel.isEnabled = true
+        passwordLabel.isEnabled = true
+        
+        loginInfoButton.isEnabled = true
+        
+        
+        loginInfoButton.setTitle("Kirjaudu sisään", for: .normal)
     }
 
     override func didReceiveMemoryWarning() {

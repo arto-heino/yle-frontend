@@ -13,7 +13,7 @@ import UIKit
 class HttpPosts {
     
     var message: String
-    var apiKey: String
+    var userKey: String
     var alertMessage: String
     var error: Bool
     var done: Bool
@@ -23,7 +23,7 @@ class HttpPosts {
         self.alertMessage = ""
         self.error = true
         self.done = false
-        self.apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJtb2kiLCJlbWFpbCI6Im1vaUBleGFtcGxlLmNvbSIsImlzX2FkbWluIjpudWxsLCJkYXRlIjoiMjAxNi0xMS0xNVQxNjowMToyMy4wMDBaIiwiaWF0IjoxNDc5NTY5MDg0LCJleHAiOjE1MTExMDUwODR9.O-jbrwYvShTRmKKDawKBexL2YwpGPMKv3OsyvZJJrig"
+        self.userKey = ""
     }
     
     func setMessage(statusMessage: String) {
@@ -38,16 +38,16 @@ class HttpPosts {
         self.error = error
     }
     
-    func setApiKey(apiKey: String) {
-        self.apiKey = apiKey
+    func setUserKey(userKey: String) {
+        self.userKey = userKey
     }
     
     func getMessage() -> String {
         return self.alertMessage
     }
     
-    func getApiKey() -> String {
-        return self.apiKey
+    func getUserKey() -> String {
+        return self.userKey
     }
     
     func getStatus() -> Bool {
@@ -58,45 +58,50 @@ class HttpPosts {
         return self.error
     }
     
-    func httpGetApi2 () {
-        let parameters: Parameters = ["username": "moi", "password": "heps"]
+    func httpLogin (username:String, password: String, completion:@escaping (Bool) -> Void) {
+        let parameters: Parameters = ["username": username, "password": password]
         
         Alamofire.request("http://media.mw.metropolia.fi/arsu/login", method: .post, parameters:parameters, encoding: JSONEncoding.default)
             .responseJSON{response in
-                if let json = response.result.value as? [String: String] {
-                    // Set the apikey
-                    print("onnistui")
-                    self.registerNewUser()
+                if let httpStatusCode = response.response?.statusCode {
+                    switch(httpStatusCode) {
+                    case 200:
+                        if let data = response.result.value as? [String: String]{
+                            self.message = data["message"]!
+                            self.setUserKey(userKey: data["token"]!)
+                            let preferences = UserDefaults.standard
+                            preferences.set(self.getUserKey(), forKey: "userKey")
+                            preferences.set(username, forKey: "userName")
+                        }
+                        completion(true)
+                        return
+                    default:
+                        if let data = response.result.value as? [String: String]{
+                            self.message = data["message"]!
+                        }
+                        completion(false)
+                        return
+                    }
                 }else{
-                    self.setMessage(statusMessage: "Ei toimi")
+                    self.setMessage(statusMessage: "Something went wrong.")
+                    completion(false)
+                    return
                 }
         }
-    }
+        }
     
-    func registerNewUser () {
-        let parameters: Parameters = ["username": "artoh", "password": "siika1", "email": "arto.siika@siika.fi", "token": getApiKey()]
-        Alamofire.request("http://media.mw.metropolia.fi/arsu/users", method: .post, parameters:parameters, encoding: JSONEncoding.default)
+    /*func registerNewUser () {
+        let parameters: Parameters = ["username": "artotesti", "password": "siika1", "email": "artosiika@siika.fi"]
+        
+        Alamofire.request("http://media.mw.metropolia.fi/arsu/users?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJtb2kiLCJlbWFpbCI6Im1vaUBleGFtcGxlLmNvbSIsImlzX2FkbWluIjpudWxsLCJkYXRlIjoiMjAxNi0xMS0xNVQxNjowMToyMy4wMDBaIiwiaWF0IjoxNDc5NzI3OTIxLCJleHAiOjE1MTEyNjM5MjF9.RpcVjLHec2NZ4C4M0yxfGBA3utF0X8l7ehIQe3POLws", method: .post, parameters:parameters, encoding: JSONEncoding.default)
             .responseJSON{response in
+                print(response.request)
                 if let json = response.result.value as? [String: String] {
                     print(json)
                 }else{
                     self.setMessage(statusMessage: "Ei toimi")
                 }
         }
-    }
-    
-    func loginUser () {
-        let parameters: Parameters = ["token": getApiKey(), "username": "moi", "password": "heps"]
-        
-        Alamofire.request("http://media.mw.metropolia.fi/arsu/login", method: .post, parameters:parameters, encoding: JSONEncoding.default)
-            .responseJSON{response in
-                if let json = response.result.value as? [String: String] {
-                    // Set the apikey
-                    print(json["token"] ?? "Ei apia")
-                }else{
-                    self.setMessage(statusMessage: "Ei toimi")
-                }
-        }
-    }
+    }*/
     
 }
