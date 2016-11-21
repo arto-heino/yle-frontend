@@ -17,12 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        
         self.podcasts = [Podcast]()
-        let dataParser = HttpRequesting()
+        //let dataParser = HttpRequesting()
         
         // Set and Get the podcasts to observer
-        dataParser.httpGetPodCasts(parserObserver: self as! DataParserObserver)
+        //dataParser.httpGetPodCasts(parserObserver: self as! DataParserObserver)
         
         
         // Run after the podcasts have been parsed in HttpRequesting
@@ -39,6 +38,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        let api = HttpPosts()
+        api.httpGetApi2()
+        print("ei toimi??")
         // Override point for customization after application launch.
         return true
     }
