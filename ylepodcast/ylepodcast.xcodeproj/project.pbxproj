@@ -15,6 +15,7 @@
 		13A5D35B1DC3389400CEB0D4 /* ylepodcastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D35A1DC3389400CEB0D4 /* ylepodcastTests.swift */; };
 		13A5D3661DC3389500CEB0D4 /* ylepodcastUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3651DC3389500CEB0D4 /* ylepodcastUITests.swift */; };
 		13B54E8E1DD492DD000B2E6F /* DataParserObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B54E8D1DD492DD000B2E6F /* DataParserObserver.swift */; };
+		13BBC7F41DE2FE3C009B6064 /* settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13BBC7F31DE2FE3C009B6064 /* settings.plist */; };
 		13E849181DD0690C00B655D5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13E849171DD0690C00B655D5 /* Alamofire.framework */; };
 		13E8491A1DD0694100B655D5 /* HttpRequesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E849191DD0694100B655D5 /* HttpRequesting.swift */; };
 		13E8491D1DD06F7900B655D5 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 13E849171DD0690C00B655D5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -72,6 +73,7 @@
 		13A5D3651DC3389500CEB0D4 /* ylepodcastUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ylepodcastUITests.swift; sourceTree = "<group>"; };
 		13A5D3671DC3389500CEB0D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		13B54E8D1DD492DD000B2E6F /* DataParserObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataParserObserver.swift; sourceTree = "<group>"; };
+		13BBC7F31DE2FE3C009B6064 /* settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = settings.plist; path = ../settings.plist; sourceTree = "<group>"; };
 		13E849171DD0690C00B655D5 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		13E849191DD0694100B655D5 /* HttpRequesting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequesting.swift; sourceTree = "<group>"; };
 		74031AF01DCC89A300000BB1 /* HistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				13A5D3491DC3389400CEB0D4 /* Main.storyboard */,
 				13A5D34C1DC3389400CEB0D4 /* Assets.xcassets */,
 				13A5D34E1DC3389400CEB0D4 /* LaunchScreen.storyboard */,
+				13BBC7F31DE2FE3C009B6064 /* settings.plist */,
 				13A5D3511DC3389400CEB0D4 /* Info.plist */,
 			);
 			path = ylepodcast;
@@ -282,6 +285,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13A5D3501DC3389400CEB0D4 /* LaunchScreen.storyboard in Resources */,
+				13BBC7F41DE2FE3C009B6064 /* settings.plist in Resources */,
 				13A5D34D1DC3389400CEB0D4 /* Assets.xcassets in Resources */,
 				13A5D34B1DC3389400CEB0D4 /* Main.storyboard in Resources */,
 			);

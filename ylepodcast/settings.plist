@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>podcastBackendUrl</key>
+	<string>https://external.api.yle.fi/v1/programs/items.json</string>
+	<key>usersBackendUrl</key>
+	<string>http://media.mw.metropolia.fi/arsu/login</string>
+	<key>podcastBackendAppKey</key>
+	<string>defaultAppKey</string>
+	<key>podcastBackendAppID</key>
+	<string>defaultAppID</string>
+	<key>usersBackendUsername</key>
+	<string>defaultUsername</string>
+	<key>usersBackendPassword</key>
+	<string>defaultPassword</string>
+	<key>podcastDecryptKey</key>
+	<string>defaultDecryptKey</string>
+</dict>
+</plist>
