@@ -21,9 +21,12 @@
 		74031AF31DCC89BE00000BB1 /* PlaylistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74031AF21DCC89BE00000BB1 /* PlaylistTableViewController.swift */; };
 		74031AF51DCC89D400000BB1 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74031AF41DCC89D400000BB1 /* SearchTableViewController.swift */; };
 		7409F2E61DD3B26C007E3F4A /* SearchItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */; };
+		740CC9341DE43EBE006EBA6E /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740CC9331DE43EBE006EBA6E /* SplashScreenViewController.swift */; };
+		749DC4111DE1C3B70004BDDA /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749DC4101DE1C3B70004BDDA /* DataController.swift */; };
 		74D312521DC76DF7002C1E3C /* PodcastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */; };
 		74D312541DC77504002C1E3C /* PodcastTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D312531DC77504002C1E3C /* PodcastTableViewController.swift */; };
 		74DF0CF71DC9ED6300773775 /* Podcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DF0CF61DC9ED6300773775 /* Podcast.swift */; };
+		74ECA2721DE1DC4300789040 /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 74ECA2701DE1DC4300789040 /* CoreData.xcdatamodeld */; };
 		8669E0E01DD9E2F400B427CF /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 13E849171DD0690C00B655D5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8669E0E21DD9E5FA00B427CF /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8669E0E11DD9E5FA00B427CF /* AudioController.swift */; };
 /* End PBXBuildFile section */
@@ -79,9 +82,12 @@
 		74031AF21DCC89BE00000BB1 /* PlaylistTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewController.swift; sourceTree = "<group>"; };
 		74031AF41DCC89D400000BB1 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchItemTableViewCell.swift; sourceTree = "<group>"; };
+		740CC9331DE43EBE006EBA6E /* SplashScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
+		749DC4101DE1C3B70004BDDA /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastTableViewCell.swift; sourceTree = "<group>"; };
 		74D312531DC77504002C1E3C /* PodcastTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastTableViewController.swift; sourceTree = "<group>"; };
 		74DF0CF61DC9ED6300773775 /* Podcast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Podcast.swift; sourceTree = "<group>"; };
+		74ECA2711DE1DC4300789040 /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
 		8669E0E11DD9E5FA00B427CF /* AudioController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -141,16 +147,19 @@
 				74031AF01DCC89A300000BB1 /* HistoryTableViewController.swift */,
 				74031AF21DCC89BE00000BB1 /* PlaylistTableViewController.swift */,
 				74031AF41DCC89D400000BB1 /* SearchTableViewController.swift */,
+				740CC9331DE43EBE006EBA6E /* SplashScreenViewController.swift */,
 				74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */,
 				7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */,
 				8669E0E11DD9E5FA00B427CF /* AudioController.swift */,
 				74DF0CF61DC9ED6300773775 /* Podcast.swift */,
 				13B54E8D1DD492DD000B2E6F /* DataParserObserver.swift */,
 				13E849191DD0694100B655D5 /* HttpRequesting.swift */,
+				749DC4101DE1C3B70004BDDA /* DataController.swift */,
 				13A5D3491DC3389400CEB0D4 /* Main.storyboard */,
 				13A5D34C1DC3389400CEB0D4 /* Assets.xcassets */,
 				13A5D34E1DC3389400CEB0D4 /* LaunchScreen.storyboard */,
 				13A5D3511DC3389400CEB0D4 /* Info.plist */,
+				74ECA2701DE1DC4300789040 /* CoreData.xcdatamodeld */,
 			);
 			path = ylepodcast;
 			sourceTree = "<group>";
@@ -242,7 +251,7 @@
 				TargetAttributes = {
 					13A5D3411DC3389400CEB0D4 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 5D28U3497A;
+						DevelopmentTeam = B8D9N5HJ58;
 						ProvisioningStyle = Automatic;
 					};
 					13A5D3551DC3389400CEB0D4 = {
@@ -313,15 +322,18 @@
 			files = (
 				13E8491A1DD0694100B655D5 /* HttpRequesting.swift in Sources */,
 				74D312541DC77504002C1E3C /* PodcastTableViewController.swift in Sources */,
+				74ECA2721DE1DC4300789040 /* CoreData.xcdatamodeld in Sources */,
 				13B54E8E1DD492DD000B2E6F /* DataParserObserver.swift in Sources */,
 				13A5D3481DC3389400CEB0D4 /* TabBarController.swift in Sources */,
 				74031AF31DCC89BE00000BB1 /* PlaylistTableViewController.swift in Sources */,
 				74031AF11DCC89A300000BB1 /* HistoryTableViewController.swift in Sources */,
 				13A5D3461DC3389400CEB0D4 /* AppDelegate.swift in Sources */,
+				740CC9341DE43EBE006EBA6E /* SplashScreenViewController.swift in Sources */,
 				74D312521DC76DF7002C1E3C /* PodcastTableViewCell.swift in Sources */,
 				74DF0CF71DC9ED6300773775 /* Podcast.swift in Sources */,
 				7409F2E61DD3B26C007E3F4A /* SearchItemTableViewCell.swift in Sources */,
 				8669E0E21DD9E5FA00B427CF /* AudioController.swift in Sources */,
+				749DC4111DE1C3B70004BDDA /* DataController.swift in Sources */,
 				74031AF51DCC89D400000BB1 /* SearchTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -476,14 +488,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 5D28U3497A;
+				DEVELOPMENT_TEAM = B8D9N5HJ58;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ylepodcast/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast2;
+				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -493,14 +505,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 5D28U3497A;
+				DEVELOPMENT_TEAM = B8D9N5HJ58;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ylepodcast/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast2;
+				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -604,6 +616,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		74ECA2701DE1DC4300789040 /* CoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				74ECA2711DE1DC4300789040 /* CoreData.xcdatamodel */,
+			);
+			currentVersion = 74ECA2711DE1DC4300789040 /* CoreData.xcdatamodel */;
+			path = CoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 13A5D33A1DC3389400CEB0D4 /* Project object */;
 }
