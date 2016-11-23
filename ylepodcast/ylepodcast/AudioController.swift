@@ -13,14 +13,13 @@ import MediaPlayer
 class AudioController: UIViewController {
     
     var myContext:Int? = nil
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     @IBOutlet weak var PlayPause: UIButton!
     @IBOutlet weak var CurrentTime: UILabel!
     @IBOutlet weak var TimeLeft: UILabel!
     @IBOutlet weak var theProgressBar: UISlider!
-    
     var podcastUrl: String?
-    var playerItem: AVPlayerItem?
-    var player: AVPlayer?
+    var podcastName: String?
     var path: String = ""
     var updater : CADisplayLink! = nil
     var newDuration: CMTime = kCMTimeZero
@@ -35,38 +34,21 @@ class AudioController: UIViewController {
         return formatter
     }()
     
-    let commandCenter = MPRemoteCommandCenter.shared()
+    //let commandCenter = MPRemoteCommandCenter.shared()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpPlayer()
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            print("AVAudioSession Category Playback OK")
-            do {
-                try AVAudioSession.sharedInstance().setActive(true)
-                print("AVAudioSession is Active")
-            } catch let error as NSError {
-                print(error.localizedDescription)
-            }
-        } catch let error as NSError {
-            print(error.localizedDescription)
-        }
-        
-        // MPRemoteCommandCenter commands init
-        commandCenter.playCommand.isEnabled = true
-        commandCenter.playCommand.addTarget(self, action: #selector(AudioController.PlayPauseClick))
-        
-        commandCenter.pauseCommand.isEnabled = true
-        commandCenter.pauseCommand.addTarget(self, action: #selector(AudioController.PlayPauseClick))
+        appDelegate.togglePlayPause()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(AudioController.finishedPlaying), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
+        NotificationCenter.default.addObserver(self, selector: #selector(AudioController.finishedPlaying), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: appDelegate.playerItem)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+        updater.remove(from: RunLoop.current, forMode: RunLoopMode.commonModes)
     }
     
     override func didReceiveMemoryWarning() {
@@ -75,16 +57,12 @@ class AudioController: UIViewController {
     }
     
     func setUpPlayer() {
-        //let url = URL(string: "http://users.metropolia.fi/~milosb/Renegade_mixpreview.mp3")
-        let url = URL(string: podcastUrl!)
-        playerItem = AVPlayerItem(url: url!)
-        
-        player = AVPlayer(playerItem: playerItem)
-        let playerLayer = AVPlayerLayer(player: player!)
+        appDelegate.setupPlayer(aController: self, pUrl: podcastUrl!, pName: podcastName!)
+        let playerLayer = AVPlayerLayer(player: appDelegate.player!)
         playerLayer.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         self.view.layer.addSublayer(playerLayer)
         updater = CADisplayLink(target: self, selector: #selector(AudioController.trackAudio))
-        addObserver(self, forKeyPath: #keyPath(AudioController.player.currentItem.duration), options: [.new, .initial], context: &myContext)
+        addObserver(self, forKeyPath: #keyPath(appDelegate.player.currentItem.duration), options: [.new, .initial], context: &myContext)
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
@@ -94,7 +72,7 @@ class AudioController: UIViewController {
             return
         }
         
-        if keyPath == #keyPath(AudioController.player.currentItem.duration) {
+        if keyPath == #keyPath(appDelegate.player.currentItem.duration) {
             // Update timeSlider and enable/disable controls when duration > 0.0
             
             /*
@@ -109,7 +87,7 @@ class AudioController: UIViewController {
             
             let hasValidDuration = newDuration.isNumeric && newDuration.value != 0
             newDurationSeconds = hasValidDuration ? CMTimeGetSeconds(newDuration) : 0.0
-            let currentTime = hasValidDuration ? Float(CMTimeGetSeconds((player?.currentTime())!)) : 0.0
+            let currentTime = hasValidDuration ? Float(CMTimeGetSeconds((appDelegate.player?.currentTime())!)) : 0.0
             
             theProgressBar.maximumValue = Float(newDurationSeconds)
             theProgressBar.value = currentTime
@@ -122,11 +100,12 @@ class AudioController: UIViewController {
             
             TimeLeft.isEnabled = hasValidDuration
             TimeLeft.text = preDurationString + createTimeString(time: Float(newDurationSeconds))
+            
         }
     }
     
     func trackAudio() {
-        theProgressBar.value = Float(CMTimeGetSeconds((player?.currentTime())!))
+        theProgressBar.value = Float(CMTimeGetSeconds((appDelegate.player?.currentTime())!))
         CurrentTime.text = createTimeString(time: theProgressBar.value)
         TimeLeft.text = preDurationString + createTimeString(time: Float(newDurationSeconds) - theProgressBar.value)
     }
@@ -139,21 +118,23 @@ class AudioController: UIViewController {
     }
     
     @IBAction func PlayPauseClick(_ sender: Any) {
-        if player?.rate == 0 {
-            player!.play()
-            PlayPause.setImage(UIImage(named: "Pause"), for: UIControlState.normal)
-            updater.preferredFramesPerSecond = 1
-            updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
-        }
-        else {
-            player!.pause()
-            PlayPause.setImage(UIImage(named: "Play"), for: UIControlState.normal)
-        }
+        appDelegate.togglePlayPause()
+    }
+    
+    func play() {
+        PlayPause.setImage(UIImage(named: "Pause"), for: UIControlState.normal)
+        updater.preferredFramesPerSecond = 15
+        updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
+    }
+    
+    func pause() {
+        PlayPause.setImage(UIImage(named: "Play"), for: UIControlState.normal)
     }
     
     @IBAction func SliderMoved(_ sender: Any) {
         let CMProgressValue = CMTimeMake(Int64(theProgressBar.value), 1)
-        player?.seek(to: CMProgressValue)
+        appDelegate.player?.seek(to: CMProgressValue)
+        appDelegate.updateInfoCenter()
     }
     
     func createTimeString(time: Float) -> String {
