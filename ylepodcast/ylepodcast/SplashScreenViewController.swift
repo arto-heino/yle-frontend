@@ -21,6 +21,8 @@ class SplashScreenViewController: UIViewController {
     
     @IBOutlet weak var regWithPasswordLabel: UITextField!
     
+    let register = HttpPosts()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +38,22 @@ class SplashScreenViewController: UIViewController {
     
     
     @IBAction func registerButton(_ sender: Any) {
+        register_now(username: regWithUsernameLabel.text!, password: regWithPasswordLabel.text!, email: regWithEmailLabel.text!)
     }
+    
+    func register_now(username:String, password:String, email:String)
+    {
+        register.httpRegister(username: username, password: password, email: email) { success in
+            if success {
+                print("Tunnus tehty")
+            } else {
+                print("Tunnusta ei tehty")
+                
+            }
+        }
+        
+    }
+    
 
     /*
     // MARK: - Navigation
