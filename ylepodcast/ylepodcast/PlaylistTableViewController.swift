@@ -20,29 +20,72 @@ class PlaylistTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    class SectionsData {
+        func getSectionsFromData() -> [Section] {
+            var sectionsArray = [Section]()
+            
+            let myPodcasts = Section(title: "Omat", objects: ["Siivouslista", "Lista lenkille"])
+            let recommended = Section(title: "Valmiit", objects: ["Yle Puhe", "Aamulypsy"])
+            let favorites = Section(title: "Suosikit", objects: ["Suosikki 1", "Suosikki 2", "Suosikki 3"])
+            
+            
+            sectionsArray.append(myPodcasts)
+            sectionsArray.append(recommended)
+            sectionsArray.append(favorites)
+            
+            return sectionsArray
+        }
+    }
+    
+    struct Section {
+        
+        var heading : String
+        var items : [String]
+        
+        init(title: String, objects : [String]) {
+            
+            heading = title
+            items = objects
+        }
+    }
     
     
-    // MARK: - Table view data source
+    var sections: [Section] = SectionsData().getSectionsFromData()
+    
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return sections.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 0
+        return sections[section].items.count
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section].heading
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cellIdentifier = "PodcastCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PodcastTableViewCell
+        let cellIdentifier = "PlaylistTableViewCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PlaylistTableViewCell
+        
+        
+        cell.myPlaylistNameLabel.text = sections[indexPath.section].items[indexPath.row]
+        
+        
         
         return cell
     }
+}
     
-    /*
+    
+    
+    // MARK: - Table view data source
+    
+    
+        /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
@@ -97,4 +140,4 @@ class PlaylistTableViewController: UITableViewController {
     }
     */
 
-}
+

@@ -56,10 +56,15 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
            // return false
        // }
         
+        
         // first set that has all the results
+        
         let set1:Set<Podcast> = Set(collectionSearchResults)
+        
         // set that has also descriptions and tags
+        
         searchResults = Array(set1.union(descriptionSearchResults))
+        
         //.union(tagsSearchResults))
 
         tableView.reloadData()
