@@ -1,11 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9tR-9j-pKv">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9tR-9j-pKv">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -43,11 +45,12 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="105"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="93O-tX-T7V" id="t9l-bm-6Ad">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="105"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="104.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" image="defaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="AL4-Ay-CvF">
                                             <rect key="frame" x="0.0" y="0.0" width="105" height="104.5"/>
+                                            <gestureRecognizers/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="105" id="gat-Qu-BUG"/>
                                             </constraints>
@@ -111,6 +114,9 @@
                     <navigationItem key="navigationItem" title="YLE" id="Z5F-zx-yzW">
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="3Wy-f8-YMy"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="M2F-DV-ZyH" kind="show" identifier="AudioSegue1" id="EN9-lG-e4c"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qaL-lQ-A1y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -129,7 +135,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="105"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fBp-79-KYg" id="mb8-8l-hb4">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="105"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="104.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" image="defaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="DVt-Zx-3bB">
@@ -198,10 +204,13 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="aPv-q3-nTF"/>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="M2F-DV-ZyH" kind="show" identifier="AudioSegue2" id="6Z7-Q2-4Rw"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="66m-ni-UwU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2332" y="-448"/>
+            <point key="canvasLocation" x="2547" y="-298"/>
         </scene>
         <!--YLE-->
         <scene sceneID="4mu-WW-qfI">
@@ -216,7 +225,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="105"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Yf-ui-rSN" id="7lW-XJ-1ZT">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="105"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="104.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" image="defaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="29x-uE-I39">
@@ -285,10 +294,92 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="IYJ-qF-kD7"/>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="M2F-DV-ZyH" kind="show" identifier="AudioSegue3" id="Vac-vK-exS"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HoN-G7-2Pb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2753" y="260"/>
+        </scene>
+        <!--Audio Controller-->
+        <scene sceneID="nrC-M5-fpW">
+            <objects>
+                <viewController id="M2F-DV-ZyH" customClass="AudioController" customModule="ylepodcast" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BQq-in-qJ8"/>
+                        <viewControllerLayoutGuide type="bottom" id="KuI-3X-vTv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="PFb-9S-Dvb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RYE-pV-jmN">
+                                <rect key="frame" x="162" y="93" width="50" height="50"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" button="YES" image="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="zhv-ER-KLM"/>
+                                </constraints>
+                                <state key="normal" image="Play"/>
+                                <connections>
+                                    <action selector="PlayPauseClick:" destination="M2F-DV-ZyH" eventType="touchUpInside" id="9v2-H8-xR2"/>
+                                </connections>
+                            </button>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="6Kb-W9-UaE">
+                                <rect key="frame" x="14" y="151" width="347" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="wPp-e5-Cpb"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="SliderMoved:" destination="M2F-DV-ZyH" eventType="valueChanged" id="FnV-XF-kfY"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RrF-fx-saI">
+                                <rect key="frame" x="16" y="189" width="42" height="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="42" id="TW3-4M-125"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M0o-Xw-Bdr">
+                                <rect key="frame" x="317" y="189" width="42" height="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="42" id="uio-EO-6yH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6Kb-W9-UaE" firstAttribute="leading" secondItem="RrF-fx-saI" secondAttribute="leading" id="0fA-Kl-LmY"/>
+                            <constraint firstItem="RYE-pV-jmN" firstAttribute="top" secondItem="BQq-in-qJ8" secondAttribute="bottom" constant="29" id="3eF-oP-aQy"/>
+                            <constraint firstItem="RrF-fx-saI" firstAttribute="baseline" secondItem="M0o-Xw-Bdr" secondAttribute="baseline" id="5Ei-gK-usq"/>
+                            <constraint firstItem="6Kb-W9-UaE" firstAttribute="trailing" secondItem="PFb-9S-Dvb" secondAttribute="trailingMargin" id="6gb-ch-SeP"/>
+                            <constraint firstItem="6Kb-W9-UaE" firstAttribute="leading" secondItem="PFb-9S-Dvb" secondAttribute="leadingMargin" id="6tz-It-kXu"/>
+                            <constraint firstItem="KuI-3X-vTv" firstAttribute="top" secondItem="RrF-fx-saI" secondAttribute="bottom" constant="415" id="L9n-c2-L4o"/>
+                            <constraint firstItem="RYE-pV-jmN" firstAttribute="centerX" secondItem="6Kb-W9-UaE" secondAttribute="centerX" id="abh-Bx-dLJ"/>
+                            <constraint firstItem="M0o-Xw-Bdr" firstAttribute="baseline" secondItem="RrF-fx-saI" secondAttribute="firstBaseline" id="mbg-ve-JYW"/>
+                            <constraint firstItem="6Kb-W9-UaE" firstAttribute="top" secondItem="RYE-pV-jmN" secondAttribute="bottom" constant="8" symbolic="YES" id="mqY-EC-xwx"/>
+                            <constraint firstItem="6Kb-W9-UaE" firstAttribute="trailing" secondItem="M0o-Xw-Bdr" secondAttribute="trailing" id="sqn-f9-m6H"/>
+                            <constraint firstItem="RrF-fx-saI" firstAttribute="top" secondItem="6Kb-W9-UaE" secondAttribute="bottom" constant="8" symbolic="YES" id="uT4-CJ-FJ3"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="CurrentTime" destination="RrF-fx-saI" id="7Ct-sp-TCr"/>
+                        <outlet property="PlayPause" destination="RYE-pV-jmN" id="Vmp-D0-Y7E"/>
+                        <outlet property="TimeLeft" destination="M0o-Xw-Bdr" id="Sg2-t1-nqX"/>
+                        <outlet property="theProgressBar" destination="6Kb-W9-UaE" id="xck-f9-RKA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fRi-2k-S4Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4868" y="-365"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="GRj-Qt-6T8">
@@ -350,7 +441,7 @@
         <!--Search-->
         <scene sceneID="e0l-Y9-Xkd">
             <objects>
-                <tableViewController id="CeN-7t-7tb" customClass="SearchTableViewController" customModule="ylepodcast" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="CeN-7t-7tb" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="83" sectionHeaderHeight="28" sectionFooterHeight="28" id="9HX-Wr-50I" customClass="SearchTableViewContoller">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -360,7 +451,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="83"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qyP-Ml-vB0" id="T53-7a-tIe">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="82"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="82.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tT5-yC-248">
@@ -393,6 +484,7 @@
                     <navigationItem key="navigationItem" title="Search" id="p8l-re-zDK"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="yg4-Cc-jfL" id="h56-hw-Gxf"/>
+                        <segue destination="M2F-DV-ZyH" kind="show" identifier="AudioSegue4" id="soq-HS-Mm5"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WjD-wY-v6W" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -428,6 +520,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Play" width="256" height="256"/>
         <image name="defaultImage" width="177" height="131"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="soq-HS-Mm5"/>
+    </inferredMetricsTieBreakers>
 </document>
