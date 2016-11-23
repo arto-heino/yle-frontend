@@ -12,11 +12,12 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
     
     let searchController = UISearchController(searchResultsController: nil)
     var searchResults = [Podcast?]()
+    var allPods = [Podcast?]()
 
     override func viewDidLoad() {
     
         
-        //luodaan searchbar
+        //Create searchbar
         super.viewDidLoad()
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
@@ -24,44 +25,44 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
         searchController.dimsBackgroundDuringPresentation = false
         tableView.tableHeaderView = searchController.searchBar
     
-        //Tässä haetaan podcastit
-        //AppDelegate.loadSamplePods()
+        
     }
-    //Päivittää hakutulokset
+    //Updates the search results
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchText: searchController.searchBar.text!)
     }
-    //filtteröi hakusanan mukaan
+    //filters through keyword(s)
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         filterContentForSearchText(searchText: searchBar.text!)
 
     }
-    //filtteröi koko datasta hakusanan mukaiset podcastit
+    //filters the whole data through
     func filterContentForSearchText(searchText: String, scope: String = "All") {
-        /// etsitään collectioneista hakusanalla
-        /*let collectionSearchResults = AppDelegate.dummyData.filter { podcast in
-            return podcast.collection.lowercased().contains(searchText.lowercased())
-        }*/
-        // etsitään descriptioneista hakusanalla
-        /*let descriptionSearchResults = AppDelegate.dummyData.filter { podcast in
-            return podcast.description.lowercased().contains(searchText.lowercased())
-        }*/
-        // etsitään tageista hakusanalla
-        /*let tagsSearchResults = AppDelegate.dummyData.filter { podcast in
-            for tag in podcast.tags {
-                if tag.lowercased().contains(searchText.lowercased()) {
-                    return true
-                }
-            }
-            return false
-        }*/
+        /// keyword in collections
+        let collectionSearchResults = AppDelegate.fetchPodcastsFromCoreData().filter { podcast in
+            return (podcast.podcastCollection?["fi"] as? String ?? "Ei titleä").lowercased().contains(searchText.lowercased())
+        }
+        // keyword in descriptions
+        let descriptionSearchResults = AppDelegate.fetchPodcastsFromCoreData().filter { podcast in
+            return (podcast.podcastDescription?["fi"] as? String ?? "Ei kuvausta").lowercased().contains(searchText.lowercased())
+        }
+        // keyword int tags
+     //  let tagsSearchResults = AppDelegate.fetchPodcastsFromCoreData().filter { podcast in
+          //  for tag in podcast.podcastTags! {
+             //   if tag.lowercased().contains(searchText.lowercased()) {
+               //     return true
+              //  }
+           // }
+           // return false
+       // }
         
-        // eka setti joka sisältää collection-osumat
-        /*let set1:Set<Podcast> = Set(collectionSearchResults)
-        // sekä description-osumat että tags-osumat
-        searchResults = Array(set1.union(descriptionSearchResults).union(tagsSearchResults))
-        
-        tableView.reloadData()*/
+        // first set that has all the results
+        let set1:Set<Podcast> = Set(collectionSearchResults)
+        // set that has also descriptions and tags
+        searchResults = Array(set1.union(descriptionSearchResults))
+        //.union(tagsSearchResults))
+
+        tableView.reloadData()
     }
     
     
@@ -75,19 +76,22 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    //palauttaa listviewiin haun tulokset
+    //Returns results to tableview
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchResults.count
+        if searchController.isActive && searchController.searchBar.text != "" {
+            return searchResults.count
+        }
+        return allPods.count
     }
 
-    //piirtää tulokset listaan
+    //Results to a list
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchItemTableViewCell", for: indexPath ) as! SearchItemTableViewCell
 
         let podcast = searchResults[indexPath.row]
-        cell.collectionLabel.text = podcast?.collection
-        cell.descriptionLabel.text = podcast?.description
-
+        
+        cell.collectionLabel.text = podcast?.podcastCollection?["fi"] as? String ?? "Ei titleä"
+        cell.descriptionLabel.text = podcast?.podcastDescription?["fi"] as? String ?? "Ei kuvausta"
         return cell
     }
 
