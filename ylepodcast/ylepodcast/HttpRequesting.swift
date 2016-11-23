@@ -79,7 +79,7 @@ class HttpRequesting {
     
     // Gets podcast from the server using apikey and category
     func httpGetPodCasts (parserObserver: DataParserObserver) {
-        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"80", "type": "radioprogram" ]
+        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"80", "type": "radiocontent", "contentprotection": "22-0,22-1" ]
         
         Alamofire.request("https://external.api.yle.fi/v1/programs/items.json", method: .get, parameters:parameters2, encoding: URLEncoding.default)
             .responseJSON{response in
@@ -93,6 +93,27 @@ class HttpRequesting {
                                 let description = item["description"] as? [String:Any]
                                 let photo = item["defaultImage"] as? String ?? ""
                                 let pUrl = item["Download link"] as? String ?? ""
+                                let pubEv = item["publicationEvent"] as? [[String:Any]]
+                                let program_id = item["id"] as? String ?? ""
+                                for (_, event) in (pubEv?.enumerated())! {
+                                    let status = event["temporalStatus"] as? String ?? ""
+                                    let type = event["type"] as? String ?? ""
+                                    if status == "currently" && type == "OnDemandPublication" {
+                                        let media = event["media"] as? [String:Any]
+                                        let media_id = media?["id"]
+                                        
+                                        let params: Parameters = ["program_id": program_id, "media_id": media_id!, "protocol": "HLS", "app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f"]
+                                        print(params)
+                                        Alamofire.request("https://external.api.yle.fi/v1/media/playouts.json", method: .get, parameters:params, encoding: URLEncoding.default).responseJSON{response in
+                                            print(response.result)
+                                                if let json = response.result.value {
+                                                    print(json)
+                                                } else {
+                                                    print("Shit happens")
+                                                }
+                                            }
+                                    }
+                                }
                                 
                                 let podcast = NSEntityDescription.insertNewObject(forEntityName: "Podcast", into: AppDelegate.moc) as! Podcast
 
