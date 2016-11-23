@@ -15,19 +15,20 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
     var allPods = [Podcast?]()
 
     override func viewDidLoad() {
-    
-        
-        //Create searchbar
+
         super.viewDidLoad()
+        
+        //luodaan searchbar
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         definesPresentationContext = true
         searchController.dimsBackgroundDuringPresentation = false
         tableView.tableHeaderView = searchController.searchBar
-    
         
     }
+    
     //Updates the search results
+
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchText: searchController.searchBar.text!)
     }
@@ -36,36 +37,40 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
         filterContentForSearchText(searchText: searchBar.text!)
 
     }
-    //filters the whole data through
-    func filterContentForSearchText(searchText: String, scope: String = "All") {
-        /// keyword in collections
-        let collectionSearchResults = AppDelegate.fetchPodcastsFromCoreData().filter { podcast in
-            return (podcast.podcastCollection?["fi"] as? String ?? "Ei titleä").lowercased().contains(searchText.lowercased())
-        }
-        // keyword in descriptions
-        let descriptionSearchResults = AppDelegate.fetchPodcastsFromCoreData().filter { podcast in
-            return (podcast.podcastDescription?["fi"] as? String ?? "Ei kuvausta").lowercased().contains(searchText.lowercased())
-        }
-        // keyword int tags
-     //  let tagsSearchResults = AppDelegate.fetchPodcastsFromCoreData().filter { podcast in
-          //  for tag in podcast.podcastTags! {
-             //   if tag.lowercased().contains(searchText.lowercased()) {
-               //     return true
-              //  }
-           // }
-           // return false
-       // }
-        
-        // first set that has all the results
-        let set1:Set<Podcast> = Set(collectionSearchResults)
-        // set that has also descriptions and tags
-        searchResults = Array(set1.union(descriptionSearchResults))
-        //.union(tagsSearchResults))
-
-        tableView.reloadData()
+//filters the whole data through
+func filterContentForSearchText(searchText: String, scope: String = "All") {
+    /// keyword in collections
+    let collectionSearchResults = AppDelegate.fetchPodcastsFromCoreData().filter { podcast in
+        return (podcast.podcastCollection?["fi"] as? String ?? "Ei titleä").lowercased().contains(searchText.lowercased())
     }
+    // keyword in descriptions
+    let descriptionSearchResults = AppDelegate.fetchPodcastsFromCoreData().filter { podcast in
+        return (podcast.podcastDescription?["fi"] as? String ?? "Ei kuvausta").lowercased().contains(searchText.lowercased())
+    }
+    // keyword int tags
+    //  let tagsSearchResults = AppDelegate.fetchPodcastsFromCoreData().filter { podcast in
+    //  for tag in podcast.podcastTags! {
+    //   if tag.lowercased().contains(searchText.lowercased()) {
+    //     return true
+    //  }
+    // }
+    // return false
+    // }
     
     
+    // first set that has all the results
+    
+    let set1:Set<Podcast> = Set(collectionSearchResults)
+    
+    // set that has also descriptions and tags
+    
+    searchResults = Array(set1.union(descriptionSearchResults))
+    
+    //.union(tagsSearchResults))
+    
+    tableView.reloadData()
+}
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -92,6 +97,7 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
         
         cell.collectionLabel.text = podcast?.podcastCollection?["fi"] as? String ?? "Ei titleä"
         cell.descriptionLabel.text = podcast?.podcastDescription?["fi"] as? String ?? "Ei kuvausta"
+
         return cell
     }
 

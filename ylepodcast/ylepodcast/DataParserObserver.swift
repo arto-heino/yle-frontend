@@ -10,5 +10,6 @@ import Foundation
 
 protocol DataParserObserver {
     
-    func podcastsParsed (podcasts: [Podcast])    
+    func podcastsParsed (podcasts: [Podcast])
+
 }

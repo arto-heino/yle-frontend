@@ -5,6 +5,7 @@
 //  Created by Arto Heino on 07/11/16.
 //  Copyright © 2016 Metropolia. All rights reserved.
 //
+
 import Foundation
 import Alamofire
 import UIKit
@@ -120,8 +121,5 @@ class HttpPosts {
                 }
         }
     }
-
-    
-    
     
 }

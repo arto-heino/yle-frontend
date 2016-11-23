@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1329E05D1DE59575006CE49B /* HttpPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1329E05C1DE59575006CE49B /* HttpPosts.swift */; };
+		1317D3711DE5B2620087EF98 /* HttpPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1317D3701DE5B2620087EF98 /* HttpPosts.swift */; };
+		1329E05D1DE59575006CE49B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		13A5D3461DC3389400CEB0D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */; };
 		13A5D3481DC3389400CEB0D4 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3471DC3389400CEB0D4 /* TabBarController.swift */; };
 		13A5D34B1DC3389400CEB0D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A5D3491DC3389400CEB0D4 /* Main.storyboard */; };
@@ -24,12 +25,14 @@
 		74031AF51DCC89D400000BB1 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74031AF41DCC89D400000BB1 /* SearchTableViewController.swift */; };
 		7409F2E61DD3B26C007E3F4A /* SearchItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */; };
 		740CC9341DE43EBE006EBA6E /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740CC9331DE43EBE006EBA6E /* SplashScreenViewController.swift */; };
+		7416C13F1DDC918C0029E6EC /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7416C13E1DDC918C0029E6EC /* SettingsTableViewController.swift */; };
+		7416C1411DDC923E0029E6EC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7416C1401DDC923E0029E6EC /* LoginViewController.swift */; };
+		7454A6241DD9DF6E004570D8 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 13E849171DD0690C00B655D5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		749DC4111DE1C3B70004BDDA /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749DC4101DE1C3B70004BDDA /* DataController.swift */; };
 		74D312521DC76DF7002C1E3C /* PodcastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */; };
 		74D312541DC77504002C1E3C /* PodcastTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D312531DC77504002C1E3C /* PodcastTableViewController.swift */; };
 		74DF0CF71DC9ED6300773775 /* Podcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DF0CF61DC9ED6300773775 /* Podcast.swift */; };
 		74ECA2721DE1DC4300789040 /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 74ECA2701DE1DC4300789040 /* CoreData.xcdatamodeld */; };
-		8669E0E01DD9E2F400B427CF /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 13E849171DD0690C00B655D5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8669E0E21DD9E5FA00B427CF /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8669E0E11DD9E5FA00B427CF /* AudioController.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,14 +60,14 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8669E0E01DD9E2F400B427CF /* Alamofire.framework in CopyFiles */,
+				7454A6241DD9DF6E004570D8 /* Alamofire.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1329E05C1DE59575006CE49B /* HttpPosts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpPosts.swift; sourceTree = "<group>"; };
+		1317D3701DE5B2620087EF98 /* HttpPosts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpPosts.swift; sourceTree = "<group>"; };
 		13A5D3421DC3389400CEB0D4 /* ylepodcast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ylepodcast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13A5D3471DC3389400CEB0D4 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -87,6 +90,8 @@
 		74031AF41DCC89D400000BB1 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchItemTableViewCell.swift; sourceTree = "<group>"; };
 		740CC9331DE43EBE006EBA6E /* SplashScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
+		7416C13E1DDC918C0029E6EC /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		7416C1401DDC923E0029E6EC /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		749DC4101DE1C3B70004BDDA /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastTableViewCell.swift; sourceTree = "<group>"; };
 		74D312531DC77504002C1E3C /* PodcastTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastTableViewController.swift; sourceTree = "<group>"; };
@@ -153,13 +158,15 @@
 				74031AF21DCC89BE00000BB1 /* PlaylistTableViewController.swift */,
 				74031AF41DCC89D400000BB1 /* SearchTableViewController.swift */,
 				740CC9331DE43EBE006EBA6E /* SplashScreenViewController.swift */,
+				7416C13E1DDC918C0029E6EC /* SettingsTableViewController.swift */,
+				7416C1401DDC923E0029E6EC /* LoginViewController.swift */,
+				1317D3701DE5B2620087EF98 /* HttpPosts.swift */,
 				74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */,
 				7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */,
 				74DF0CF61DC9ED6300773775 /* Podcast.swift */,
 				13B54E8D1DD492DD000B2E6F /* DataParserObserver.swift */,
 				13E849191DD0694100B655D5 /* HttpRequesting.swift */,
 				749DC4101DE1C3B70004BDDA /* DataController.swift */,
-				1329E05C1DE59575006CE49B /* HttpPosts.swift */,
 				13A5D3491DC3389400CEB0D4 /* Main.storyboard */,
 				13A5D34C1DC3389400CEB0D4 /* Assets.xcassets */,
 				13A5D34E1DC3389400CEB0D4 /* LaunchScreen.storyboard */,
@@ -327,10 +334,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1317D3711DE5B2620087EF98 /* HttpPosts.swift in Sources */,
 				13E8491A1DD0694100B655D5 /* HttpRequesting.swift in Sources */,
 				74D312541DC77504002C1E3C /* PodcastTableViewController.swift in Sources */,
 				74ECA2721DE1DC4300789040 /* CoreData.xcdatamodeld in Sources */,
-				1329E05D1DE59575006CE49B /* HttpPosts.swift in Sources */,
+				1329E05D1DE59575006CE49B /* (null) in Sources */,
 				13B54E8E1DD492DD000B2E6F /* DataParserObserver.swift in Sources */,
 				13A5D3481DC3389400CEB0D4 /* TabBarController.swift in Sources */,
 				74031AF31DCC89BE00000BB1 /* PlaylistTableViewController.swift in Sources */,
@@ -338,10 +346,12 @@
 				13A5D3461DC3389400CEB0D4 /* AppDelegate.swift in Sources */,
 				740CC9341DE43EBE006EBA6E /* SplashScreenViewController.swift in Sources */,
 				74D312521DC76DF7002C1E3C /* PodcastTableViewCell.swift in Sources */,
+				7416C13F1DDC918C0029E6EC /* SettingsTableViewController.swift in Sources */,
 				74DF0CF71DC9ED6300773775 /* Podcast.swift in Sources */,
 				7409F2E61DD3B26C007E3F4A /* SearchItemTableViewCell.swift in Sources */,
 				8669E0E21DD9E5FA00B427CF /* AudioController.swift in Sources */,
 				749DC4111DE1C3B70004BDDA /* DataController.swift in Sources */,
+				7416C1411DDC923E0029E6EC /* LoginViewController.swift in Sources */,
 				74031AF51DCC89D400000BB1 /* SearchTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -29,16 +29,15 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
     }
         
     }
-
-    // Run after the podcasts have been parsed in HttpRequesting
+    
     func podcastsParsed(podcasts: [Podcast]) {
         self.podcasts = podcasts
-        
         DispatchQueue.main.async {
             self.tableView.reloadData()
             return
         }
     }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
