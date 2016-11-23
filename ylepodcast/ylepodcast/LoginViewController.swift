@@ -19,6 +19,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginInfoButton: UIButton!
     
     let login = HttpPosts()
+    let podcast = HttpRequesting()
     var preferences = UserDefaults.standard
     
     override func viewDidLoad() {
@@ -66,6 +67,14 @@ class LoginViewController: UIViewController {
     
     func LoginDone()
     {
+        let id: String = self.preferences.object(forKey: "userID") as? String ?? ""
+
+        let url: String = "http://media.mw.metropolia.fi/arsu/playlists/user/" + id
+        podcast.httpGetFromBackend(url: url, token: self.preferences.object(forKey: "userKey") as? String) { success in
+            print(success)
+        }
+        
+        
         usernameLabel.text = self.preferences.object(forKey: "userName") as? String
         passwordLabel.text = ""
         usernameLabel.isEnabled = false

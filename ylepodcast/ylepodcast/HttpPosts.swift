@@ -68,10 +68,11 @@ class HttpPosts {
                     case 200:
                         if let data = response.result.value as? [String: String]{
                             self.message = data["message"]!
-                            self.setUserKey(userKey: data["token"]!)
                             let preferences = UserDefaults.standard
-                            preferences.set(self.getUserKey(), forKey: "userKey")
+                            preferences.set(data["token"], forKey: "userKey")
                             preferences.set(username, forKey: "userName")
+                            preferences.set(data["id"], forKey: "userID")
+
                         }
                         completion(true)
                         return
