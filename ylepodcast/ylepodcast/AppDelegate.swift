@@ -7,16 +7,38 @@
 //
 
 import UIKit
+import AVFoundation
+import MediaPlayer
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
+    var podcastUrl: String?
+    var podcastName: String?
+    var playerItem: AVPlayerItem?
+    var player: AVPlayer?
+    var audioController: AudioController?
+    
     static var history = [Podcast]()
+    
+    let commandCenter = MPRemoteCommandCenter.shared()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            print("AVAudioSession Category Playback OK")
+            do {
+                try AVAudioSession.sharedInstance().setActive(true)
+                print("AVAudioSession is Active")
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
         return true
     }
 
@@ -42,6 +64,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    func setupPlayer(aController: AudioController, pUrl: String, pName: String) {
+        podcastUrl = pUrl
+        podcastName = pName
+        let url = URL(string: podcastUrl!)
+        playerItem = AVPlayerItem(url: url!)
+        
+        if player == nil {
+            player = AVPlayer(playerItem: playerItem)
+        } else {
+            player?.pause()
+            player?.replaceCurrentItem(with: playerItem)
+        }
+        audioController = aController
+        commandCenter.playCommand.isEnabled = true
+        commandCenter.playCommand.addTarget(self, action: #selector(play))
+        
+        commandCenter.pauseCommand.isEnabled = true
+        commandCenter.pauseCommand.addTarget(self, action: #selector(pause))
+    }
+    
+    func togglePlayPause() {
+        if player?.rate == 0 {
+            play()
+        } else {
+            pause()
+        }
+    }
+    
+    func play() {
+        player?.play()
+        audioController?.play()
+        updateInfoCenter()
+    }
+    
+    func pause() {
+        audioController?.pause()
+        player?.pause()
+        updateInfoCenter()
+        //MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyTitle : podcastName!, MPNowPlayingInfoPropertyDefaultPlaybackRate : NSNumber(value: 0), MPMediaItemPropertyPlaybackDuration : CMTimeGetSeconds((player!.currentItem?.asset.duration)!), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player!.currentTime())]
+    }
+    
+    func updateInfoCenter() {
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyTitle : podcastName!, MPNowPlayingInfoPropertyDefaultPlaybackRate : NSNumber(value: 1), MPMediaItemPropertyPlaybackDuration : CMTimeGetSeconds((player!.currentItem?.asset.duration)!), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player!.currentTime())]
+    }
 }
 

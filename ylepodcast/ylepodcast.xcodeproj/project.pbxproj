@@ -138,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */,
+				8669E0E11DD9E5FA00B427CF /* AudioController.swift */,
 				13A5D3471DC3389400CEB0D4 /* TabBarController.swift */,
 				74D312531DC77504002C1E3C /* PodcastTableViewController.swift */,
 				74031AF01DCC89A300000BB1 /* HistoryTableViewController.swift */,
@@ -145,7 +146,6 @@
 				74031AF41DCC89D400000BB1 /* SearchTableViewController.swift */,
 				74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */,
 				7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */,
-				8669E0E11DD9E5FA00B427CF /* AudioController.swift */,
 				74DF0CF61DC9ED6300773775 /* Podcast.swift */,
 				13B54E8D1DD492DD000B2E6F /* DataParserObserver.swift */,
 				13E849191DD0694100B655D5 /* HttpRequesting.swift */,

@@ -12,6 +12,7 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
     
     var podcasts = [Podcast]()
     var url: String = ""
+    var name: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +69,7 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = tableView.indexPathForSelectedRow?.row
         url = self.podcasts[index!].url
+        name = self.podcasts[index!].collection
         print("URL: " + url)
         performSegue(withIdentifier: "AudioSegue1", sender: Any?.self)
     }
@@ -76,6 +78,7 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
         if segue.identifier == "AudioSegue1" {
             let destination = segue.destination as! AudioController
             destination.podcastUrl = url
+            destination.podcastName = name
         }
     }
     
