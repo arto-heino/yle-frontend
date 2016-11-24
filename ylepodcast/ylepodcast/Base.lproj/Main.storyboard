@@ -467,13 +467,14 @@
         <scene sceneID="4mu-WW-qfI">
             <objects>
                 <tableViewController title="YLE" id="Wl2-Gw-cWS" customClass="PlaylistTableViewController" customModule="ylepodcast" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="105" sectionHeaderHeight="28" sectionFooterHeight="28" id="a7p-nI-YaU">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="105" sectionHeaderHeight="18" sectionFooterHeight="18" id="a7p-nI-YaU">
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="separatorColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PodcastCell" rowHeight="105" id="2Yf-ui-rSN" customClass="PodcastTableViewCell" customModule="ylepodcast" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="105"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PlaylistTableViewCell" rowHeight="105" id="2Yf-ui-rSN" customClass="PlaylistTableViewCell" customModule="ylepodcast" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="56" width="375" height="105"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Yf-ui-rSN" id="7lW-XJ-1ZT">
 
@@ -484,58 +485,32 @@
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" image="defaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="29x-uE-I39">
                                             <rect key="frame" x="0.0" y="0.0" width="105" height="105"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="105" id="byk-WI-vtS"/>
+                                                <constraint firstAttribute="width" constant="105" id="Bxg-Kt-YgB"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SARJA" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xTm-Kv-U1R">
-                                            <rect key="frame" x="113" y="8" width="254" height="25"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="25" id="0Oc-24-PYm"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kuvaus asda sda sd ads asd asd asd asd asd asd asd as da sd asd " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KF7-KD-AFv">
-                                            <rect key="frame" x="113" y="41" width="254" height="34"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kesto" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Svc-S1-VEe">
-                                            <rect key="frame" x="113" y="83" width="254" height="13"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="13" id="aNG-pU-zzh"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oma lista" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xTm-Kv-U1R">
+                                            <rect key="frame" x="113" y="32" width="254" height="42"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="KF7-KD-AFv" firstAttribute="trailing" secondItem="Svc-S1-VEe" secondAttribute="trailing" id="4GD-Sj-EPL"/>
-                                        <constraint firstItem="xTm-Kv-U1R" firstAttribute="trailing" secondItem="7lW-XJ-1ZT" secondAttribute="trailingMargin" id="F8p-wd-5y2"/>
-                                        <constraint firstItem="xTm-Kv-U1R" firstAttribute="leading" secondItem="KF7-KD-AFv" secondAttribute="leading" id="Ia0-9w-gEH"/>
-                                        <constraint firstItem="Svc-S1-VEe" firstAttribute="top" secondItem="KF7-KD-AFv" secondAttribute="bottom" constant="8" symbolic="YES" id="LyY-Zg-FOr"/>
-                                        <constraint firstItem="29x-uE-I39" firstAttribute="centerY" secondItem="7lW-XJ-1ZT" secondAttribute="centerY" id="MbR-aQ-R2E"/>
-                                        <constraint firstItem="KF7-KD-AFv" firstAttribute="leading" secondItem="Svc-S1-VEe" secondAttribute="leading" id="Szh-yX-Dbe"/>
-                                        <constraint firstItem="xTm-Kv-U1R" firstAttribute="top" secondItem="7lW-XJ-1ZT" secondAttribute="topMargin" id="Z8b-fR-5b9"/>
-                                        <constraint firstItem="Svc-S1-VEe" firstAttribute="bottom" secondItem="7lW-XJ-1ZT" secondAttribute="bottomMargin" id="kJ0-8A-VWn"/>
-                                        <constraint firstItem="xTm-Kv-U1R" firstAttribute="trailing" secondItem="KF7-KD-AFv" secondAttribute="trailing" id="oTI-Jf-zRX"/>
-                                        <constraint firstItem="KF7-KD-AFv" firstAttribute="top" secondItem="xTm-Kv-U1R" secondAttribute="bottom" constant="8" symbolic="YES" id="rPz-rw-tj7"/>
-                                        <constraint firstItem="xTm-Kv-U1R" firstAttribute="leading" secondItem="29x-uE-I39" secondAttribute="trailing" constant="8" symbolic="YES" id="teV-UO-ma4"/>
-                                        <constraint firstItem="29x-uE-I39" firstAttribute="top" secondItem="7lW-XJ-1ZT" secondAttribute="top" id="v4c-mN-S0I"/>
-                                        <constraint firstItem="29x-uE-I39" firstAttribute="leading" secondItem="7lW-XJ-1ZT" secondAttribute="leading" id="wQL-ti-Uho"/>
+                                        <constraint firstItem="29x-uE-I39" firstAttribute="leading" secondItem="7lW-XJ-1ZT" secondAttribute="leading" id="7nu-RD-9TQ"/>
+                                        <constraint firstItem="xTm-Kv-U1R" firstAttribute="top" secondItem="7lW-XJ-1ZT" secondAttribute="topMargin" constant="24" id="JeH-2S-C1k"/>
+                                        <constraint firstItem="29x-uE-I39" firstAttribute="centerY" secondItem="7lW-XJ-1ZT" secondAttribute="centerY" id="Pmo-Ux-N21"/>
+                                        <constraint firstItem="29x-uE-I39" firstAttribute="top" secondItem="7lW-XJ-1ZT" secondAttribute="top" id="WTO-d7-00G"/>
+                                        <constraint firstItem="xTm-Kv-U1R" firstAttribute="trailing" secondItem="7lW-XJ-1ZT" secondAttribute="trailingMargin" id="dtl-DF-LxD"/>
+                                        <constraint firstItem="xTm-Kv-U1R" firstAttribute="leading" secondItem="29x-uE-I39" secondAttribute="trailing" constant="8" symbolic="YES" id="f5o-WU-e64"/>
+                                        <constraint firstItem="29x-uE-I39" firstAttribute="centerY" secondItem="xTm-Kv-U1R" secondAttribute="centerY" id="tJT-j7-ePD"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="collectionLabel" destination="xTm-Kv-U1R" id="H5T-gy-evc"/>
-                                    <outlet property="descriptionLabel" destination="KF7-KD-AFv" id="NEA-Lj-cps"/>
-                                    <outlet property="durationLabel" destination="Svc-S1-VEe" id="UR5-wD-lmF"/>
-                                    <outlet property="podcastImageView" destination="29x-uE-I39" id="nCc-wu-0H2"/>
+                                    <outlet property="myPlaylistNameLabel" destination="xTm-Kv-U1R" id="zzy-rc-Jfh"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="Wl2-Gw-cWS" id="tHm-u4-4LG"/>
                             <outlet property="delegate" destination="Wl2-Gw-cWS" id="iTY-Jh-v7S"/>
@@ -557,7 +532,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HoN-G7-2Pb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2148" y="206"/>
+            <point key="canvasLocation" x="2888" y="315"/>
         </scene>
         <!--Audio Controller-->
         <scene sceneID="nrC-M5-fpW">
@@ -929,5 +904,6 @@
         <segue reference="Ay6-uZ-eTf"/>
         <segue reference="soq-HS-Mm5"/>
         <segue reference="rdm-fz-2cP"/>
+        <segue reference="Vac-vK-exS"/>
     </inferredMetricsTieBreakers>
 </document>
