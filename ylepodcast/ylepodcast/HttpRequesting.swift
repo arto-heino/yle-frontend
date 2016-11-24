@@ -137,22 +137,23 @@ class HttpRequesting {
         }
     }
     
-    func httpGetFromBackend (url:String!, token: String!, completion:@escaping ([Any]) -> Void) {
-
+    func httpGetFromBackend (url:String!, token: String!, completion:@escaping ([[String:String]]) -> Void) {
+        
         let headers: HTTPHeaders = [
             "x-access-token": token
         ]
+        
         Alamofire.request(url, method: .get, headers:headers)
             .responseJSON{response in
                 if let httpStatusCode = response.response?.statusCode {
                     switch(httpStatusCode) {
                     case 200:
-                        if let data = response.result.value as? [Any]{
+                        if let data = response.result.value as? [[String:String]]{
                             completion(data)
                             return
                         }
                     default:
-                        if let data = response.result.value as? [Any]{
+                        if let data = response.result.value as? [[String:String]]{
                             completion(data)
                             return
                         }

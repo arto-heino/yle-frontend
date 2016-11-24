@@ -59,11 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Podcast")
                 let fetchResults = try moc.fetch(fetchRequest) as! [Podcast]
                 
-                // REMOVE: Print all podcasts for testing purposes
-                for item in fetchResults {
-                    //print(item.podcastCollection!)
-                }
-                
                 podcastsFromCoreData = fetchResults
                 return podcastsFromCoreData
             } catch {

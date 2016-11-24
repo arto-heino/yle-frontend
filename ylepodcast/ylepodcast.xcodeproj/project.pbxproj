@@ -11,6 +11,7 @@
 		1329E05D1DE59575006CE49B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		133B46D81DE6E04900607E4C /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133B46D71DE6E04900607E4C /* CryptoSwift.framework */; };
 		133B46D91DE6E08D00607E4C /* CryptoSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 133B46D71DE6E04900607E4C /* CryptoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		135625C31DE77B0F000C2A5E /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135625C21DE77B0F000C2A5E /* Playlist.swift */; };
 		13A5D3461DC3389400CEB0D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */; };
 		13A5D3481DC3389400CEB0D4 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3471DC3389400CEB0D4 /* TabBarController.swift */; };
 		13A5D34B1DC3389400CEB0D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A5D3491DC3389400CEB0D4 /* Main.storyboard */; };
@@ -73,6 +74,7 @@
 /* Begin PBXFileReference section */
 		1317D3701DE5B2620087EF98 /* HttpPosts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpPosts.swift; sourceTree = "<group>"; };
 		133B46D71DE6E04900607E4C /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
+		135625C21DE77B0F000C2A5E /* Playlist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		13A5D3421DC3389400CEB0D4 /* ylepodcast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ylepodcast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13A5D3471DC3389400CEB0D4 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				740CC9351DE59D59006EBA6E /* PlaylistTableViewCell.swift */,
 				8669E0E11DD9E5FA00B427CF /* AudioController.swift */,
 				74DF0CF61DC9ED6300773775 /* Podcast.swift */,
+				135625C21DE77B0F000C2A5E /* Playlist.swift */,
 				13B54E8D1DD492DD000B2E6F /* DataParserObserver.swift */,
 				13E849191DD0694100B655D5 /* HttpRequesting.swift */,
 				749DC4101DE1C3B70004BDDA /* DataController.swift */,
@@ -360,6 +363,7 @@
 				740CC9361DE59D59006EBA6E /* PlaylistTableViewCell.swift in Sources */,
 				7409F2E61DD3B26C007E3F4A /* SearchItemTableViewCell.swift in Sources */,
 				8669E0E21DD9E5FA00B427CF /* AudioController.swift in Sources */,
+				135625C31DE77B0F000C2A5E /* Playlist.swift in Sources */,
 				749DC4111DE1C3B70004BDDA /* DataController.swift in Sources */,
 				7416C1411DDC923E0029E6EC /* LoginViewController.swift in Sources */,
 				74031AF51DCC89D400000BB1 /* SearchTableViewController.swift in Sources */,

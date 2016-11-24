@@ -72,7 +72,6 @@ class HttpPosts {
                             preferences.set(data["token"], forKey: "userKey")
                             preferences.set(username, forKey: "userName")
                             preferences.set(data["id"], forKey: "userID")
-
                         }
                         completion(true)
                         return

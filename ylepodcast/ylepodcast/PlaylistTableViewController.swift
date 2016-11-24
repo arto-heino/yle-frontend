@@ -7,26 +7,32 @@
 //
 
 import UIKit
+import CoreData
 
 class PlaylistTableViewController: UITableViewController {
-    
-    var playlist = [Podcast]()
-
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(PlaylistTableViewController.podcastsParsed), name: NSNotification.Name(rawValue: "podcastsParsed"), object: nil)
-        
-    }
-    func podcastsParsed(sender: AnyObject?) {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
     }
     
+    static let moc = DataController().managedObjectContext
+    static private var playlistsFromCoreData = [Playlist]()
+    
+    static func addPlaylistsToCoreData(playlist: Playlist) {
+        let entity = NSEntityDescription.insertNewObject(forEntityName: "Playlist", into: moc) as! Playlist
+        
+        entity.setValue(playlist.playlistID, forKey: "playlistID")
+        entity.setValue(playlist.playlistName, forKey: "playlistName")
+        entity.setValue(playlist.playlistUserID, forKey: "playlistUserID")
+    
+        do {
+            try moc.save()
+        } catch {
+            fatalError("Adding podcast failed")
+        }
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -34,10 +40,42 @@ class PlaylistTableViewController: UITableViewController {
     }
     
     class SectionsData {
+        var getPlaylist = HttpRequesting()
+        let preferences = UserDefaults.standard
+        var playlistsUser = [String]()
+        
+        static func fetchPlaylistsFromCoreData() -> [Playlist] {
+            // Return cached value if available
+            if playlistsFromCoreData.count > 0 {
+                return playlistsFromCoreData
+                // Otherwise read through CoreData
+            } else {
+                do {
+                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Playlist")
+                    let fetchResults = try moc.fetch(fetchRequest) as! [Playlist]
+                    
+                    playlistsFromCoreData = fetchResults
+                    return playlistsFromCoreData
+                } catch {
+                    fatalError("Failed to fetch playlists from CoreData")
+                }
+            }
+        }
+
+
         func getSectionsFromData() -> [Section] {
             var sectionsArray = [Section]()
+            let token: String = self.preferences.object(forKey: "userKey") as? String ?? ""
+            let id: String = self.preferences.object(forKey: "userID") as? String ?? ""
+            let url: String = "http://media.mw.metropolia.fi/arsu/playlists/user/4" + id
             
-            let myPodcasts = Section(title: "Omat", objects: ["Siivouslista", "Lista lenkille"])
+            getPlaylist.httpGetFromBackend(url: url, token: token) { success in
+                for (_, event) in (success.enumerated()) {
+                    self.playlistsUser.append(event["playlist_name"]!)
+                }
+            }
+
+            let myPodcasts = Section(title: "Omat", objects: self.playlistsUser)
             let recommended = Section(title: "Valmiit", objects: ["Yle Puhe", "Aamulypsy"])
             let favorites = Section(title: "Suosikit", objects: ["Suosikki 1", "Suosikki 2", "Suosikki 3"])
             
