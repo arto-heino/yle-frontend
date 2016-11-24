@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 // REMOVE: Print all podcasts for testing purposes
                 for item in fetchResults {
-                    print(item.podcastCollection!)
+                    //print(item.podcastCollection!)
                 }
                 
                 podcastsFromCoreData = fetchResults

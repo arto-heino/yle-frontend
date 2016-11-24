@@ -102,7 +102,7 @@ class HttpRequesting {
                                         let media = event["media"] as? [String:Any]
                                         let media_id = media?["id"]
                                         
-                                        let params: Parameters = ["program_id": program_id, "media_id": media_id!, "protocol": "HLS", "app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f"]
+                                        let params: Parameters = ["program_id": program_id, "media_id": media_id!, "protocol": "PMD", "app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f"]
                                         print(params)
                                         Alamofire.request("https://external.api.yle.fi/v1/media/playouts.json", method: .get, parameters:params, encoding: URLEncoding.default).responseJSON{response in
                                             print(response.result)

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1317D3711DE5B2620087EF98 /* HttpPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1317D3701DE5B2620087EF98 /* HttpPosts.swift */; };
 		1329E05D1DE59575006CE49B /* (null) in Sources */ = {isa = PBXBuildFile; };
+		133B46D81DE6E04900607E4C /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133B46D71DE6E04900607E4C /* CryptoSwift.framework */; };
+		133B46D91DE6E08D00607E4C /* CryptoSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 133B46D71DE6E04900607E4C /* CryptoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		13A5D3461DC3389400CEB0D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */; };
 		13A5D3481DC3389400CEB0D4 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3471DC3389400CEB0D4 /* TabBarController.swift */; };
 		13A5D34B1DC3389400CEB0D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A5D3491DC3389400CEB0D4 /* Main.storyboard */; };
@@ -25,18 +27,16 @@
 		74031AF51DCC89D400000BB1 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74031AF41DCC89D400000BB1 /* SearchTableViewController.swift */; };
 		7409F2E61DD3B26C007E3F4A /* SearchItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */; };
 		740CC9341DE43EBE006EBA6E /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740CC9331DE43EBE006EBA6E /* SplashScreenViewController.swift */; };
+		740CC9361DE59D59006EBA6E /* PlaylistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740CC9351DE59D59006EBA6E /* PlaylistTableViewCell.swift */; };
 		7416C13F1DDC918C0029E6EC /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7416C13E1DDC918C0029E6EC /* SettingsTableViewController.swift */; };
 		7416C1411DDC923E0029E6EC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7416C1401DDC923E0029E6EC /* LoginViewController.swift */; };
 		7454A6241DD9DF6E004570D8 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 13E849171DD0690C00B655D5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		740CC9361DE59D59006EBA6E /* PlaylistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740CC9351DE59D59006EBA6E /* PlaylistTableViewCell.swift */; };
 		749DC4111DE1C3B70004BDDA /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749DC4101DE1C3B70004BDDA /* DataController.swift */; };
 		74D312521DC76DF7002C1E3C /* PodcastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */; };
 		74D312541DC77504002C1E3C /* PodcastTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D312531DC77504002C1E3C /* PodcastTableViewController.swift */; };
 		74DF0CF71DC9ED6300773775 /* Podcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DF0CF61DC9ED6300773775 /* Podcast.swift */; };
 		74ECA2721DE1DC4300789040 /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 74ECA2701DE1DC4300789040 /* CoreData.xcdatamodeld */; };
 		8669E0E21DD9E5FA00B427CF /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8669E0E11DD9E5FA00B427CF /* AudioController.swift */; };
-		8690BFA01DE5B70E0046FE2E /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8690BF9D1DE5B68B0046FE2E /* CryptoSwift.framework */; };
-		8690BFA11DE5B70E0046FE2E /* CryptoSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8690BF9D1DE5B68B0046FE2E /* CryptoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,27 +54,6 @@
 			remoteGlobalIDString = 13A5D3411DC3389400CEB0D4;
 			remoteInfo = ylepodcast;
 		};
-		8690BF9C1DE5B68B0046FE2E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8690BF971DE5B68B0046FE2E /* CryptoSwift.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 754BE45519693E190098E6F3;
-			remoteInfo = CryptoSwift;
-		};
-		8690BF9E1DE5B68B0046FE2E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8690BF971DE5B68B0046FE2E /* CryptoSwift.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 754BE46019693E190098E6F3;
-			remoteInfo = Tests;
-		};
-		8690BFA21DE5B70E0046FE2E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8690BF971DE5B68B0046FE2E /* CryptoSwift.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 754BE45419693E190098E6F3;
-			remoteInfo = CryptoSwift;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -84,8 +63,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				133B46D91DE6E08D00607E4C /* CryptoSwift.framework in CopyFiles */,
 				7454A6241DD9DF6E004570D8 /* Alamofire.framework in CopyFiles */,
-				8690BFA11DE5B70E0046FE2E /* CryptoSwift.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +72,7 @@
 
 /* Begin PBXFileReference section */
 		1317D3701DE5B2620087EF98 /* HttpPosts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpPosts.swift; sourceTree = "<group>"; };
+		133B46D71DE6E04900607E4C /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
 		13A5D3421DC3389400CEB0D4 /* ylepodcast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ylepodcast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13A5D3471DC3389400CEB0D4 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -115,16 +95,15 @@
 		74031AF41DCC89D400000BB1 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchItemTableViewCell.swift; sourceTree = "<group>"; };
 		740CC9331DE43EBE006EBA6E /* SplashScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
+		740CC9351DE59D59006EBA6E /* PlaylistTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewCell.swift; sourceTree = "<group>"; };
 		7416C13E1DDC918C0029E6EC /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		7416C1401DDC923E0029E6EC /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		740CC9351DE59D59006EBA6E /* PlaylistTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewCell.swift; sourceTree = "<group>"; };
 		749DC4101DE1C3B70004BDDA /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastTableViewCell.swift; sourceTree = "<group>"; };
 		74D312531DC77504002C1E3C /* PodcastTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastTableViewController.swift; sourceTree = "<group>"; };
 		74DF0CF61DC9ED6300773775 /* Podcast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Podcast.swift; sourceTree = "<group>"; };
 		74ECA2711DE1DC4300789040 /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
 		8669E0E11DD9E5FA00B427CF /* AudioController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioController.swift; sourceTree = "<group>"; };
-		8690BF971DE5B68B0046FE2E /* CryptoSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CryptoSwift.xcodeproj; path = ../CryptoSwift/CryptoSwift.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,8 +111,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				133B46D81DE6E04900607E4C /* CryptoSwift.framework in Frameworks */,
 				13E849181DD0690C00B655D5 /* Alamofire.framework in Frameworks */,
-				8690BFA01DE5B70E0046FE2E /* CryptoSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,7 +136,7 @@
 		13A5D3391DC3389400CEB0D4 = {
 			isa = PBXGroup;
 			children = (
-				8690BF971DE5B68B0046FE2E /* CryptoSwift.xcodeproj */,
+				133B46D71DE6E04900607E4C /* CryptoSwift.framework */,
 				13E849171DD0690C00B655D5 /* Alamofire.framework */,
 				13A5D3441DC3389400CEB0D4 /* ylepodcast */,
 				13A5D3591DC3389400CEB0D4 /* ylepodcastTests */,
@@ -180,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */,
-				8669E0E11DD9E5FA00B427CF /* AudioController.swift */,
 				13A5D3471DC3389400CEB0D4 /* TabBarController.swift */,
 				74D312531DC77504002C1E3C /* PodcastTableViewController.swift */,
 				74031AF01DCC89A300000BB1 /* HistoryTableViewController.swift */,
@@ -226,15 +204,6 @@
 			path = ylepodcastUITests;
 			sourceTree = "<group>";
 		};
-		8690BF981DE5B68B0046FE2E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8690BF9D1DE5B68B0046FE2E /* CryptoSwift.framework */,
-				8690BF9F1DE5B68B0046FE2E /* Tests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -250,7 +219,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				8690BFA31DE5B70E0046FE2E /* PBXTargetDependency */,
 			);
 			name = ylepodcast;
 			productName = ylepodcast;
@@ -333,12 +301,6 @@
 			mainGroup = 13A5D3391DC3389400CEB0D4;
 			productRefGroup = 13A5D3431DC3389400CEB0D4 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 8690BF981DE5B68B0046FE2E /* Products */;
-					ProjectRef = 8690BF971DE5B68B0046FE2E /* CryptoSwift.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				13A5D3411DC3389400CEB0D4 /* ylepodcast */,
@@ -347,23 +309,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		8690BF9D1DE5B68B0046FE2E /* CryptoSwift.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CryptoSwift.framework;
-			remoteRef = 8690BF9C1DE5B68B0046FE2E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8690BF9F1DE5B68B0046FE2E /* Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Tests.xctest;
-			remoteRef = 8690BF9E1DE5B68B0046FE2E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		13A5D3401DC3389400CEB0D4 /* Resources */ = {
@@ -449,11 +394,6 @@
 			isa = PBXTargetDependency;
 			target = 13A5D3411DC3389400CEB0D4 /* ylepodcast */;
 			targetProxy = 13A5D3621DC3389500CEB0D4 /* PBXContainerItemProxy */;
-		};
-		8690BFA31DE5B70E0046FE2E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CryptoSwift;
-			targetProxy = 8690BFA21DE5B70E0046FE2E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
