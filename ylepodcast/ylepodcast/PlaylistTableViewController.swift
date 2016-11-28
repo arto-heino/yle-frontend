@@ -11,28 +11,12 @@ import CoreData
 
 class PlaylistTableViewController: UITableViewController {
     
+    var Playlist = CoreDataStack()
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
     }
-    
-    static let moc = DataController().managedObjectContext
-    static private var playlistsFromCoreData = [Playlist]()
-    
-    static func addPlaylistsToCoreData(playlist: Playlist) {
-        let entity = NSEntityDescription.insertNewObject(forEntityName: "Playlist", into: moc) as! Playlist
-        
-        entity.setValue(playlist.playlistID, forKey: "playlistID")
-        entity.setValue(playlist.playlistName, forKey: "playlistName")
-        entity.setValue(playlist.playlistUserID, forKey: "playlistUserID")
-    
-        do {
-            try moc.save()
-        } catch {
-            fatalError("Adding podcast failed")
-        }
-    }
-
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -44,25 +28,6 @@ class PlaylistTableViewController: UITableViewController {
         let preferences = UserDefaults.standard
         var playlistsUser = [String]()
         
-        static func fetchPlaylistsFromCoreData() -> [Playlist] {
-            // Return cached value if available
-            if playlistsFromCoreData.count > 0 {
-                return playlistsFromCoreData
-                // Otherwise read through CoreData
-            } else {
-                do {
-                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Playlist")
-                    let fetchResults = try moc.fetch(fetchRequest) as! [Playlist]
-                    
-                    playlistsFromCoreData = fetchResults
-                    return playlistsFromCoreData
-                } catch {
-                    fatalError("Failed to fetch playlists from CoreData")
-                }
-            }
-        }
-
-
         func getSectionsFromData() -> [Section] {
             var sectionsArray = [Section]()
             let token: String = self.preferences.object(forKey: "userKey") as? String ?? ""
@@ -71,7 +36,12 @@ class PlaylistTableViewController: UITableViewController {
             
             getPlaylist.httpGetFromBackend(url: url, token: token) { success in
                 for (_, event) in (success.enumerated()) {
-                    self.playlistsUser.append(event["playlist_name"]!)
+                    //self.playlistsUser.append(event["playlist_name"]!)
+                    
+                    //let playlist = Playlist(context: context)
+                    //playlist.playlistName = event["playlist_name"]!
+                    //playlist.playlistID = event["id"] as Int64
+                    //playlist.playlistUserID = event["user_id"] as Int64
                 }
             }
 

@@ -12,6 +12,7 @@
 		133B46D81DE6E04900607E4C /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 133B46D71DE6E04900607E4C /* CryptoSwift.framework */; };
 		133B46D91DE6E08D00607E4C /* CryptoSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 133B46D71DE6E04900607E4C /* CryptoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		135625C31DE77B0F000C2A5E /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135625C21DE77B0F000C2A5E /* Playlist.swift */; };
+		135625C51DEC2C23000C2A5E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135625C41DEC2C23000C2A5E /* CoreDataStack.swift */; };
 		13A5D3461DC3389400CEB0D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */; };
 		13A5D3481DC3389400CEB0D4 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3471DC3389400CEB0D4 /* TabBarController.swift */; };
 		13A5D34B1DC3389400CEB0D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A5D3491DC3389400CEB0D4 /* Main.storyboard */; };
@@ -75,6 +76,7 @@
 		1317D3701DE5B2620087EF98 /* HttpPosts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpPosts.swift; sourceTree = "<group>"; };
 		133B46D71DE6E04900607E4C /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
 		135625C21DE77B0F000C2A5E /* Playlist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
+		135625C41DEC2C23000C2A5E /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		13A5D3421DC3389400CEB0D4 /* ylepodcast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ylepodcast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13A5D3471DC3389400CEB0D4 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */,
+				135625C41DEC2C23000C2A5E /* CoreDataStack.swift */,
 				13A5D3471DC3389400CEB0D4 /* TabBarController.swift */,
 				74D312531DC77504002C1E3C /* PodcastTableViewController.swift */,
 				74031AF01DCC89A300000BB1 /* HistoryTableViewController.swift */,
@@ -276,7 +279,7 @@
 				TargetAttributes = {
 					13A5D3411DC3389400CEB0D4 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 5D28U3497A;
+						DevelopmentTeam = 4CLR29Q9M7;
 						ProvisioningStyle = Automatic;
 					};
 					13A5D3551DC3389400CEB0D4 = {
@@ -363,6 +366,7 @@
 				740CC9361DE59D59006EBA6E /* PlaylistTableViewCell.swift in Sources */,
 				7409F2E61DD3B26C007E3F4A /* SearchItemTableViewCell.swift in Sources */,
 				8669E0E21DD9E5FA00B427CF /* AudioController.swift in Sources */,
+				135625C51DEC2C23000C2A5E /* CoreDataStack.swift in Sources */,
 				135625C31DE77B0F000C2A5E /* Playlist.swift in Sources */,
 				749DC4111DE1C3B70004BDDA /* DataController.swift in Sources */,
 				7416C1411DDC923E0029E6EC /* LoginViewController.swift in Sources */,
@@ -521,14 +525,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 5D28U3497A;
+				DEVELOPMENT_TEAM = 4CLR29Q9M7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ylepodcast/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast2;
+				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast2222;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -539,14 +543,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 5D28U3497A;
+				DEVELOPMENT_TEAM = 4CLR29Q9M7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ylepodcast/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast2;
+				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast2222;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

@@ -24,32 +24,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var player: AVPlayer?
     var audioController: AudioController?
     
-    static var history = [Podcast]()
-    //Add to COredata
-    static let moc = DataController().managedObjectContext
-    static private var podcastsFromCoreData = [Podcast]()
+    lazy var coreDataStack = CoreDataStack()
     
     static func addPodcastToCoreData(podcast: Podcast) {
-        let entity = NSEntityDescription.insertNewObject(forEntityName: "Podcast", into: moc) as! Podcast
+        //let entity = NSEntityDescription.insertNewObject(forEntityName: "Podcast", into: moc) as! Podcast
+        let core = CoreDataStack.init()
+        let entity = Podcast(context: context)
+        entity.name = podcast.podcastCollection
         
-        entity.setValue(podcast.podcastCollection, forKey: "podcastCollection")
-        entity.setValue(podcast.podcastDescription, forKey: "podcastDescription")
-        entity.setValue(podcast.podcastTags, forKey: "podcastTags")
-        entity.setValue(podcast.podcastCollectionID, forKey: "podcastCollectionID")
-        entity.setValue(podcast.podcastDuration, forKey: "podcastDuration")
-        entity.setValue(podcast.podcastID, forKey: "podcastID")
-        entity.setValue(podcast.podcastImageURL, forKey: "podcastImageURL")
-        entity.setValue(podcast.podcastURL, forKey: "podcastURL")
-        entity.setValue(podcast.podcastTitle, forKey: "podcastTitle")
+        //entity.setValue(podcast.podcastCollection, forKey: "podcastCollection")
+        //entity.setValue(podcast.podcastDescription, forKey: "podcastDescription")
+        //entity.setValue(podcast.podcastTags, forKey: "podcastTags")
+        //entity.setValue(podcast.podcastCollectionID, forKey: "podcastCollectionID")
+        //entity.setValue(podcast.podcastDuration, forKey: "podcastDuration")
+        //entity.setValue(podcast.podcastID, forKey: "podcastID")
+        //entity.setValue(podcast.podcastImageURL, forKey: "podcastImageURL")
+        //entity.setValue(podcast.podcastURL, forKey: "podcastURL")
+        //entity.setValue(podcast.podcastTitle, forKey: "podcastTitle")
         
-        do {
-            try moc.save()
-        } catch {
-            fatalError("Adding podcast failed")
-        }
+        core.saveContext()
+
     }
     //fetches data from Core
-    static func fetchPodcastsFromCoreData() -> [Podcast] {
+    /*static func fetchPodcastsFromCoreData() -> [Podcast] {
         // Return cached value if available
         if podcastsFromCoreData.count > 0 {
             return podcastsFromCoreData
@@ -66,6 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+ */
     
     //shows splashscreen
     
@@ -129,52 +127,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    // MARK: - Core Data stack
-    
-    lazy var persistentContainer: NSPersistentContainer = {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-         */
-        let container = NSPersistentContainer(name: "CoredataToYle")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        return container
-    }()
-    
-    // MARK: - Core Data Saving support
-    
-    func saveContext () {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
-    }
-
-
     func setupPlayer(aController: AudioController, pUrl: String, pName: String) {
         podcastUrl = pUrl
         podcastName = pName
