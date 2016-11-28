@@ -9,7 +9,6 @@
 import UIKit
 import AVFoundation
 import MediaPlayer
-import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,47 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var playerItem: AVPlayerItem?
     var player: AVPlayer?
     var audioController: AudioController?
-    
-    lazy var coreDataStack = CoreDataStack()
-    
-    static func addPodcastToCoreData(podcast: Podcast) {
-        //let entity = NSEntityDescription.insertNewObject(forEntityName: "Podcast", into: moc) as! Podcast
-        let core = CoreDataStack.init()
-        let entity = Podcast(context: context)
-        entity.name = podcast.podcastCollection
-        
-        //entity.setValue(podcast.podcastCollection, forKey: "podcastCollection")
-        //entity.setValue(podcast.podcastDescription, forKey: "podcastDescription")
-        //entity.setValue(podcast.podcastTags, forKey: "podcastTags")
-        //entity.setValue(podcast.podcastCollectionID, forKey: "podcastCollectionID")
-        //entity.setValue(podcast.podcastDuration, forKey: "podcastDuration")
-        //entity.setValue(podcast.podcastID, forKey: "podcastID")
-        //entity.setValue(podcast.podcastImageURL, forKey: "podcastImageURL")
-        //entity.setValue(podcast.podcastURL, forKey: "podcastURL")
-        //entity.setValue(podcast.podcastTitle, forKey: "podcastTitle")
-        
-        core.saveContext()
-
-    }
-    //fetches data from Core
-    /*static func fetchPodcastsFromCoreData() -> [Podcast] {
-        // Return cached value if available
-        if podcastsFromCoreData.count > 0 {
-            return podcastsFromCoreData
-        // Otherwise read through CoreData
-        } else {
-            do {
-                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Podcast")
-                let fetchResults = try moc.fetch(fetchRequest) as! [Podcast]
-                
-                podcastsFromCoreData = fetchResults
-                return podcastsFromCoreData
-            } catch {
-                fatalError("Failed to fetch podcasts from CoreData")
-            }
-        }
-    }
- */
     
     //shows splashscreen
     

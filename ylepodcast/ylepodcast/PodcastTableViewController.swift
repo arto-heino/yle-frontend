@@ -17,17 +17,23 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.podcasts = [Podcast]()
+        let context = DatabaseController.getContext()
         let dataParser = HttpRequesting()
         
-        // FIXME: apply better logic here, now nothing is fetched from the server if CoreData at least one item
-        if AppDelegate.fetchPodcastsFromCoreData().count == 0 {
-            // Set and Get the podcasts to observer
-           dataParser.httpGetPodCasts(parserObserver: self)
-        } else {
-          podcasts = AppDelegate.fetchPodcastsFromCoreData()
-    }
-        
+        do{
+            let result = try context.fetch(Podcast.fetchRequest())
+            let podcast = result as! [Podcast]
+            
+            if(podcast.count == 0){
+                dataParser.httpGetPodCasts(parserObserver: self)
+            }else{
+                podcasts = podcast
+
+            }
+        }catch{
+            print("Ei löydä modelia")
+        }
+    
     }
 
     // Run after the podcasts have been parsed in HttpRequesting
@@ -66,8 +72,8 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
         let cellIdentifier = "PodcastCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PodcastTableViewCell
         
-        cell.collectionLabel.text = self.podcasts[indexPath.row].podcastCollection?["fi"] as? String ?? "Ei otsikkoa saatavilla"
-        cell.descriptionLabel.text = self.podcasts[indexPath.row].podcastDescription?["fi"] as? String ?? "Ei kuvausta saatavilla"
+        cell.collectionLabel.text = self.podcasts[indexPath.row].podcastCollection
+        cell.descriptionLabel.text = self.podcasts[indexPath.row].podcastDescription
         cell.durationLabel.text = self.podcasts[indexPath.row].podcastDuration
         
         return cell
@@ -75,7 +81,7 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = tableView.indexPathForSelectedRow?.row
-        name = self.podcasts[index!].podcastTitle?["fi"]! as? String ?? ""
+        name = (self.podcasts[index!].podcastTitle as! String?)!
         url = self.podcasts[index!].podcastURL!
         print("URL: " + url)
         performSegue(withIdentifier: "AudioSegue1", sender: Any?.self)

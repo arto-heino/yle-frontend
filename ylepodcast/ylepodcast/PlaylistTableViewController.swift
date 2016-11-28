@@ -10,9 +10,7 @@ import UIKit
 import CoreData
 
 class PlaylistTableViewController: UITableViewController {
-    
-    var Playlist = CoreDataStack()
-    
+        
     override func viewDidLoad() {
         
         super.viewDidLoad()

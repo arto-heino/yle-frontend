@@ -81,6 +81,7 @@ class HttpRequesting {
     func httpGetPodCasts (parserObserver: DataParserObserver) {
         let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"80", "type": "radiocontent", "contentprotection": "22-0,22-1" ]
         
+        
         Alamofire.request("https://external.api.yle.fi/v1/programs/items.json", method: .get, parameters:parameters2, encoding: URLEncoding.default)
             .responseJSON{response in
                 if let json = response.result.value {
@@ -88,9 +89,9 @@ class HttpRequesting {
                         if let details = array["data"] as? [[String:Any]] {
                             for (_, item) in details.enumerated() {
                                 let tags = item["tags"] as? [String:Any] 
-                                let cName = item["title"] as? [String:Any]
+                                let cName = item["title"] as! [String:Any]
                                 let duration = item["duration"] as? String ?? ""
-                                let description = item["description"] as? [String:Any]
+                                let description = item["description"] as! [String:Any]
                                 let photo = item["defaultImage"] as? String ?? ""
                                 let pUrl = item["Download link"] as? String ?? ""
                                 let pubEv = item["publicationEvent"] as? [[String:Any]]
@@ -114,22 +115,31 @@ class HttpRequesting {
                                             }
                                     }
                                 }
+                                let context = DatabaseController.getContext()
+                                let podcast = Podcast(context: context)
                                 
-                                let podcast = NSEntityDescription.insertNewObject(forEntityName: "Podcast", into: AppDelegate.moc) as! Podcast
-
-                                podcast.podcastCollection = cName!
-                                podcast.podcastImageURL = photo
-                                podcast.podcastDescription = description
+                                podcast.podcastCollection = cName["fi"] as! String?
+                                podcast.podcastDescription = description["fi"] as! String?
                                 podcast.podcastDuration = duration
-                                podcast.podcastTags = tags
-                                podcast.podcastURL =  pUrl
+                            
+                                let modifiedID = program_id.replacingOccurrences(of: "-", with: "") as Int64
                                 
-                                AppDelegate.addPodcastToCoreData(podcast: podcast)
+                                podcast.podcastID = modifiedID
+                                
+                                DatabaseController.saveContext()
                     
                             }
                         }
-                     
-                        parserObserver.podcastsParsed(podcasts: AppDelegate.fetchPodcastsFromCoreData())
+                        do{
+                            let context = DatabaseController.getContext()
+                            let result = try context.fetch(Podcast.fetchRequest())
+                            let podcast = result as! [Podcast]
+                            
+                            parserObserver.podcastsParsed(podcasts: podcast)
+                            
+                        }catch{
+                            print("Error")
+                        }
                     }
                 }else{
                     print("Ei mene if lauseen läpi")

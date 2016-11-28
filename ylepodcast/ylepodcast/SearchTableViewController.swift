@@ -25,6 +25,25 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
         searchController.dimsBackgroundDuringPresentation = false
         tableView.tableHeaderView = searchController.searchBar
         
+        let context = DatabaseController.getContext()
+        let dataParser = HttpRequesting()
+        
+        do{
+            let result = try context.fetch(Podcast.fetchRequest())
+            let podcast = result as! [Podcast]
+            
+            // FIXME: apply better logic here, now nothing is fetched from the server if CoreData at least one item
+            if podcast.count == 0 {
+                // Set and Get the podcasts to observer
+                dataParser.httpGetPodCasts(parserObserver: self as! DataParserObserver)
+            } else {
+                allPods = podcast
+            }
+        }catch{
+            print("Error")
+        }
+
+        
     }
     
     //Updates the search results
@@ -40,13 +59,13 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
     //filters the whole data through
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         /// keyword in collections
-        let collectionSearchResults = AppDelegate.fetchPodcastsFromCoreData().filter { podcast in
-            return (podcast.podcastCollection?["fi"] as? String ?? "Ei titleä").lowercased().contains(searchText.lowercased())
-        }
+        //let collectionSearchResults = allPods.filter { podcast in
+            //return ((podcast?.podcastCollection as! String?).lowercased().contains(searchText.lowercased())
+        //}
         // keyword in descriptions
-        let descriptionSearchResults = AppDelegate.fetchPodcastsFromCoreData().filter { podcast in
-            return (podcast.podcastDescription?["fi"] as? String ?? "Ei kuvausta").lowercased().contains(searchText.lowercased())
-        }
+        //let descriptionSearchResults = allPods.filter { podcast in
+            //return (podcast?.podcastDescription?["fi"] as? String ?? "Ei kuvausta").lowercased().contains(searchText.lowercased())
+       // }
         // keyword int tags
      //  let tagsSearchResults = AppDelegate.fetchPodcastsFromCoreData().filter { podcast in
           //  for tag in podcast.podcastTags! {
@@ -60,11 +79,11 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
         
         // first set that has all the results
         
-        let set1:Set<Podcast> = Set(collectionSearchResults)
+        //let set1:Set<Podcast> = Set(collectionSearchResults)
         
         // set that has also descriptions and tags
         
-        searchResults = Array(set1.union(descriptionSearchResults))
+        //searchResults = Array(set1.union(descriptionSearchResults))
         
         //.union(tagsSearchResults))
 
@@ -107,9 +126,8 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
 
         let podcast = searchResults[indexPath.row]
         
-        cell.collectionLabel.text = podcast?.podcastCollection?["fi"] as? String ?? "Ei titleä"
-        cell.descriptionLabel.text = podcast?.podcastDescription?["fi"] as? String ?? "Ei kuvausta"
-
+        cell.collectionLabel.text = podcast?.podcastCollection as! String?
+        cell.descriptionLabel.text = podcast?.podcastDescription as! String?
         return cell
     }
 
