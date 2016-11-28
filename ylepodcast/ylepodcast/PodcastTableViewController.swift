@@ -75,6 +75,7 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
         cell.collectionLabel.text = self.podcasts[indexPath.row].podcastCollection
         cell.descriptionLabel.text = self.podcasts[indexPath.row].podcastDescription
         cell.durationLabel.text = self.podcasts[indexPath.row].podcastDuration
+        print(self.podcasts[indexPath.row].podcastID)
         
         return cell
     }

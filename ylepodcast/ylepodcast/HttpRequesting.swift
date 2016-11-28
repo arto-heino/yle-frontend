@@ -122,9 +122,10 @@ class HttpRequesting {
                                 podcast.podcastDescription = description["fi"] as! String?
                                 podcast.podcastDuration = duration
                             
-                                let modifiedID = program_id.replacingOccurrences(of: "-", with: "") as Int64
+                                let modifiedID = program_id.replacingOccurrences(of: "-", with: "")
+                                let podcastID = Int64(modifiedID)
                                 
-                                podcast.podcastID = modifiedID
+                                podcast.podcastID = podcastID!
                                 
                                 DatabaseController.saveContext()
                     
