@@ -8,17 +8,18 @@
 
 import UIKit
 
-class PodcastTableViewController: UITableViewController, DataParserObserver {
+class PodcastTableViewController: UITableViewController, DataParserObserver, UrlDecryptObserver {
     
     var podcasts = [Podcast]()
     var url: String = ""
     var name: String = ""
+    //var dataParser: HttpRequesting? = nil
+    let dataParser = HttpRequesting()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let context = DatabaseController.getContext()
-        let dataParser = HttpRequesting()
         
         do{
             let result = try context.fetch(Podcast.fetchRequest())
@@ -45,6 +46,11 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
             self.tableView.reloadData()
             return
         }
+    }
+    
+    func urlDecrypted(url: String) {
+        self.url = url
+        performSegue(withIdentifier: "AudioSegue1", sender: Any?.self)
     }
 
     
@@ -75,25 +81,23 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
         cell.collectionLabel.text = self.podcasts[indexPath.row].podcastCollection
         cell.descriptionLabel.text = self.podcasts[indexPath.row].podcastDescription
         cell.durationLabel.text = self.podcasts[indexPath.row].podcastDuration
-        print(self.podcasts[indexPath.row].podcastID)
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = tableView.indexPathForSelectedRow?.row
-        name = (self.podcasts[index!].podcastTitle as! String?)!
-        url = self.podcasts[index!].podcastURL!
-        print("URL: " + url)
-        performSegue(withIdentifier: "AudioSegue1", sender: Any?.self)
+        name = self.podcasts[index!].podcastCollection!
+        print(name)
+        dataParser.getAndDecryptUrl(podcast: podcasts[index!], urlDecryptObserver: self)
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        if segue.identifier == "AudioSegue1" {
-            let destination = segue.destination as! AudioController
-            destination.podcastUrl = url
-            destination.podcastName = name
-        }
+            if segue.identifier == "AudioSegue1" {
+                let destination = segue.destination as! AudioController
+                destination.podcastUrl = url
+                destination.podcastName = name
+            }
     }
     
     //MARK: PROPERTIES

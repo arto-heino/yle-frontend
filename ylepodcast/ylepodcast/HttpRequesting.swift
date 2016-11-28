@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import UIKit
 import CoreData
+import CryptoSwift
 
 class HttpRequesting {
     
@@ -79,7 +80,9 @@ class HttpRequesting {
     
     // Gets podcast from the server using apikey and category
     func httpGetPodCasts (parserObserver: DataParserObserver) {
-        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"80", "type": "radiocontent", "contentprotection": "22-0,22-1" ]
+        var podcastArray: [[String : String?]] = []
+        
+        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"5", "type": "radiocontent", "contentprotection": "22-0,22-1" ]
         
         
         Alamofire.request("https://external.api.yle.fi/v1/programs/items.json", method: .get, parameters:parameters2, encoding: URLEncoding.default)
@@ -89,11 +92,11 @@ class HttpRequesting {
                         if let details = array["data"] as? [[String:Any]] {
                             for (_, item) in details.enumerated() {
                                 let tags = item["tags"] as? [String:Any] 
-                                let cName = item["title"] as! [String:Any]
+                                let title = item["title"] as! [String:Any]
                                 let duration = item["duration"] as? String ?? ""
                                 let description = item["description"] as! [String:Any]
                                 let photo = item["defaultImage"] as? String ?? ""
-                                let pUrl = item["Download link"] as? String ?? ""
+                                //let pUrl = item["Download link"] as? String ?? ""
                                 let pubEv = item["publicationEvent"] as? [[String:Any]]
                                 let program_id = item["id"] as? String ?? ""
                                 for (_, event) in (pubEv?.enumerated())! {
@@ -101,55 +104,115 @@ class HttpRequesting {
                                     let type = event["type"] as? String ?? ""
                                     if status == "currently" && type == "OnDemandPublication" {
                                         let media = event["media"] as? [String:Any]
-                                        let media_id = media?["id"]
+                                        let media_id = media?["id"] as? String ?? ""
                                         
-                                        let params: Parameters = ["program_id": program_id, "media_id": media_id!, "protocol": "PMD", "app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f"]
-                                        print(params)
-                                        Alamofire.request("https://external.api.yle.fi/v1/media/playouts.json", method: .get, parameters:params, encoding: URLEncoding.default).responseJSON{response in
-                                            print(response.result)
-                                                if let json = response.result.value {
-                                                    print(json)
-                                                } else {
-                                                    print("Shit happens")
-                                                }
-                                            }
+                                        var podcastItem = [String : String?]()
+                                        podcastItem["podcastTitle"] = title["fi"] as! String?
+                                        podcastItem["podcastMediaID"] = media_id
+                                        podcastItem["podcastID"] = program_id
+                                        podcastItem["podcastDescription"] = description["fi"] as! String?
+                                        podcastItem["podcastDuration"] = duration
+                                        
+                                        podcastArray.append(podcastItem)
+                                        
                                     }
                                 }
-                                let context = DatabaseController.getContext()
-                                let podcast = Podcast(context: context)
-                                
-                                podcast.podcastCollection = cName["fi"] as! String?
-                                podcast.podcastDescription = description["fi"] as! String?
-                                podcast.podcastDuration = duration
-                            
-                                let modifiedID = program_id.replacingOccurrences(of: "-", with: "")
-                                let podcastID = Int64(modifiedID)
-                                
-                                podcast.podcastID = podcastID!
-                                
-                                DatabaseController.saveContext()
-                    
+
                             }
                         }
-                        do{
-                            let context = DatabaseController.getContext()
-                            let result = try context.fetch(Podcast.fetchRequest())
-                            let podcast = result as! [Podcast]
-                            
-                            parserObserver.podcastsParsed(podcasts: podcast)
-                            
-                        }catch{
-                            print("Error")
-                        }
                     }
-                }else{
+                    
+                    self.checkPodcastAvailability(podcastArray: podcastArray, parserObserver: parserObserver)
+                    
+                } else{
                     print("Ei mene if lauseen läpi")
                 }
         }
     }
     
-    func httpGetFromBackend (url:String!, token: String!, completion:@escaping ([[String:String]]) -> Void) {
-        
+    func checkPodcastAvailability(podcastArray: Array<[String : String?]>, parserObserver: DataParserObserver) {
+        for podcastItem in podcastArray {
+            let params: Parameters = ["program_id": podcastItem["podcastID"]!!, "media_id": podcastItem["podcastMediaID"]!!, "protocol": "PMD", "app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f"]
+            print(params)
+            Alamofire.request("https://external.api.yle.fi/v1/media/playouts.json", method: .get, parameters:params, encoding: URLEncoding.default).responseJSON{response in
+                print(response.result)
+                if response.result.value != nil {
+                let context = DatabaseController.getContext()
+                let podcast = Podcast(context: context)
+                
+                podcast.podcastCollection = podcastItem["podcastTitle"]!!
+                podcast.podcastDescription = podcastItem["podcastDescription"]!!
+                podcast.podcastDuration = podcastItem["podcastDuration"]!!
+                podcast.podcastMediaID = podcastItem["podcastMediaID"]!!
+                
+                let modifiedID = podcastItem["podcastID"]??.replacingOccurrences(of: "-", with: "")
+                let podcastID = Int64(modifiedID!)
+                
+                podcast.podcastID = podcastID!
+                
+                DatabaseController.saveContext()
+                
+                } else {
+                    print("Shit happens")
+                }
+                do{
+                let context = DatabaseController.getContext()
+                let result = try context.fetch(Podcast.fetchRequest())
+                let podcast = result as! [Podcast]
+                
+                parserObserver.podcastsParsed(podcasts: podcast)
+                
+                }catch{
+                print("Error")
+                }
+            }
+        }
+    }
+    
+    func getAndDecryptUrl(podcast: Podcast, urlDecryptObserver: UrlDecryptObserver) {
+        var dec_url = ""
+        print("JEEJEE")
+        var podcastID:String {
+            return "\(podcast.podcastID)"
+        }
+        let substr1 = podcastID.substring(to: podcastID.index(after: podcastID.startIndex)).appending("-")
+        let substr2 = podcastID.substring(from: podcastID.index(after: podcastID.startIndex))
+        let programID = substr1 + substr2
+        let params: Parameters = ["program_id": programID, "media_id": podcast.podcastMediaID!, "protocol": "PMD", "app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f"]
+        print(params)
+        Alamofire.request("https://external.api.yle.fi/v1/media/playouts.json", method: .get, parameters:params, encoding: URLEncoding.default).responseJSON{response in
+            if let json = response.result.value {
+                if let array = json as? [String:Any]{
+                    if let details = array["data"] as? [[String:Any]] {
+                        let item = details[0]
+                        let enc_url = item["url"] as? String ?? ""
+                        let decodedData = Data(base64Encoded: enc_url, options:NSData.Base64DecodingOptions(rawValue: 0))
+                        let decodedArray = [UInt8](decodedData!)
+                        //print("decoded: ")
+                        //print(decodedArray)
+                        
+                        let iv = Array(decodedArray[0 ... 15])
+                        let message = Array(decodedArray[16 ..< (decodedArray.count)])
+                        //print("IV: ")
+                        //print(iv)
+                        //print("message: ")
+                        //print(message)
+                        let key = "defaultCryptKey"
+                        let keyData = key.data(using: .utf8)!
+                        let decodedKeyArray = [UInt8](keyData)
+                        
+                        dec_url = self.aesDecrypt(key: decodedKeyArray, iv: iv, message: message)
+                            //print("dec_url: " + dec_url)
+                    }
+                }
+                urlDecryptObserver.urlDecrypted(url: dec_url)
+            } else {
+                print("Shit happens")
+            }
+        }
+    }
+    
+    func httpGetFromBackend (url:String!, token: String!, completion:@escaping ([Any]) -> Void) {
         let headers: HTTPHeaders = [
             "x-access-token": token
         ]
@@ -175,4 +238,25 @@ class HttpRequesting {
         }
     }
 
+    func base64ToByteArray(base64String: String) -> [UInt8]? {
+        if let nsdata = NSData(base64Encoded: base64String, options: []) {
+            var bytes = [UInt8](repeating: 0, count: nsdata.length)
+            nsdata.getBytes(&bytes, length: bytes.count)
+            return bytes
+        }
+        return nil // Invalid input
+    }
+    
+    
+    func aesDecrypt(key: Array<UInt8>, iv: Array<UInt8>, message: Array<UInt8>) -> String {
+        var result: NSString = ""
+        do {
+            let decrypted:[UInt8] = try AES(key: key, iv: iv, blockMode: .CBC, padding: PKCS7()).decrypt(message)
+            let decData = NSData(bytes: decrypted, length: Int(decrypted.count))
+            result = NSString(data: decData as Data, encoding: String.Encoding.utf8.rawValue)!
+        } catch {
+            print(error)
+        }
+        return String(result)
+    }
 }

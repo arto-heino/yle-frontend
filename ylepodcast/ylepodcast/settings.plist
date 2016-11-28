@@ -15,6 +15,6 @@
 	<key>usersBackendPassword</key>
 	<string>defaultPassword</string>
 	<key>podcastDecryptKey</key>
-	<string>defaultDecryptKey</string>
+	<string>default</string>
 </dict>
 </plist>
