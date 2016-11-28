@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         entity.setValue(podcast.podcastDuration, forKey: "podcastDuration")
         entity.setValue(podcast.podcastID, forKey: "podcastID")
         entity.setValue(podcast.podcastImageURL, forKey: "podcastImageURL")
-        entity.setValue(podcast.podcastURL, forKey: "podcastURL")
+        entity.setValue(podcast.podcastMediaID, forKey: "podcastMediaID")
         entity.setValue(podcast.podcastTitle, forKey: "podcastTitle")
         
         do {

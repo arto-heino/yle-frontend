@@ -8,25 +8,26 @@
 
 import UIKit
 
-class PodcastTableViewController: UITableViewController, DataParserObserver {
+class PodcastTableViewController: UITableViewController, DataParserObserver, UrlDecryptObserver {
     
     var podcasts = [Podcast]()
     var url: String = ""
     var name: String = ""
+    var dataParser: HttpRequesting? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.podcasts = [Podcast]()
-        let dataParser = HttpRequesting()
+        dataParser = HttpRequesting()
         
         // FIXME: apply better logic here, now nothing is fetched from the server if CoreData at least one item
         if AppDelegate.fetchPodcastsFromCoreData().count == 0 {
             // Set and Get the podcasts to observer
-           dataParser.httpGetPodCasts(parserObserver: self)
+           dataParser?.httpGetPodCasts(parserObserver: self)
         } else {
           podcasts = AppDelegate.fetchPodcastsFromCoreData()
-    }
+        }
         
     }
 
@@ -39,6 +40,11 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
             self.tableView.reloadData()
             return
         }
+    }
+    
+    func urlDecrypted(url: String) {
+        self.url = url
+        performSegue(withIdentifier: "AudioSegue1", sender: Any?.self)
     }
 
     
@@ -76,17 +82,18 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = tableView.indexPathForSelectedRow?.row
         name = self.podcasts[index!].podcastTitle?["fi"]! as? String ?? ""
-        url = self.podcasts[index!].podcastURL!
-        print("URL: " + url)
-        performSegue(withIdentifier: "AudioSegue1", sender: Any?.self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        if segue.identifier == "AudioSegue1" {
-            let destination = segue.destination as! AudioController
-            destination.podcastUrl = url
-            destination.podcastName = name
+        dataParser?.getAndDecryptUrl(podcast: podcasts[index!], urlDecryptObserver: self)
+        if url != "" {
+            
         }
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+            if segue.identifier == "AudioSegue1" {
+                let destination = segue.destination as! AudioController
+                destination.podcastUrl = url
+                destination.podcastName = name
+            }
     }
     
     //MARK: PROPERTIES

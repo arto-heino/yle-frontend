@@ -16,8 +16,8 @@ class Podcast: NSManagedObject {
     @NSManaged public var podcastCollection: [String: Any]?
     @NSManaged public var podcastDescription: [String: Any]?
     @NSManaged public var podcastTags: [String: Any]?
-    @NSManaged public var podcastID: Int64
-    @NSManaged public var podcastURL: String?
+    @NSManaged public var podcastID: String?
+    @NSManaged public var podcastMediaID: String?
     @NSManaged public var podcastImageURL: String?
     @NSManaged public var podcastCollectionID: Int64
     @NSManaged public var podcastDuration: String?
