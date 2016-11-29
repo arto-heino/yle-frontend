@@ -3,6 +3,7 @@
     <entity name="Playlist" representedClassName="Playlist" syncable="YES" codeGenerationType="class">
         <attribute name="playlistID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="playlistName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="playlistTypeName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="playlistUserID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="podcast" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Podcast" inverseName="playlists" inverseEntity="Podcast" syncable="YES"/>
     </entity>
@@ -20,7 +21,7 @@
         <relationship name="playlists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Playlist" inverseName="podcast" inverseEntity="Playlist" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Playlist" positionX="198" positionY="-45" width="128" height="105"/>
+        <element name="Playlist" positionX="198" positionY="-45" width="128" height="120"/>
         <element name="Podcast" positionX="-63" positionY="-18" width="128" height="210"/>
     </elements>
 </model>

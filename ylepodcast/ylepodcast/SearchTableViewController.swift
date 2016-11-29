@@ -35,7 +35,7 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
             // FIXME: apply better logic here, now nothing is fetched from the server if CoreData at least one item
             if podcast.count == 0 {
                 // Set and Get the podcasts to observer
-                dataParser.httpGetPodCasts(parserObserver: self as! DataParserObserver)
+                dataParser.httpGetPodCasts()
             } else {
                 allPods = podcast
             }

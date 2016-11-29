@@ -22,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var playerItem: AVPlayerItem?
     var player: AVPlayer?
     var audioController: AudioController?
+    var preferences = UserDefaults.standard
+    let userLoad = UserLoads()
+    let podcasts = HttpRequesting()
     
     //shows splashscreen
     
@@ -32,15 +35,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            print("AVAudioSession Category Playback OK")
             do {
                 try AVAudioSession.sharedInstance().setActive(true)
-                print("AVAudioSession is Active")
             } catch let error as NSError {
                 print(error.localizedDescription)
             }
         } catch let error as NSError {
             print(error.localizedDescription)
+        }
+        
+        podcasts.httpGetPodCasts()
+        
+        let token: String = preferences.object(forKey: "userKey") as? String ?? ""
+        if(token != ""){
+            //Should load all login required material
+            userLoad.getPlaylists()
         }
         
         self.window = UIWindow(frame: UIScreen.main.bounds)

@@ -79,10 +79,10 @@ class HttpRequesting {
     }
     
     // Gets podcast from the server using apikey and category
-    func httpGetPodCasts (parserObserver: DataParserObserver) {
+    func httpGetPodCasts () {
         var podcastArray: [[String : String?]] = []
         
-        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"5", "type": "radiocontent", "contentprotection": "22-0,22-1" ]
+        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"50", "type": "radiocontent", "contentprotection": "22-0,22-1" ]
         
         
         Alamofire.request("https://external.api.yle.fi/v1/programs/items.json", method: .get, parameters:parameters2, encoding: URLEncoding.default)
@@ -122,7 +122,7 @@ class HttpRequesting {
                         }
                     }
                     
-                    self.checkPodcastAvailability(podcastArray: podcastArray, parserObserver: parserObserver)
+                    self.checkPodcastAvailability(podcastArray: podcastArray)
                     
                 } else{
                     print("Ei mene if lauseen läpi")
@@ -130,20 +130,18 @@ class HttpRequesting {
         }
     }
     
-    func checkPodcastAvailability(podcastArray: Array<[String : String?]>, parserObserver: DataParserObserver) {
+    func checkPodcastAvailability(podcastArray: Array<[String : String?]>) {
         for podcastItem in podcastArray {
             let params: Parameters = ["program_id": podcastItem["podcastID"]!!, "media_id": podcastItem["podcastMediaID"]!!, "protocol": "PMD", "app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f"]
-            print(params)
             Alamofire.request("https://external.api.yle.fi/v1/media/playouts.json", method: .get, parameters:params, encoding: URLEncoding.default).responseJSON{response in
-                print(response.result)
                 if response.result.value != nil {
                 let context = DatabaseController.getContext()
                 let podcast = Podcast(context: context)
                 
-                podcast.podcastCollection = podcastItem["podcastTitle"]!!
-                podcast.podcastDescription = podcastItem["podcastDescription"]!!
-                podcast.podcastDuration = podcastItem["podcastDuration"]!!
-                podcast.podcastMediaID = podcastItem["podcastMediaID"]!!
+                podcast.podcastCollection = podcastItem["podcastTitle"]! as String?
+                podcast.podcastDescription = podcastItem["podcastDescription"]! as String?
+                podcast.podcastDuration = podcastItem["podcastDuration"]! as String?
+                podcast.podcastMediaID = podcastItem["podcastMediaID"]! as String?
                 
                 let modifiedID = podcastItem["podcastID"]??.replacingOccurrences(of: "-", with: "")
                 let podcastID = Int64(modifiedID!)
@@ -155,23 +153,12 @@ class HttpRequesting {
                 } else {
                     print("Shit happens")
                 }
-                do{
-                let context = DatabaseController.getContext()
-                let result = try context.fetch(Podcast.fetchRequest())
-                let podcast = result as! [Podcast]
-                
-                parserObserver.podcastsParsed(podcasts: podcast)
-                
-                }catch{
-                print("Error")
-                }
             }
         }
     }
     
     func getAndDecryptUrl(podcast: Podcast, urlDecryptObserver: UrlDecryptObserver) {
         var dec_url = ""
-        print("JEEJEE")
         var podcastID:String {
             return "\(podcast.podcastID)"
         }
@@ -188,21 +175,15 @@ class HttpRequesting {
                         let enc_url = item["url"] as? String ?? ""
                         let decodedData = Data(base64Encoded: enc_url, options:NSData.Base64DecodingOptions(rawValue: 0))
                         let decodedArray = [UInt8](decodedData!)
-                        //print("decoded: ")
-                        //print(decodedArray)
                         
                         let iv = Array(decodedArray[0 ... 15])
                         let message = Array(decodedArray[16 ..< (decodedArray.count)])
-                        //print("IV: ")
-                        //print(iv)
-                        //print("message: ")
-                        //print(message)
-                        let key = "defaultCryptKey"
+
+                        let key = "decryptkey"
                         let keyData = key.data(using: .utf8)!
                         let decodedKeyArray = [UInt8](keyData)
                         
                         dec_url = self.aesDecrypt(key: decodedKeyArray, iv: iv, message: message)
-                            //print("dec_url: " + dec_url)
                     }
                 }
                 urlDecryptObserver.urlDecrypted(url: dec_url)
@@ -212,7 +193,7 @@ class HttpRequesting {
         }
     }
     
-    func httpGetFromBackend (url:String!, token: String!, completion:@escaping ([Any]) -> Void) {
+    func httpGetFromBackend (url:String!, token: String!, completion:@escaping ([[String:Any]]) -> Void) {
         let headers: HTTPHeaders = [
             "x-access-token": token
         ]
@@ -222,12 +203,12 @@ class HttpRequesting {
                 if let httpStatusCode = response.response?.statusCode {
                     switch(httpStatusCode) {
                     case 200:
-                        if let data = response.result.value as? [[String:String]]{
+                        if let data = response.result.value as? [[String:Any]]{
                             completion(data)
                             return
                         }
                     default:
-                        if let data = response.result.value as? [[String:String]]{
+                        if let data = response.result.value as? [[String:Any]]{
                             completion(data)
                             return
                         }

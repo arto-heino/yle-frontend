@@ -21,6 +21,7 @@ class LoginViewController: UIViewController {
     let login = HttpPosts()
     let podcast = HttpRequesting()
     var preferences = UserDefaults.standard
+    let userLoads = UserLoads()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,6 +77,8 @@ class LoginViewController: UIViewController {
         
         
         loginInfoButton.setTitle("Kirjaudu ulos", for: .normal)
+        userLoads.getPlaylists()
+        
     }
     
     func LoginToDo()

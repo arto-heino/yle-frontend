@@ -7,45 +7,38 @@
 //
 
 import UIKit
+import CoreData
 
-class PodcastTableViewController: UITableViewController, DataParserObserver, UrlDecryptObserver {
+class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSFetchedResultsControllerDelegate {
     
     var podcasts = [Podcast]()
     var url: String = ""
     var name: String = ""
-    //var dataParser: HttpRequesting? = nil
     let dataParser = HttpRequesting()
+    var fetchedResultsController: NSFetchedResultsController<Podcast>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let context = DatabaseController.getContext()
-        
-        do{
-            let result = try context.fetch(Podcast.fetchRequest())
-            let podcast = result as! [Podcast]
+        func initializeFetchedResultsController() {
+            let request = NSFetchRequest<Podcast>(entityName: "Podcast")
+            let titleSort = NSSortDescriptor(key: "podcastTitle", ascending: true)
+            request.sortDescriptors = [titleSort]
             
-            if(podcast.count == 0){
-                dataParser.httpGetPodCasts(parserObserver: self)
-            }else{
-                podcasts = podcast
-
+            let moc = DatabaseController.getContext()
+            fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
+            
+            fetchedResultsController.delegate = self
+            
+            do {
+                try fetchedResultsController.performFetch()
+                
+            } catch {
+                fatalError("Failed to initialize FetchedResultsController: \(error)")
             }
-        }catch{
-            print("Ei löydä modelia")
+            
         }
-    
-    }
-
-    // Run after the podcasts have been parsed in HttpRequesting
-    
-    func podcastsParsed(podcasts: [Podcast]) {
-        
-        self.podcasts = podcasts
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            return
-        }
+        initializeFetchedResultsController()
     }
     
     func urlDecrypted(url: String) {
@@ -59,37 +52,39 @@ class PodcastTableViewController: UITableViewController, DataParserObserver, Url
         // Dispose of any resources that can be recreated.
     }
     
+    func configureCell(cell: PodcastTableViewCell, indexPath: IndexPath) {
+        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Podcast else { fatalError("Unexpected Object in FetchedResultsController") }
+        // Populate cell from the NSManagedObject instance
+        cell.collectionLabel.text = selectedObject.podcastCollection
+        cell.descriptionLabel.text = selectedObject.podcastDescription
+        cell.durationLabel.text = selectedObject.podcastDuration
+    }
     
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-        return self.podcasts.count
-    }
-
-    //Creates a cell to tableview
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         let cellIdentifier = "PodcastCell"
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PodcastTableViewCell
-        
-        cell.collectionLabel.text = self.podcasts[indexPath.row].podcastCollection
-        cell.descriptionLabel.text = self.podcasts[indexPath.row].podcastDescription
-        cell.durationLabel.text = self.podcasts[indexPath.row].podcastDuration
-        
+        // Set up the cell
+        configureCell(cell: cell, indexPath: indexPath)
         return cell
     }
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return fetchedResultsController.sections!.count
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let sections = fetchedResultsController.sections else {
+            fatalError("No sections in fetchedResultsController")
+        }
+        let sectionInfo = sections[section]
+        return sectionInfo.numberOfObjects
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let index = tableView.indexPathForSelectedRow?.row
-        name = self.podcasts[index!].podcastCollection!
-        print(name)
-        dataParser.getAndDecryptUrl(podcast: podcasts[index!], urlDecryptObserver: self)
+        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Podcast else { fatalError("Unexpected Object in FetchedResultsController") }
+        name = selectedObject.podcastCollection!
+        dataParser.getAndDecryptUrl(podcast: selectedObject, urlDecryptObserver: self)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
@@ -98,6 +93,40 @@ class PodcastTableViewController: UITableViewController, DataParserObserver, Url
                 destination.podcastUrl = url
                 destination.podcastName = name
             }
+    }
+    
+    private func controllerWillChangeContent(controller: NSFetchedResultsController<Podcast>) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(controller: NSFetchedResultsController<Podcast>, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .fade)
+        case .delete:
+            tableView.deleteSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .fade)
+        case .move:
+            break
+        case .update:
+            break
+        }
+    }
+    
+    private func controller(controller: NSFetchedResultsController<Podcast>, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        switch type {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath! as IndexPath], with: .fade)
+        case .delete:
+            tableView.deleteRows(at: [indexPath! as IndexPath], with: .fade)
+        case .update:
+            configureCell(cell: tableView.cellForRow(at: indexPath! as IndexPath)! as! PodcastTableViewCell, indexPath: indexPath! as IndexPath)
+        case .move:
+            tableView.moveRow(at: indexPath! as IndexPath, to: newIndexPath! as IndexPath)
+        }
+    }
+    
+    private func controllerDidChangeContent(controller: NSFetchedResultsController<Podcast>) {
+        tableView.endUpdates()
     }
     
     //MARK: PROPERTIES

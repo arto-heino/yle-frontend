@@ -9,11 +9,34 @@
 import UIKit
 import CoreData
 
-class PlaylistTableViewController: UITableViewController {
-        
+class PlaylistTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+    
+    var fetchedResultsController: NSFetchedResultsController<Playlist>!
+    
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+    
+        func initializeFetchedResultsController() {
+            let request = NSFetchRequest<Playlist>(entityName: "Playlist")
+            let nameSort = NSSortDescriptor(key: "playlistName", ascending: true)
+            request.sortDescriptors = [nameSort]
+            
+            let moc = DatabaseController.getContext()
+            fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
+            
+            fetchedResultsController.delegate = self
+            
+            do {
+                try fetchedResultsController.performFetch()
+                
+            } catch {
+                fatalError("Failed to initialize FetchedResultsController: \(error)")
+            }
+            
+        }
+        
+        initializeFetchedResultsController()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -21,81 +44,71 @@ class PlaylistTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    class SectionsData {
-        var getPlaylist = HttpRequesting()
-        let preferences = UserDefaults.standard
-        var playlistsUser = [String]()
-        
-        func getSectionsFromData() -> [Section] {
-            var sectionsArray = [Section]()
-            let token: String = self.preferences.object(forKey: "userKey") as? String ?? ""
-            let id: String = self.preferences.object(forKey: "userID") as? String ?? ""
-            let url: String = "http://media.mw.metropolia.fi/arsu/playlists/user/4" + id
-            
-            getPlaylist.httpGetFromBackend(url: url, token: token) { success in
-                for (_, event) in (success.enumerated()) {
-                    //self.playlistsUser.append(event["playlist_name"]!)
-                    
-                    //let playlist = Playlist(context: context)
-                    //playlist.playlistName = event["playlist_name"]!
-                    //playlist.playlistID = event["id"] as Int64
-                    //playlist.playlistUserID = event["user_id"] as Int64
-                }
-            }
-
-            let myPodcasts = Section(title: "Omat", objects: self.playlistsUser)
-            let recommended = Section(title: "Valmiit", objects: ["Yle Puhe", "Aamulypsy"])
-            let favorites = Section(title: "Suosikit", objects: ["Suosikki 1", "Suosikki 2", "Suosikki 3"])
-            
-            
-            sectionsArray.append(myPodcasts)
-            sectionsArray.append(recommended)
-            sectionsArray.append(favorites)
-            
-            return sectionsArray
-        }
-    }
-    
-    struct Section {
-        
-        var heading : String
-        var items : [String]
-        
-        init(title: String, objects : [String]) {
-            
-            heading = title
-            items = objects
-        }
-    }
-    
-    
-    var sections: [Section] = SectionsData().getSectionsFromData()
-    
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-        return sections[section].items.count
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section].heading
+    func configureCell(cell: PlaylistTableViewCell, indexPath: IndexPath) {
+        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Playlist else { fatalError("Unexpected Object in FetchedResultsController") }
+        // Populate cell from the NSManagedObject instance
+        cell.myPlaylistNameLabel.text = selectedObject.playlistName
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cellIdentifier = "PlaylistTableViewCell"
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PlaylistTableViewCell
-        
-        cell.myPlaylistNameLabel.text = sections[indexPath.section].items[indexPath.row]
-        
+        // Set up the cell
+        configureCell(cell: cell, indexPath: indexPath)
         return cell
     }
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return fetchedResultsController.sections!.count
+    }
     
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let sections = fetchedResultsController.sections else {
+            fatalError("No sections in fetchedResultsController")
+        }
+        let sectionInfo = sections[section]
+        return sectionInfo.numberOfObjects
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Playlist else { fatalError("Unexpected Object in FetchedResultsController") }
+        print("painoit")
+    }
+    
+    private func controllerWillChangeContent(controller: NSFetchedResultsController<Playlist>) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(controller: NSFetchedResultsController<Playlist>, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .fade)
+        case .delete:
+            tableView.deleteSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .fade)
+        case .move:
+            break
+        case .update:
+            break
+        }
+    }
+    
+    private func controller(controller: NSFetchedResultsController<Playlist>, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        switch type {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath! as IndexPath], with: .fade)
+        case .delete:
+            tableView.deleteRows(at: [indexPath! as IndexPath], with: .fade)
+        case .update:
+            configureCell(cell: tableView.cellForRow(at: indexPath! as IndexPath)! as! PlaylistTableViewCell, indexPath: indexPath! as IndexPath)
+        case .move:
+            tableView.moveRow(at: indexPath! as IndexPath, to: newIndexPath! as IndexPath)
+        }
+    }
+    
+    private func controllerDidChangeContent(controller: NSFetchedResultsController<Playlist>) {
+        tableView.endUpdates()
+    }
     
     // MARK: - Table view data source
     
