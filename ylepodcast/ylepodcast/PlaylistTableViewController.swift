@@ -36,8 +36,12 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         }
         
         initializeFetchedResultsController()
-        
     }
+    
+
+    @IBAction func addPlaylistName(_ sender: Any) {
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

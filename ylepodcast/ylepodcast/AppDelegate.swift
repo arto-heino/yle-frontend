@@ -26,8 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let userLoad = UserLoads()
     let podcasts = HttpRequesting()
     
-    //shows splashscreen
-    
     let commandCenter = MPRemoteCommandCenter.shared()
 
     
