@@ -72,7 +72,7 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Playlist else { fatalError("Unexpected Object in FetchedResultsController") }
+        guard (fetchedResultsController.object(at: indexPath) as? Playlist) != nil else { fatalError("Unexpected Object in FetchedResultsController") }
         print("painoit")
     }
     
@@ -80,7 +80,7 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         tableView.beginUpdates()
     }
     
-    func controller(controller: NSFetchedResultsController<Playlist>, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+    private func controller(controller: NSFetchedResultsController<Playlist>, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
         switch type {
         case .insert:
             tableView.insertSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .fade)

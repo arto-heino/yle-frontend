@@ -44,7 +44,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error.localizedDescription)
         }
         
-        podcasts.httpGetPodCasts()
+        let context = DatabaseController.getContext()
+        
+        do{
+            let result = try context.fetch(Podcast.fetchRequest())
+            let podcast = result as! [Podcast]
+            
+            if(podcast.count == 0){
+                podcasts.httpGetPodCasts()
+            }else{
+                print("do nothing")
+            }
+        }catch{
+            print("model is lost")
+        }
         
         let token: String = preferences.object(forKey: "userKey") as? String ?? ""
         if(token != ""){

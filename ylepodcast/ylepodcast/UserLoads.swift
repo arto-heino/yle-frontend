@@ -18,18 +18,30 @@ class UserLoads{
         let id: String = preferences.object(forKey: "userID") as? String ?? ""
         let url: String = "http://media.mw.metropolia.fi/arsu/playlists/user/" + id
         
-        userRequests.httpGetFromBackend(url: url, token: token) { success in
-            for (_, event) in (success.enumerated()) {
-                let context = DatabaseController.getContext()
-                let playlist = Playlist(context: context)
-                
-                playlist.playlistID = event["id"] as! Int64
-                playlist.playlistName = event["playlist_name"] as! String?
-                playlist.playlistUserID = event["user_id"] as! Int64
-                playlist.playlistTypeName = "Omat soittolistat"
-                DatabaseController.saveContext()
-            }
+        do{
+            let context = DatabaseController.getContext()
+            let result = try context.fetch(Playlist.fetchRequest())
+            let playlist = result as! [Playlist]
             
+            if(playlist.count == 0){
+                userRequests.httpGetFromBackend(url: url, token: token) { success in
+                    for (_, event) in (success.enumerated()) {
+                        let context = DatabaseController.getContext()
+                        let playlist = Playlist(context: context)
+                        
+                        playlist.playlistID = event["id"] as! Int64
+                        playlist.playlistName = event["playlist_name"] as! String?
+                        playlist.playlistUserID = event["user_id"] as! Int64
+                        playlist.playlistTypeName = "Omat soittolistat"
+                        DatabaseController.saveContext()
+                    }
+                    
+                }
+            }else{
+                print("do nothing")
+            }
+        }catch{
+            print("model is lost")
         }
 
     }
