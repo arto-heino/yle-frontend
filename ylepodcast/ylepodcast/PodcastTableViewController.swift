@@ -74,11 +74,11 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let index = tableView.indexPathForSelectedRow?.row
-        name = self.podcasts[index!].podcastTitle?["fi"]! as? String ?? ""
-        url = self.podcasts[index!].podcastURL!
-        print("URL: " + url)
-        performSegue(withIdentifier: "AudioSegue1", sender: Any?.self)
+//        let index = tableView.indexPathForSelectedRow?.row
+//        name = self.podcasts[index!].podcastTitle?["fi"]! as? String ?? ""
+//        url = self.podcasts[index!].podcastURL!
+//        print("URL: " + url)
+//        performSegue(withIdentifier: "AudioSegue1", sender: Any?.self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
@@ -87,6 +87,30 @@ class PodcastTableViewController: UITableViewController, DataParserObserver {
             destination.podcastUrl = url
             destination.podcastName = name
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        //
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let addAction = UITableViewRowAction(style: .normal, title: "Add", handler: { (action: UITableViewRowAction, indexPath: IndexPath) -> Void in
+            
+            
+            let usersPlaylistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "UsersPlaylist") as! UsersPlaylistTableViewController
+
+            usersPlaylistController.selectedPodcast = self.podcasts[indexPath.row]
+
+            
+            self.show(usersPlaylistController, sender: nil)
+        })
+        
+        addAction.backgroundColor = UIColor.blue
+        return [addAction]
     }
     
     //MARK: PROPERTIES

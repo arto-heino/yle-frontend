@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var audioController: AudioController?
     
     static var history = [Podcast]()
+    
     //Add to COredata
     static let moc = DataController().managedObjectContext
     static private var podcastsFromCoreData = [Podcast]()
@@ -61,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 // REMOVE: Print all podcasts for testing purposes
                 for item in fetchResults {
-                    //print(item.podcastCollection!)
+                    print(item.podcastCollection!)
                 }
                 
                 podcastsFromCoreData = fetchResults
@@ -72,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    //shows splashscreen
+ 
     
     let commandCenter = MPRemoteCommandCenter.shared()
 
@@ -92,6 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error.localizedDescription)
         }
         
+        //shows splashscreen
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

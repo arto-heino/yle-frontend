@@ -12,20 +12,13 @@ class PlaylistTableViewController: UITableViewController {
     
     var playlist = [Podcast]()
 
+    @IBAction func addPlaylistName(_ sender: Any) {
+    }
     
-    override func viewDidLoad() {
-        
+    override func viewDidLoad() {        
         super.viewDidLoad()
-        
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(PlaylistTableViewController.podcastsParsed), name: NSNotification.Name(rawValue: "podcastsParsed"), object: nil)
-        
     }
-    func podcastsParsed(sender: AnyObject?) {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
+
     
     
     override func didReceiveMemoryWarning() {

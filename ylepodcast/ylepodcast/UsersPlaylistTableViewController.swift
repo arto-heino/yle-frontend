@@ -1,66 +1,82 @@
 //
-//  HistoryTableViewController.swift
+//  UsersPlaylistTableViewController.swift
 //  ylepodcast
 //
-//  Created by Carla Miettinen on 04/11/2016.
+//  Created by Carla Miettinen on 29/11/2016.
 //  Copyright © 2016 Metropolia. All rights reserved.
 //
 
 import UIKit
+import CoreData
 
-class HistoryTableViewController: UITableViewController {
+class UsersPlaylistTableViewController: UITableViewController {
+    
+    var selectedPodcast = NSEntityDescription.insertNewObject(forEntityName: "Podcast", into: AppDelegate.moc) as! Podcast
     
     
-    var recentlyViewed = [Podcast]()
-
-    
-    override func viewDidLoad() {
+    @IBAction func createOwnPlaylist(_ sender: Any) {
         
-        super.viewDidLoad()
+        let alert = UIAlertController(title: "Luo soittolista", message: "Luo uusi soittolista", preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addTextField { (textField) in
+            textField.text = ""
+        }
+        
+        alert.addAction(UIAlertAction(title: "Peruuta", style: UIAlertActionStyle.default, handler: nil))
+        
+        //FIXME: Add adding playlist name to coredata
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            print(textField?.text! as Any)
+            print(self.selectedPodcast.podcastCollection!)
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+
     }
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
 
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-    
+
     // MARK: - Table view data source
-    
+
     override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
         return 1
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return self.recentlyViewed.count
+        // #warning Incomplete implementation, return the number of rows
+        return 1
     }
-    
+
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cellIdentifier = "PodcastCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PodcastTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UsersPlaylistCell", for: indexPath) as! UsersPlaylistTableViewCell
         
-        //cell.collectionLabel.text = self.recentlyViewed[indexPath.row].collection
-        cell.descriptionLabel.text = self.recentlyViewed[indexPath.row].description
-        //cell.durationLabel.text = self.recentlyViewed[indexPath.row].duration
+        cell.ownPlaylistLabel.text = "Juoksulista"
         
-        return cell
-    }
+        cell.itemsInPlaylistLabel.text = "5 podcastia"
+        
     
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        // Configure the cell...
+        
 
         return cell
     }
-    */
+ 
 
     /*
     // Override to support conditional editing of the table view.
