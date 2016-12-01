@@ -19,7 +19,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginInfoButton: UIButton!
     
     let login = HttpPosts()
-    let podcast = HttpRequesting()
+    let users = HttpRequesting()
     var preferences = UserDefaults.standard
     let userLoads = UserLoads()
     
@@ -44,6 +44,7 @@ class LoginViewController: UIViewController {
         {
             self.preferences.removeObject(forKey: "userKey")
             self.preferences.removeObject(forKey: "userName")
+            self.preferences.removeObject(forKey: "userID")
 
             LoginToDo()
         }
@@ -68,6 +69,16 @@ class LoginViewController: UIViewController {
     
     func LoginDone()
     {
+        let token: String = preferences.object(forKey: "userKey") as? String ?? ""
+        let url: String = "http://media.mw.metropolia.fi/arsu/users"
+        users.httpGetFromBackend(url: url, token: token){ success in
+            for (_, event) in (success.enumerated()) {
+                let username: String = event["username"] as! String
+                if(username == self.preferences.object(forKey: "userName") as! String){
+                    self.preferences.set(event["id"], forKey: "userID")
+                }
+            }
+        }
         usernameLabel.text = self.preferences.object(forKey: "userName") as? String
         passwordLabel.text = ""
         usernameLabel.isEnabled = false

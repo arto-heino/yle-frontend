@@ -144,7 +144,7 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
             
             let usersPlaylistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "UsersPlaylist") as! UsersPlaylistTableViewController
 
-            usersPlaylistController.selectedPodcast = [selectedObject]
+            usersPlaylistController.selectedPodcast = selectedObject
 
             
             self.show(usersPlaylistController, sender: nil)

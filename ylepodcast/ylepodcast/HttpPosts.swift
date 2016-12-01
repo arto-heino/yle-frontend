@@ -71,7 +71,6 @@ class HttpPosts {
                             let preferences = UserDefaults.standard
                             preferences.set(data["token"], forKey: "userKey")
                             preferences.set(username, forKey: "userName")
-                            preferences.set(data["id"], forKey: "userID")
                         }
                         completion(true)
                         return
@@ -117,6 +116,34 @@ class HttpPosts {
                 }else{
                     self.setMessage(statusMessage: "Something went wrong.")
                     completion(false)
+                    return
+                }
+        }
+    }
+    
+    func httpPostToBackend (url:String!, token: String!, parameters: Parameters!, completion:@escaping ([String:Any]) -> Void) {
+        
+        let headers: HTTPHeaders = [
+            "x-access-token": token
+        ]
+        
+        Alamofire.request(url, method: .post, parameters:parameters, encoding: JSONEncoding.default, headers:headers)
+            .responseJSON{response in
+                if let httpStatusCode = response.response?.statusCode {
+                    switch(httpStatusCode) {
+                    case 201:
+                        if let data = response.result.value as? [String: Any]{
+                        completion(data)
+                        return
+                        }
+                    default:
+                        if let data = response.result.value as? [String: Any]{
+                        completion(data)
+                        return
+                        }
+                    }
+                }else{
+                    self.setMessage(statusMessage: "Something went wrong.")
                     return
                 }
         }

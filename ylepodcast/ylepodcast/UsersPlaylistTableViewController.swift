@@ -8,12 +8,15 @@
 
 import UIKit
 import CoreData
+import Alamofire
 
 class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     let context = DatabaseController.getContext()
     var fetchedResultsController: NSFetchedResultsController<Playlist>!
     
-    var selectedPodcast = [Podcast]()
+    var selectedPodcast = Podcast()
+    var userPodcast = HttpPosts()
+    var preferences = UserDefaults.standard
     
     
     @IBAction func createOwnPlaylist(_ sender: Any) {
@@ -32,12 +35,19 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
             let context = DatabaseController.getContext()
             let playlist = Playlist(context: context)
             
+            let parameters: Parameters = ["playlist_name": textField!.text!]
+            let token: String = self.preferences.object(forKey: "userKey") as! String
+            let url: String = "http://media.mw.metropolia.fi/arsu/playlists/"
             
-            playlist.playlistName = textField?.text
-            
-            DatabaseController.saveContext()
-            //print(textField?.text! as Any)
-            //print(self.selectedPodcast.)
+            self.userPodcast.httpPostToBackend(url: url, token: token, parameters: parameters){ success in
+                    playlist.playlistName = textField!.text
+                    playlist.playlistID = success["id"] as! Int64
+                    playlist.playlistUserID = self.preferences.object(forKey: "userID") as! Int64
+                
+                    //playlist.addToPodcast(self.selectedPodcast)
+                    
+                    DatabaseController.saveContext()
+            }
         }))
         
         self.present(alert, animated: true, completion: nil)
@@ -141,6 +151,7 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
     }
     
     private func controllerDidChangeContent(controller: NSFetchedResultsController<Playlist>) {
+        tableView.reloadData()
         tableView.endUpdates()
     }
 
