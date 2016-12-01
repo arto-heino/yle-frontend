@@ -1,57 +1,34 @@
 //
-//  PlaylistTableViewController.swift
+//  ItemsInPlaylistTableViewController.swift
 //  ylepodcast
 //
-//  Created by Carla Miettinen on 04/11/2016.
+//  Created by Carla Miettinen on 01/12/2016.
 //  Copyright © 2016 Metropolia. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class PlaylistTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
-    
-    var fetchedResultsController: NSFetchedResultsController<Playlist>!
+class ItemsInPlaylistTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     
-    @IBAction func createNewPlaylistAction(_ sender: Any) {
-        
-        
-        let alert = UIAlertController(title: "Luo soittolista", message: "Luo uusi soittolista", preferredStyle: UIAlertControllerStyle.alert)
-        
-        alert.addTextField { (textField) in
-            textField.text = ""
-        }
-        
-        alert.addAction(UIAlertAction(title: "Peruuta", style: UIAlertActionStyle.default, handler: nil))
-        
-        //FIXME: Add adding playlist name to coredata
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-            let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
-            let context = DatabaseController.getContext()
-            let playlist = Playlist(context: context)
-            
-            playlist.playlistName = textField?.text
-            
-            DatabaseController.saveContext()
+    @IBOutlet weak var playlistNameInListingLabel: UILabel!
+    
+    
+    var fetchedResultsController: NSFetchedResultsController<Podcast>!
+    
+    
+    
 
-            
-            //print(textField?.text! as Any)
-            //print(self.selectedPodcast.)
-        }))
-    }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
         func initializeFetchedResultsController() {
             let request = NSFetchRequest<Playlist>(entityName: "Playlist")
             let nameSort = NSSortDescriptor(key: "playlistName", ascending: true)
             request.sortDescriptors = [nameSort]
             
             let moc = DatabaseController.getContext()
-            fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
+            fetchedResultsController = NSFetchedResultsController(fetchRequest: request as! NSFetchRequest<Podcast>, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
             
             fetchedResultsController.delegate = self
             
@@ -61,39 +38,41 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
             } catch {
                 fatalError("Failed to initialize FetchedResultsController: \(error)")
             }
-            
-        }
-        
+
+
+    }
         initializeFetchedResultsController()
     }
-    
 
-    @IBAction func addPlaylistName(_ sender: Any) {
-    }
-
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    func configureCell(cell: PlaylistTableViewCell, indexPath: IndexPath) {
-        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Playlist else { fatalError("Unexpected Object in FetchedResultsController") }
+    
+
+    // MARK: - Table view data source
+
+    func configureCell(cell: ItemInPlaylistTableViewCell, indexPath: IndexPath) {
+        guard let selectedObject = (fetchedResultsController.object(at: indexPath)) as? Podcast else { fatalError("Unexpected Object in FetchedResultsController") }
         // Populate cell from the NSManagedObject instance
-        cell.myPlaylistNameLabel.text = selectedObject.playlistName
+        cell.collectionInPlaylistLabel.text = selectedObject.podcastCollection
+        //count podcasts in playlist
+        //cell.itemsInPlaylistLabel.text =
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIdentifier = "PlaylistTableViewCell"
+        let cellIdentifier = "ItemInPlaylistCell"
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PlaylistTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ItemInPlaylistTableViewCell
         // Set up the cell
         configureCell(cell: cell, indexPath: indexPath)
         return cell
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return fetchedResultsController.sections!.count
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -102,11 +81,6 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         }
         let sectionInfo = sections[section]
         return sectionInfo.numberOfObjects
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard (fetchedResultsController.object(at: indexPath) as? Playlist) != nil else { fatalError("Unexpected Object in FetchedResultsController") }
-        print("painoit")
     }
     
     private func controllerWillChangeContent(controller: NSFetchedResultsController<Playlist>) {
@@ -133,7 +107,7 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         case .delete:
             tableView.deleteRows(at: [indexPath! as IndexPath], with: .fade)
         case .update:
-            configureCell(cell: tableView.cellForRow(at: indexPath! as IndexPath)! as! PlaylistTableViewCell, indexPath: indexPath! as IndexPath)
+            configureCell(cell: tableView.cellForRow(at: indexPath! as IndexPath)! as! ItemInPlaylistTableViewCell, indexPath: indexPath! as IndexPath)
         case .move:
             tableView.moveRow(at: indexPath! as IndexPath, to: newIndexPath! as IndexPath)
         }
@@ -142,39 +116,22 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
     private func controllerDidChangeContent(controller: NSFetchedResultsController<Playlist>) {
         tableView.endUpdates()
     }
-    
-    
-    
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Playlist else { fatalError("Unexpected Object in FetchedResultsController") }
-        let addAction = UITableViewRowAction(style: .normal, title: "Poista", handler: { (action: UITableViewRowAction, indexPath: IndexPath) -> Void in
+   /* override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Podcast else { fatalError("Unexpected Object in FetchedResultsController") }
+        let addAction = UITableViewRowAction(style: .normal, title: "Delete", handler: { (action: UITableViewRowAction, indexPath: IndexPath) -> Void in
             
             
-            let playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
+            let usersPlaylistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ItemsInPlaylistController") as! ItemsInPlaylistTableViewController
             
-            DatabaseController.getContext().delete(selectedObject)
-            DatabaseController.saveContext()
+            usersPlaylistController.selectedPodcast = [selectedObject]
             
             
-            self.show(playlistController, sender: nil)
+            self.show(usersPlaylistController, sender: nil)
         })
         
         addAction.backgroundColor = UIColor.red
         return [addAction]
-    }
-    
-    // MARK: - Table view data source
-    
-    
-        /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
+    }*/
 
     /*
     // Override to support conditional editing of the table view.

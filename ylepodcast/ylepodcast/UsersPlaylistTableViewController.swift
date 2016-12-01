@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 
 class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+    
     let context = DatabaseController.getContext()
     var fetchedResultsController: NSFetchedResultsController<Playlist>!
     
@@ -17,6 +18,7 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
     
     
     @IBAction func createOwnPlaylist(_ sender: Any) {
+    
         
         let alert = UIAlertController(title: "Luo soittolista", message: "Luo uusi soittolista", preferredStyle: UIAlertControllerStyle.alert)
         
@@ -32,10 +34,11 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
             let context = DatabaseController.getContext()
             let playlist = Playlist(context: context)
             
-            
             playlist.playlistName = textField?.text
             
             DatabaseController.saveContext()
+            self.performSegue(withIdentifier: "createAPlaylist", sender: self)
+            
             //print(textField?.text! as Any)
             //print(self.selectedPodcast.)
         }))

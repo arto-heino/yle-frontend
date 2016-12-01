@@ -26,16 +26,30 @@ class SplashScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SplashScreenViewController.dismissKeyboard))
+        
+        view.addGestureRecognizer(tap)
     }
+    
+        //Calls this function when the tap is recognized.
+        func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    
+    func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
+        view.endEditing(true)
+        super.touchesBegan(touches, with: event)
+    }
     
     @IBAction func registerButton(_ sender: Any) {
         register_now(username: regWithUsernameLabel.text!, password: regWithPasswordLabel.text!, email: regWithEmailLabel.text!)
@@ -50,7 +64,11 @@ class SplashScreenViewController: UIViewController {
                 print("Tunnusta ei tehty")
                 
             }
+
         }
+        let tb = storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! TabBarController
+        self.show(tb, sender: nil)
+        navigationItem.hidesBackButton = true
         
     }
     

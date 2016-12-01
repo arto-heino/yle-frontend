@@ -12,7 +12,6 @@
 		1329E05D1DE59575006CE49B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		13A5D3461DC3389400CEB0D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */; };
 		13A5D3481DC3389400CEB0D4 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3471DC3389400CEB0D4 /* TabBarController.swift */; };
-		13A5D34B1DC3389400CEB0D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A5D3491DC3389400CEB0D4 /* Main.storyboard */; };
 		13A5D34D1DC3389400CEB0D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13A5D34C1DC3389400CEB0D4 /* Assets.xcassets */; };
 		13A5D3501DC3389400CEB0D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A5D34E1DC3389400CEB0D4 /* LaunchScreen.storyboard */; };
 		13A5D35B1DC3389400CEB0D4 /* ylepodcastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D35A1DC3389400CEB0D4 /* ylepodcastTests.swift */; };
@@ -29,7 +28,10 @@
 		740CC9361DE59D59006EBA6E /* PlaylistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740CC9351DE59D59006EBA6E /* PlaylistTableViewCell.swift */; };
 		7416C13F1DDC918C0029E6EC /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7416C13E1DDC918C0029E6EC /* SettingsTableViewController.swift */; };
 		7416C1411DDC923E0029E6EC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7416C1401DDC923E0029E6EC /* LoginViewController.swift */; };
+		74280FBD1DF04DE8006275F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74280FBB1DF04DE8006275F8 /* Main.storyboard */; };
 		7454A6241DD9DF6E004570D8 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 13E849171DD0690C00B655D5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		747DAD281DF030E000CE5EB0 /* ItemInPlaylistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747DAD271DF030E000CE5EB0 /* ItemInPlaylistTableViewCell.swift */; };
+		749653451DF028A800AD2556 /* ItemsInPlaylistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749653441DF028A800AD2556 /* ItemsInPlaylistTableViewController.swift */; };
 		74D06DF41DED9EFB00226F3A /* UsersPlaylistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D06DF31DED9EFB00226F3A /* UsersPlaylistTableViewCell.swift */; };
 		74D06DF61DEDA58100226F3A /* UsersPlaylistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D06DF51DEDA58100226F3A /* UsersPlaylistTableViewController.swift */; };
 		74D312521DC76DF7002C1E3C /* PodcastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */; };
@@ -78,7 +80,6 @@
 		13A5D3421DC3389400CEB0D4 /* ylepodcast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ylepodcast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13A5D3471DC3389400CEB0D4 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		13A5D34A1DC3389400CEB0D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		13A5D34C1DC3389400CEB0D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		13A5D34F1DC3389400CEB0D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		13A5D3511DC3389400CEB0D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -100,6 +101,9 @@
 		740CC9351DE59D59006EBA6E /* PlaylistTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewCell.swift; sourceTree = "<group>"; };
 		7416C13E1DDC918C0029E6EC /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		7416C1401DDC923E0029E6EC /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		74280FBC1DF04DE8006275F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		747DAD271DF030E000CE5EB0 /* ItemInPlaylistTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemInPlaylistTableViewCell.swift; sourceTree = "<group>"; };
+		749653441DF028A800AD2556 /* ItemsInPlaylistTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemsInPlaylistTableViewController.swift; sourceTree = "<group>"; };
 		74D06DF31DED9EFB00226F3A /* UsersPlaylistTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersPlaylistTableViewCell.swift; sourceTree = "<group>"; };
 		74D06DF51DEDA58100226F3A /* UsersPlaylistTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersPlaylistTableViewController.swift; sourceTree = "<group>"; };
 		74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastTableViewCell.swift; sourceTree = "<group>"; };
@@ -171,19 +175,21 @@
 				740CC9331DE43EBE006EBA6E /* SplashScreenViewController.swift */,
 				7416C13E1DDC918C0029E6EC /* SettingsTableViewController.swift */,
 				74D06DF51DEDA58100226F3A /* UsersPlaylistTableViewController.swift */,
+				749653441DF028A800AD2556 /* ItemsInPlaylistTableViewController.swift */,
 				7416C1401DDC923E0029E6EC /* LoginViewController.swift */,
-				1317D3701DE5B2620087EF98 /* HttpPosts.swift */,
-				8693E8121DEC6F3B00993263 /* UrlDecryptObserver.swift */,
 				74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */,
-				1303A5ED1DEDCE2F00FCF967 /* UserLoads.swift */,
 				7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */,
 				74D06DF31DED9EFB00226F3A /* UsersPlaylistTableViewCell.swift */,
+				747DAD271DF030E000CE5EB0 /* ItemInPlaylistTableViewCell.swift */,
 				740CC9351DE59D59006EBA6E /* PlaylistTableViewCell.swift */,
 				8669E0E11DD9E5FA00B427CF /* AudioController.swift */,
 				13BC70291DEC588C00A5718E /* DatabaseController.swift */,
+				8693E8121DEC6F3B00993263 /* UrlDecryptObserver.swift */,
+				1303A5ED1DEDCE2F00FCF967 /* UserLoads.swift */,
+				1317D3701DE5B2620087EF98 /* HttpPosts.swift */,
 				13E849191DD0694100B655D5 /* HttpRequesting.swift */,
-				13A5D3491DC3389400CEB0D4 /* Main.storyboard */,
 				13A5D34C1DC3389400CEB0D4 /* Assets.xcassets */,
+				74280FBB1DF04DE8006275F8 /* Main.storyboard */,
 				13A5D34E1DC3389400CEB0D4 /* LaunchScreen.storyboard */,
 				13AAF2681DE3011C007F9D7A /* settings.plist */,
 				13A5D3511DC3389400CEB0D4 /* Info.plist */,
@@ -279,7 +285,7 @@
 				TargetAttributes = {
 					13A5D3411DC3389400CEB0D4 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 4CLR29Q9M7;
+						DevelopmentTeam = B8D9N5HJ58;
 						ProvisioningStyle = Automatic;
 					};
 					13A5D3551DC3389400CEB0D4 = {
@@ -323,8 +329,8 @@
 			files = (
 				13A5D3501DC3389400CEB0D4 /* LaunchScreen.storyboard in Resources */,
 				13A5D34D1DC3389400CEB0D4 /* Assets.xcassets in Resources */,
-				13A5D34B1DC3389400CEB0D4 /* Main.storyboard in Resources */,
 				13AAF2691DE3011C007F9D7A /* settings.plist in Resources */,
+				74280FBD1DF04DE8006275F8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,7 +360,9 @@
 				1303A5EE1DEDCE2F00FCF967 /* UserLoads.swift in Sources */,
 				74D312541DC77504002C1E3C /* PodcastTableViewController.swift in Sources */,
 				74ECA2721DE1DC4300789040 /* CoreData.xcdatamodeld in Sources */,
+				747DAD281DF030E000CE5EB0 /* ItemInPlaylistTableViewCell.swift in Sources */,
 				1329E05D1DE59575006CE49B /* (null) in Sources */,
+				749653451DF028A800AD2556 /* ItemsInPlaylistTableViewController.swift in Sources */,
 				74D06DF61DEDA58100226F3A /* UsersPlaylistTableViewController.swift in Sources */,
 				13A5D3481DC3389400CEB0D4 /* TabBarController.swift in Sources */,
 				74031AF31DCC89BE00000BB1 /* PlaylistTableViewController.swift in Sources */,
@@ -406,20 +414,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		13A5D3491DC3389400CEB0D4 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13A5D34A1DC3389400CEB0D4 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		13A5D34E1DC3389400CEB0D4 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				13A5D34F1DC3389400CEB0D4 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		74280FBB1DF04DE8006275F8 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				74280FBC1DF04DE8006275F8 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -525,14 +533,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 4CLR29Q9M7;
+				DEVELOPMENT_TEAM = B8D9N5HJ58;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ylepodcast/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast2222;
+				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -543,14 +551,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 4CLR29Q9M7;
+				DEVELOPMENT_TEAM = B8D9N5HJ58;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ylepodcast/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast2222;
+				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
