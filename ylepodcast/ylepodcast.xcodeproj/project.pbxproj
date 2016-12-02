@@ -285,7 +285,7 @@
 				TargetAttributes = {
 					13A5D3411DC3389400CEB0D4 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 4CLR29Q9M7;
+						DevelopmentTeam = B8D9N5HJ58;
 						ProvisioningStyle = Automatic;
 					};
 					13A5D3551DC3389400CEB0D4 = {
@@ -533,14 +533,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 4CLR29Q9M7;
+				DEVELOPMENT_TEAM = B8D9N5HJ58;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ylepodcast/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast33;
+				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -551,14 +551,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 4CLR29Q9M7;
+				DEVELOPMENT_TEAM = B8D9N5HJ58;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ylepodcast/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast33;
+				PRODUCT_BUNDLE_IDENTIFIER = metropolia.ylepodcast3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

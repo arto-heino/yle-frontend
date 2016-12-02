@@ -113,7 +113,7 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         print("painoit")
         
         if let nextViewController = storyboard?.instantiateViewController(withIdentifier: "contentInPlaylist") as? PlaylistContentViewController {
-            nextViewController.selectedPlaylist = [selectedObject]
+            nextViewController.selectedPlaylist = selectedObject
             self.navigationController?.show(nextViewController, sender: nil)
         }
     }

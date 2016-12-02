@@ -17,7 +17,7 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
     let context = DatabaseController.getContext()
     var fetchedResultsController: NSFetchedResultsController<Playlist>!
     
-    var selectedPodcast = Podcast()
+    var selectedPodcast = Podcast(context: DatabaseController.getContext())
     var userPodcast = HttpPosts()
     var preferences = UserDefaults.standard
     

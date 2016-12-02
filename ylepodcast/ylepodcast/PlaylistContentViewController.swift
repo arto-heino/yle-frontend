@@ -13,7 +13,7 @@ class PlaylistContentViewController: UIViewController, UITableViewDataSource, UI
     
     var fetchedResultsController: NSFetchedResultsController<Podcast>!
     
-    var selectedPlaylist = [Playlist]()
+    var selectedPlaylist = Playlist(context: DatabaseController.getContext())
     //NSFetchRequest<NSFetchRequestResult>(entityName: "Playlist")
     
 
@@ -25,7 +25,7 @@ class PlaylistContentViewController: UIViewController, UITableViewDataSource, UI
         super.viewDidLoad()
         //initializeFetchedResultsController()
         
-        playlistNameInListingLabel.text = selectedPlaylist[0].playlistName!
+        playlistNameInListingLabel.text = selectedPlaylist.playlistName!
         print(playlistNameInListingLabel.text!)
     }
 
