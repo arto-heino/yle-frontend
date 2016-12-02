@@ -228,7 +228,7 @@ class HttpRequesting {
                         //print(iv)
                         //print("message: ")
                         //print(message)
-                        let key = "2ca36e2544614f4f"
+                        let key = "Secret key"
                         let keyData = key.data(using: .utf8)!
                         let decodedKeyArray = [UInt8](keyData)
                         
