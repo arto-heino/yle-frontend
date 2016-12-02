@@ -29,7 +29,7 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
         
         alert.addAction(UIAlertAction(title: "Peruuta", style: UIAlertActionStyle.default, handler: nil))
         
-        //FIXME: Add adding playlist name to coredata
+        // Add playlist to coredata and backend
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
             let context = DatabaseController.getContext()
