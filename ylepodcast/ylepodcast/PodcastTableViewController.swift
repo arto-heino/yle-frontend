@@ -80,8 +80,13 @@ class PodcastTableViewController: UITableViewController, DataParserObserver, Url
         
         cell.collectionLabel.text = self.podcasts[indexPath.row].podcastCollection
         cell.descriptionLabel.text = self.podcasts[indexPath.row].podcastDescription
-        cell.durationLabel.text = self.podcasts[indexPath.row].podcastDuration
+        cell.durationLabel.text = dataParser.secondsToTimeString(seconds: self.podcasts[indexPath.row].podcastDuration)
         
+        let podcastImageData = self.podcasts[indexPath.row].podcastImage
+        if podcastImageData != nil {
+            let image = UIImage(data: podcastImageData as! Data)
+            cell.podcastImageView.image = image
+        }
         return cell
     }
     

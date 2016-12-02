@@ -80,9 +80,9 @@ class HttpRequesting {
     
     // Gets podcast from the server using apikey and category
     func httpGetPodCasts (parserObserver: DataParserObserver) {
-        var podcastArray: [[String : String?]] = []
+        var podcastArray: [[String : Any]] = []
         
-        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"5", "type": "radiocontent", "contentprotection": "22-0,22-1" ]
+        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"50", "type": "radiocontent", "contentprotection": "22-0,22-1" ]
         
         
         Alamofire.request("https://external.api.yle.fi/v1/programs/items.json", method: .get, parameters:parameters2, encoding: URLEncoding.default)
@@ -91,14 +91,8 @@ class HttpRequesting {
                     if let array = json as? [String:Any]{
                         if let details = array["data"] as? [[String:Any]] {
                             for (_, item) in details.enumerated() {
-                                let tags = item["tags"] as? [String:Any] 
-                                let title = item["title"] as! [String:Any]
-                                let duration = item["duration"] as? String ?? ""
-                                let description = item["description"] as! [String:Any]
-                                let photo = item["defaultImage"] as? String ?? ""
-                                //let pUrl = item["Download link"] as? String ?? ""
+                                //print(item)
                                 let pubEv = item["publicationEvent"] as? [[String:Any]]
-                                let program_id = item["id"] as? String ?? ""
                                 for (_, event) in (pubEv?.enumerated())! {
                                     let status = event["temporalStatus"] as? String ?? ""
                                     let type = event["type"] as? String ?? ""
@@ -106,12 +100,32 @@ class HttpRequesting {
                                         let media = event["media"] as? [String:Any]
                                         let media_id = media?["id"] as? String ?? ""
                                         
-                                        var podcastItem = [String : String?]()
-                                        podcastItem["podcastTitle"] = title["fi"] as! String?
+                                        let tags = item["tags"] as? [String:Any]
+                                        let title = item["title"] as! [String:Any]
+                                        let duration = item["duration"] as? String ?? ""
+                                        let description = item["description"] as! [String:Any]
+                                        let photo = item["defaultImage"] as? String ?? ""
+                                        //let pUrl = item["Download link"] as? String ?? ""
+                                        let program_id = item["id"] as? String ?? ""
+                                        let parsedDuration = self.parseDuration(duration: duration)
+                                        print("duration: " + String(parsedDuration))
+                                        
+                                        var podcastItem = [String : Any]()
+                                        podcastItem["podcastTitle"] = title["fi"] as! String? ?? "Ei nimeä"
                                         podcastItem["podcastMediaID"] = media_id
                                         podcastItem["podcastID"] = program_id
-                                        podcastItem["podcastDescription"] = description["fi"] as! String?
-                                        podcastItem["podcastDuration"] = duration
+                                        podcastItem["podcastDescription"] = description["fi"] as! String? ?? "Ei kuvausta"
+                                        podcastItem["podcastDuration"] = parsedDuration
+                                        
+                                        print(item["image"]!)
+                                        let image = item["image"] as? [String:Any]
+                                        print("image: ")
+                                        print(image!["id"]!)
+                                        var imageURL = "http://images.cdn.yle.fi/image/upload/w_240,h_240,c_fit/"
+                                        imageURL.append((image?["id"] as? String)!)
+                                        imageURL.append(".png")
+                                        print(imageURL)
+                                        podcastItem["imageURL"] = imageURL
                                         
                                         podcastArray.append(podcastItem)
                                         
@@ -130,27 +144,29 @@ class HttpRequesting {
         }
     }
     
-    func checkPodcastAvailability(podcastArray: Array<[String : String?]>, parserObserver: DataParserObserver) {
+    func checkPodcastAvailability(podcastArray: Array<[String : Any]>, parserObserver: DataParserObserver) {
         for podcastItem in podcastArray {
-            let params: Parameters = ["program_id": podcastItem["podcastID"]!!, "media_id": podcastItem["podcastMediaID"]!!, "protocol": "PMD", "app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f"]
-            print(params)
+            let params: Parameters = ["program_id": podcastItem["podcastID"]! as! String, "media_id": podcastItem["podcastMediaID"]! as! String, "protocol": "PMD", "app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f"]
+            //print(params)
             Alamofire.request("https://external.api.yle.fi/v1/media/playouts.json", method: .get, parameters:params, encoding: URLEncoding.default).responseJSON{response in
-                print(response.result)
+                print(podcastItem["imageURL"]! as! String )
                 if response.result.value != nil {
-                let context = DatabaseController.getContext()
-                let podcast = Podcast(context: context)
+                    let context = DatabaseController.getContext()
+                    let podcast = Podcast(context: context)
+                    if podcastItem["imageURL"] != nil {
+                        self.getPodcastImage(context: context, podcast: podcast, url: podcastItem["imageURL"] as! String)
+                    }
+                    podcast.podcastCollection = podcastItem["podcastTitle"]! as? String
+                    podcast.podcastDescription = podcastItem["podcastDescription"]! as? String
+                    podcast.podcastDuration = Int64(podcastItem["podcastDuration"]! as! Int)
+                    podcast.podcastMediaID = podcastItem["podcastMediaID"]! as? String
                 
-                podcast.podcastCollection = podcastItem["podcastTitle"]!!
-                podcast.podcastDescription = podcastItem["podcastDescription"]!!
-                podcast.podcastDuration = podcastItem["podcastDuration"]!!
-                podcast.podcastMediaID = podcastItem["podcastMediaID"]!!
+                    let modifiedID = (podcastItem["podcastID"] as AnyObject).replacingOccurrences(of: "-", with: "")
+                    let podcastID = Int64(modifiedID)
                 
-                let modifiedID = podcastItem["podcastID"]??.replacingOccurrences(of: "-", with: "")
-                let podcastID = Int64(modifiedID!)
+                    podcast.podcastID = podcastID!
                 
-                podcast.podcastID = podcastID!
-                
-                DatabaseController.saveContext()
+                    DatabaseController.saveContext()
                 
                 } else {
                     print("Shit happens")
@@ -162,16 +178,31 @@ class HttpRequesting {
                 
                 parserObserver.podcastsParsed(podcasts: podcast)
                 
-                }catch{
-                print("Error")
+                } catch {
+                    print("Error")
                 }
             }
         }
     }
     
+    func getPodcastImage(context: NSManagedObjectContext, podcast: Podcast, url: String) {
+        
+        Alamofire.request(url).response { response in
+            if let data = response.data {
+                print(data)
+                let imageDataArray = [UInt8](data)
+                let imageData = NSData(bytes: imageDataArray, length: imageDataArray.count)
+                podcast.podcastImage = imageData
+                //print("image data: ")
+                //print(imageData)
+                DatabaseController.saveContext()
+            }
+        }
+        
+    }
+    
     func getAndDecryptUrl(podcast: Podcast, urlDecryptObserver: UrlDecryptObserver) {
         var dec_url = ""
-        print("JEEJEE")
         var podcastID:String {
             return "\(podcast.podcastID)"
         }
@@ -197,7 +228,7 @@ class HttpRequesting {
                         //print(iv)
                         //print("message: ")
                         //print(message)
-                        let key = "defaultCryptKey"
+                        let key = "2ca36e2544614f4f"
                         let keyData = key.data(using: .utf8)!
                         let decodedKeyArray = [UInt8](keyData)
                         
@@ -258,5 +289,60 @@ class HttpRequesting {
             print(error)
         }
         return String(result)
+    }
+    
+    func parseDuration(duration: String) -> Int {
+        var pSeconds = 0
+        var pMinutes = 0
+        var pHours = 0
+        let secIdx = duration.characters.index(of: "S")
+        let minIdx = duration.characters.index(of: "M")
+        let hIdx = duration.characters.index(of: "H")
+        let tIdx = duration.characters.index(of: "T")
+        if hIdx != nil {
+            let range = duration.index(after: tIdx!)..<hIdx!
+            let hours = duration.substring(with: range)
+            pHours = Int(hours)!
+        }
+        if minIdx != nil {
+            if hIdx != nil {
+                let range = duration.index(after: hIdx!)..<minIdx!
+                let minutes = duration.substring(with: range)
+                pMinutes = Int(minutes)!
+            } else {
+                let range = duration.index(after: tIdx!)..<minIdx!
+                let minutes = duration.substring(with: range)
+                pMinutes = Int(minutes)!
+            }
+        }
+        if secIdx != nil {
+            if minIdx != nil {
+                let range = duration.index(after: minIdx!)..<secIdx!
+                let seconds = duration.substring(with: range)
+                pSeconds = Int(seconds)!
+            } else if hIdx != nil {
+                let range = duration.index(after: hIdx!)..<secIdx!
+                let seconds = duration.substring(with: range)
+                pSeconds = Int(seconds)!
+            } else {
+                let range = duration.index(after: tIdx!)..<secIdx!
+                let seconds = duration.substring(with: range)
+                pSeconds = Int(seconds)!
+            }
+        }
+        let parsedDuration = pHours*3600 + pMinutes*60 + pSeconds
+        return parsedDuration
+    }
+    
+    func secondsToTimeString(seconds: Int64) -> String {
+        //let hours = seconds / 3600
+        let minutes = "\((seconds) / 60)"
+        var secondsString = "\((seconds % 3600) % 60)"
+        if secondsString.characters.count < 2 {
+            secondsString = "0" + secondsString
+        }
+        let timeString = minutes + ":" + secondsString
+        
+        return timeString
     }
 }
