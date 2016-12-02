@@ -53,7 +53,7 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
     }
     
     func configureCell(cell: PodcastTableViewCell, indexPath: IndexPath) {
-        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Podcast else { fatalError("Unexpected Object in FetchedResultsController") }
+        guard let selectedObject = (fetchedResultsController.object(at: indexPath)) as? Podcast else { fatalError("Unexpected Object in FetchedResultsController") }
         // Populate cell from the NSManagedObject instance
         cell.collectionLabel.text = selectedObject.podcastCollection
         cell.descriptionLabel.text = selectedObject.podcastDescription
@@ -95,6 +95,13 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
                 destination.podcastName = name
             }
     }
+    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if segue.identifier == "AudioSegue1" {
+            let destination = segue.destination as! AudioController
+            destination.podcastUrl = url
+            destination.podcastName = name
+        }
+    }*/
     
     private func controllerWillChangeContent(controller: NSFetchedResultsController<Podcast>) {
         tableView.beginUpdates()
@@ -139,7 +146,7 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Podcast else { fatalError("Unexpected Object in FetchedResultsController") }
-        let addAction = UITableViewRowAction(style: .normal, title: "Add", handler: { (action: UITableViewRowAction, indexPath: IndexPath) -> Void in
+        let addAction = UITableViewRowAction(style: .normal, title: "Lisää", handler: { (action: UITableViewRowAction, indexPath: IndexPath) -> Void in
             
             
             let usersPlaylistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "UsersPlaylist") as! UsersPlaylistTableViewController

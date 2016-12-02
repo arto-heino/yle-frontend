@@ -12,34 +12,67 @@ import CoreData
 class PlaylistTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var fetchedResultsController: NSFetchedResultsController<Playlist>!
+
+    
+    @IBAction func createNewPlaylistAction(_ sender: Any) {
+        
+        let alert = UIAlertController(title: "Luo soittolista", message: "Luo uusi soittolista", preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addTextField { (textField) in
+            textField.text = ""
+            textField.autocapitalizationType = UITextAutocapitalizationType.sentences
+        }
+        
+        alert.addAction(UIAlertAction(title: "Peruuta", style: UIAlertActionStyle.default, handler: nil))
+        
+        //FIXME: Add adding playlist name to coredata
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            let context = DatabaseController.getContext()
+            let playlist = Playlist(context: context)
+            
+            playlist.playlistName = textField?.text
+            
+            DatabaseController.saveContext()
+            
+            self.refresh()
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func refresh() {
+        // refresh core data
+        self.initializeFetchedResultsController()
+        // refresh view
+        DispatchQueue.main.async{
+            self.tableView.reloadData()
+        }
+    }
+    
+    func initializeFetchedResultsController() {
+        let request = NSFetchRequest<Playlist>(entityName: "Playlist")
+        let nameSort = NSSortDescriptor(key: "playlistName", ascending: true)
+        request.sortDescriptors = [nameSort]
+        
+        let moc = DatabaseController.getContext()
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
+        
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+            
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
+        }
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        func initializeFetchedResultsController() {
-            let request = NSFetchRequest<Playlist>(entityName: "Playlist")
-            let nameSort = NSSortDescriptor(key: "playlistName", ascending: true)
-            request.sortDescriptors = [nameSort]
-            
-            let moc = DatabaseController.getContext()
-            fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
-            
-            fetchedResultsController.delegate = self
-            
-            do {
-                try fetchedResultsController.performFetch()
-                
-            } catch {
-                fatalError("Failed to initialize FetchedResultsController: \(error)")
-            }
-            
-        }
         
         initializeFetchedResultsController()
-    }
-    
-
-    @IBAction func addPlaylistName(_ sender: Any) {
     }
 
     
@@ -76,8 +109,13 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard (fetchedResultsController.object(at: indexPath) as? Playlist) != nil else { fatalError("Unexpected Object in FetchedResultsController") }
+        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Playlist else { fatalError("Unexpected Object in FetchedResultsController") }
         print("painoit")
+        
+        if let nextViewController = storyboard?.instantiateViewController(withIdentifier: "contentInPlaylist") as? PlaylistContentViewController {
+            nextViewController.selectedPlaylist = [selectedObject]
+            self.navigationController?.show(nextViewController, sender: nil)
+        }
     }
     
     private func controllerWillChangeContent(controller: NSFetchedResultsController<Playlist>) {
@@ -112,6 +150,25 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
     
     private func controllerDidChangeContent(controller: NSFetchedResultsController<Playlist>) {
         tableView.endUpdates()
+    }
+    
+    
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Playlist else { fatalError("Unexpected Object in FetchedResultsController") }
+        let addAction = UITableViewRowAction(style: .normal, title: "Poista", handler: { (action: UITableViewRowAction, indexPath: IndexPath) -> Void in
+            
+            
+            let playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
+            
+            DatabaseController.getContext().delete(selectedObject)
+            DatabaseController.saveContext()
+            
+            self.refresh()
+        })
+        
+        addAction.backgroundColor = UIColor.red
+        return [addAction]
     }
     
     // MARK: - Table view data source
