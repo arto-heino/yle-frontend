@@ -10,13 +10,18 @@ import UIKit
 
 class ItemInPlaylistTableViewCell: UITableViewCell {
     
-    
-    @IBOutlet weak var collectionInPlaylistLabel: UILabel!
-    @IBOutlet weak var titleInPlaylistLabel: UILabel!
 
-    @IBOutlet weak var durationInPlaylistLabel: UILabel!
     
     @IBOutlet weak var podcastImageView: UIImageView!
+    
+    
+    @IBOutlet weak var collectionInPlaylistLabel: UILabel!
+    
+    @IBOutlet weak var titleInPlaylistLabel: UILabel!
+    
+    @IBOutlet weak var durationInPlaylistLabel: UILabel!
+    
+    
     
     
     override func awakeFromNib() {

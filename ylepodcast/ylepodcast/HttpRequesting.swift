@@ -91,11 +91,11 @@ class HttpRequesting {
                     if let array = json as? [String:Any]{
                         if let details = array["data"] as? [[String:Any]] {
                             for (_, item) in details.enumerated() {
-                                let tags = item["tags"] as? [String:Any] 
+                                //let tags = item["tags"] as? [String:Any]
                                 let title = item["title"] as! [String:Any]
                                 let duration = item["duration"] as? String ?? ""
                                 let description = item["description"] as! [String:Any]
-                                let photo = item["defaultImage"] as? String ?? ""
+                                //let photo = item["defaultImage"] as? String ?? ""
                                 //let pUrl = item["Download link"] as? String ?? ""
                                 let pubEv = item["publicationEvent"] as? [[String:Any]]
                                 let program_id = item["id"] as? String ?? ""

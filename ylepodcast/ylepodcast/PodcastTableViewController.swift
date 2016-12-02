@@ -95,6 +95,13 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
                 destination.podcastName = name
             }
     }
+    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if segue.identifier == "AudioSegue1" {
+            let destination = segue.destination as! AudioController
+            destination.podcastUrl = url
+            destination.podcastName = name
+        }
+    }*/
     
     private func controllerWillChangeContent(controller: NSFetchedResultsController<Podcast>) {
         tableView.beginUpdates()

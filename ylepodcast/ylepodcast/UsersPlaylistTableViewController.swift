@@ -9,13 +9,20 @@
 import UIKit
 import CoreData
 
+//This is the view that is shown when user is swipe-adding a podcast to a new or existing podcast list.
+
 class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     let context = DatabaseController.getContext()
     var fetchedResultsController: NSFetchedResultsController<Playlist>!
     
     var selectedPodcast = [Podcast]()
+    //NSFetchRequest<NSFetchRequestResult>(entityName: "Podcast")
     
+    
+    @IBAction func cancelAction(_ sender: Any) {
+        _ = self.navigationController?.popViewController(animated: true)
+    }
     
     @IBAction func createOwnPlaylist(_ sender: Any) {
     

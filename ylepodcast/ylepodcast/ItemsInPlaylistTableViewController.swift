@@ -17,9 +17,6 @@ class ItemsInPlaylistTableViewController: UITableViewController, NSFetchedResult
     
     var fetchedResultsController: NSFetchedResultsController<Podcast>!
     
-    
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         func initializeFetchedResultsController() {
@@ -48,6 +45,8 @@ class ItemsInPlaylistTableViewController: UITableViewController, NSFetchedResult
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
     
     
 
