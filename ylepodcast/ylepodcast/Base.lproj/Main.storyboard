@@ -948,7 +948,7 @@
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gbd-sW-hME">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="gbd-sW-hME">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1047,7 +1047,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="C0S-qS-rJ0" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Haku" image="searchIcon" selectedImage="searchIcon" id="2vX-PC-Z05"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="EDq-Kj-lx0">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="EDq-Kj-lx0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

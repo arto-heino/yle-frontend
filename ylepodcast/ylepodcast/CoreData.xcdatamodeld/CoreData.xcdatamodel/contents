@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11542" systemVersion="15G1004" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11542" systemVersion="15G31" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Playlist" representedClassName="Playlist" syncable="YES" codeGenerationType="class">
         <attribute name="playlistID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="playlistName" optional="YES" attributeType="String" syncable="YES"/>
@@ -11,9 +11,9 @@
         <attribute name="podcastCollection" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="podcastCollectionID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="podcastDescription" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="podcastDuration" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="podcastDuration" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="podcastID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="podcastImageURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="podcastImage" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="podcastMediaID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="podcastTags" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="podcastTitle" optional="YES" attributeType="String" syncable="YES"/>

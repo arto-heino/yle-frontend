@@ -56,15 +56,20 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
         // Populate cell from the NSManagedObject instance
         cell.collectionLabel.text = selectedObject.podcastCollection
         cell.descriptionLabel.text = selectedObject.podcastDescription
-        cell.durationLabel.text = selectedObject.podcastDuration
+        cell.durationLabel.text = dataParser.secondsToTimeString(seconds: selectedObject.podcastDuration)
+        let podcastImageData = selectedObject.podcastImage
+        if podcastImageData != nil {
+            let image = UIImage(data: podcastImageData as! Data)
+            cell.podcastImageView.image = image
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "PodcastCell"
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PodcastTableViewCell
         // Set up the cell
         configureCell(cell: cell, indexPath: indexPath)
+
         return cell
     }
     
