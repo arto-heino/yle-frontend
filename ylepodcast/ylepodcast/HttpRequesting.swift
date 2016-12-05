@@ -119,14 +119,15 @@ class HttpRequesting {
                                         
                                         print(item["image"]!)
                                         let image = item["image"] as? [String:Any]
-                                        print("image: ")
-                                        print(image!["id"]!)
-                                        var imageURL = "http://images.cdn.yle.fi/image/upload/w_240,h_240,c_fit/"
-                                        imageURL.append((image?["id"] as? String)!)
-                                        imageURL.append(".png")
-                                        print(imageURL)
-                                        podcastItem["imageURL"] = imageURL
-                                        
+                                        if image!["id"] != nil {
+                                            print("image: ")
+                                            print(image!["id"]!)
+                                            var imageURL = "http://images.cdn.yle.fi/image/upload/w_240,h_240,c_fit/"
+                                            imageURL.append((image?["id"] as? String)!)
+                                            imageURL.append(".png")
+                                            print(imageURL)
+                                            podcastItem["imageURL"] = imageURL
+                                        }
                                         podcastArray.append(podcastItem)
                                         
                                     }
@@ -149,7 +150,7 @@ class HttpRequesting {
             let params: Parameters = ["program_id": podcastItem["podcastID"]! as! String, "media_id": podcastItem["podcastMediaID"]! as! String, "protocol": "PMD", "app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f"]
             //print(params)
             Alamofire.request("https://external.api.yle.fi/v1/media/playouts.json", method: .get, parameters:params, encoding: URLEncoding.default).responseJSON{response in
-                print(podcastItem["imageURL"]! as! String )
+                //print(podcastItem["imageURL"]! as! String )
                 if response.result.value != nil {
                     let context = DatabaseController.getContext()
                     let podcast = Podcast(context: context)
