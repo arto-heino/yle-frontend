@@ -16,7 +16,6 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
     var name: String = ""
     let dataParser = HttpRequesting()
     var fetchedResultsController: NSFetchedResultsController<Podcast>!
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -95,13 +94,6 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
                 destination.podcastName = name
             }
     }
-    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        if segue.identifier == "AudioSegue1" {
-            let destination = segue.destination as! AudioController
-            destination.podcastUrl = url
-            destination.podcastName = name
-        }
-    }*/
     
     private func controllerWillChangeContent(controller: NSFetchedResultsController<Podcast>) {
         tableView.beginUpdates()
@@ -157,9 +149,10 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
             self.show(usersPlaylistController, sender: nil)
         })
         
-        addAction.backgroundColor = UIColor.blue
+        addAction.backgroundColor = UIColor.init(red: 20/255.0, green: 188/255.0, blue: 210/255.0, alpha: 0.5)
         return [addAction]
     }
+    
     
     //MARK: PROPERTIES
     /*

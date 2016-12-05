@@ -24,6 +24,8 @@ class SplashScreenViewController: UIViewController {
     let register = HttpPosts()
     
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,6 +55,8 @@ class SplashScreenViewController: UIViewController {
     
     @IBAction func registerButton(_ sender: Any) {
         register_now(username: regWithUsernameLabel.text!, password: regWithPasswordLabel.text!, email: regWithEmailLabel.text!)
+        
+        
     }
     
     func register_now(username:String, password:String, email:String)

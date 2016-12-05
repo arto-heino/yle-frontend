@@ -85,6 +85,8 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Playlist else { fatalError("Unexpected Object in FetchedResultsController") }
         // Populate cell from the NSManagedObject instance
         cell.myPlaylistNameLabel.text = selectedObject.playlistName
+        cell.myItemsInPlaylist.text = "\(selectedObject.podcast!.count) podcastia"
+    
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

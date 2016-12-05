@@ -179,7 +179,7 @@ class HttpRequesting {
                         let iv = Array(decodedArray[0 ... 15])
                         let message = Array(decodedArray[16 ..< (decodedArray.count)])
 
-                        let key = "decryptKey"
+                        let key = "defaultKey"
                         let keyData = key.data(using: .utf8)!
                         let decodedKeyArray = [UInt8](keyData)
                         

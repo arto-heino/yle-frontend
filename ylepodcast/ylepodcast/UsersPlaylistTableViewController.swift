@@ -105,6 +105,7 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
         guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Playlist else { fatalError("Unexpected Object in FetchedResultsController") }
         // Populate cell from the NSManagedObject instance
         cell.ownPlaylistLabel.text = selectedObject.playlistName
+        cell.itemsInPlaylistLabel.text = "\(selectedObject.podcast!.count) podcastia"
         //count podcasts in playlist
         //cell.itemsInPlaylistLabel.text =
         

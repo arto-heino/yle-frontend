@@ -79,7 +79,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
         
+        
+        
+        //STYLING
+        
+        
+        let navigationBarStyle = UINavigationBar.appearance()
+        navigationBarStyle.barTintColor = UIColor.init(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1)
+        navigationBarStyle.tintColor = UIColor.init(red: 241/255.0, green: 241/255.0, blue: 241/255.0, alpha: 1)
+        
+        let tabBarStyle = UITabBar.appearance()
+        tabBarStyle.tintColor = UIColor.init(red: 241/255.0, green: 241/255.0, blue: 241/255.0, alpha: 1)
+        tabBarStyle.barTintColor = UIColor.init(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 0.5)
+        
+
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        
+        UIApplication.shared.statusBarStyle = .lightContent
+
+    
         return true
+        
 
     }
 

@@ -10,11 +10,15 @@ import UIKit
 
 class TabBarController: UITabBarController {
     
+
     
 
     override func viewDidLoad() {
         navigationItem.hidesBackButton = true
         super.viewDidLoad()
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+
+
         // Do any additional setup after loading the view, typically from a nib.
     }
 
