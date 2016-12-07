@@ -98,6 +98,7 @@ class HttpPosts {
         
         Alamofire.request("http://media.mw.metropolia.fi/arsu/users", method: .post, parameters:parameters, encoding: JSONEncoding.default, headers:headers)
             .responseJSON{response in
+                print(response)
                 if let httpStatusCode = response.response?.statusCode {
                     switch(httpStatusCode) {
                     case 201:

@@ -11,11 +11,10 @@ import CoreData
 
 class PlaylistContentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate {
     
-    var fetchedResultsController: NSFetchedResultsController<Podcast>!
+    let dataParser = HttpRequesting()
+    var fetchedResultsController: NSFetchedResultsController<Playlist>!
     
     var selectedPlaylist = Playlist(context: DatabaseController.getContext())
-    //NSFetchRequest<NSFetchRequestResult>(entityName: "Playlist")
-    
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -23,10 +22,7 @@ class PlaylistContentViewController: UIViewController, UITableViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //initializeFetchedResultsController()
-        
         playlistNameInListingLabel.text = selectedPlaylist.playlistName!
-        print(playlistNameInListingLabel.text!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,43 +30,26 @@ class PlaylistContentViewController: UIViewController, UITableViewDataSource, UI
         // Dispose of any resources that can be recreated.
     }
     
-    func initializeFetchedResultsController() {
-        let request = NSFetchRequest<Playlist>(entityName: "Playlist")
-        let nameSort = NSSortDescriptor(key: "playlistName", ascending: true)
-        request.sortDescriptors = [nameSort]
-        
-        let moc = DatabaseController.getContext()
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: request as! NSFetchRequest<Podcast>, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
-        
-        fetchedResultsController.delegate = self
-        
-        do {
-            try fetchedResultsController.performFetch()
-            
-        } catch {
-            fatalError("Failed to initialize FetchedResultsController: \(error)")
-        }
-    }
-    
     // MARK: - Table view data source
     
     
-    
     func configureCell(cell: ItemInPlaylistTableViewCell, indexPath: IndexPath) {
-//        guard let selectedObject = (fetchedResultsController.object(at: indexPath)) as? Podcast else { fatalError("Unexpected Object in FetchedResultsController") }
-        // Populate cell from the NSManagedObject instance
-        //cell.collectionInPlaylistLabel.text = selectedObject.podcastCollection
-        //count podcasts in playlist
-        //cell.itemsInPlaylistLabel.text =
-        
+        let podcasts = selectedPlaylist.podcast?.allObjects
+        let podcast = podcasts? as? [Podcast]
+        for object in podcast!{
+            cell.collectionInPlaylistLabel.text = object.podcastCollection ?? "Ei otsikkoa"
+            cell.durationInPlaylistLabel.text = dataParser.secondsToTimeString(seconds: object.podcastDuration)
+        }
+    
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "ItemInPlaylistCell"
-//
+
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ItemInPlaylistTableViewCell
-//        // Set up the cell
-//        configureCell(cell: cell, indexPath: indexPath)
+        // Set up the cell
+        
+        configureCell(cell: cell, indexPath: indexPath)
         return cell
     }
     
@@ -79,15 +58,11 @@ class PlaylistContentViewController: UIViewController, UITableViewDataSource, UI
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        guard let sections = fetchedResultsController.sections else {
-//            fatalError("No sections in fetchedResultsController")
-//        }
-//        let sectionInfo = sections[section]
-//        return sectionInfo.numberOfObjects
-        return 0
+        let count: Int = (selectedPlaylist.podcast?.allObjects.count)!
+        return count
     }
     
-    private func controllerWillChangeContent(controller: NSFetchedResultsController<Playlist>) {
+    /*private func controllerWillChangeContent(controller: NSFetchedResultsController<Playlist>) {
         tableView.beginUpdates()
     }
     
@@ -120,7 +95,7 @@ class PlaylistContentViewController: UIViewController, UITableViewDataSource, UI
     private func controllerDidChangeContent(controller: NSFetchedResultsController<Playlist>) {
         tableView.endUpdates()
     }
-
+*/
     
 
     /*

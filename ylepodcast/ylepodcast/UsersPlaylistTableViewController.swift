@@ -53,7 +53,7 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
                     playlist.playlistUserID = self.preferences.object(forKey: "userID") as! Int64
                 
                     //playlist.addToPodcast(self.selectedPodcast)
-                    
+            
                     DatabaseController.saveContext()
             }
   
@@ -106,10 +106,24 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
         // Populate cell from the NSManagedObject instance
         cell.ownPlaylistLabel.text = selectedObject.playlistName
         cell.itemsInPlaylistLabel.text = "\(selectedObject.podcast!.count) podcastia"
-        //count podcasts in playlist
-        //cell.itemsInPlaylistLabel.text =
-        
+        print(indexPath)
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Playlist else { fatalError("Unexpected Object in FetchedResultsController") }
+        selectedObject.addToPodcast(self.selectedPodcast)
+        DatabaseController.saveContext()
+        
+        let message: String = self.selectedPodcast.podcastCollection! + ", lisätty listaan."
+        let alert = UIAlertController(title: "Lisätty soittolistaan", message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            print(alert ?? "painoit")
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "UsersPlaylistCell"
