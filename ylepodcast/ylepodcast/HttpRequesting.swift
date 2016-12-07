@@ -82,7 +82,7 @@ class HttpRequesting {
     func httpGetPodCasts () {
         var podcastArray: [[String : Any?]] = []
         
-        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"50", "type": "radiocontent", "contentprotection": "22-0,22-1" ]
+        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"50", "type": "radioprogram", "contentprotection": "22-0,22-1" ]
         
         Alamofire.request("https://external.api.yle.fi/v1/programs/items.json", method: .get, parameters:parameters2, encoding: URLEncoding.default)
             .responseJSON{response in
@@ -90,13 +90,6 @@ class HttpRequesting {
                     if let array = json as? [String:Any]{
                         if let details = array["data"] as? [[String:Any]] {
                             for (_, item) in details.enumerated() {
-                                //let tags = item["tags"] as? [String:Any]
-                                let title = item["title"] as! [String:Any]
-                                let duration = item["duration"] as? String ?? ""
-                                let description = item["description"] as! [String:Any]
-                                //let photo = item["defaultImage"] as? String ?? ""
-                                //let pUrl = item["Download link"] as? String ?? ""
-
                                 let pubEv = item["publicationEvent"] as? [[String:Any]]
                                 for (_, event) in (pubEv?.enumerated())! {
                                     let status = event["temporalStatus"] as? String ?? ""
@@ -109,7 +102,7 @@ class HttpRequesting {
                                         let title = item["title"] as! [String:Any]
                                         let duration = item["duration"] as? String ?? ""
                                         let description = item["description"] as! [String:Any]
-                                        let photo = item["defaultImage"] as? String ?? ""
+                                        
                                         //let pUrl = item["Download link"] as? String ?? ""
                                         let program_id = item["id"] as? String ?? ""
                                         let parsedDuration = self.parseDuration(duration: duration)

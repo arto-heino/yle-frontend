@@ -79,6 +79,7 @@ class LoginViewController: UIViewController {
             self.preferences.removeObject(forKey: "userKey")
             self.preferences.removeObject(forKey: "userName")
             self.preferences.removeObject(forKey: "userID")
+            userLoads.logOut()
             LoginToDo()
         }
         else{

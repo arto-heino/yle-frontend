@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class UserLoads{
     
@@ -44,6 +45,33 @@ class UserLoads{
             print("model is lost")
         }
 
+    }
+    
+    func logOut(){
+        
+        do{
+            let context = DatabaseController.getContext()
+            let result = try context.fetch(Playlist.fetchRequest())
+            let playlist = result as! [Playlist]
+            
+            if(playlist.count != 0){
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Playlist")
+                
+                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+                
+                do {
+                    try context.execute(deleteRequest)
+                    DatabaseController.saveContext()
+                }
+                catch {
+                }
+            }else{
+                print("do nothing")
+            }
+        }catch{
+            print("model is lost")
+        }
+        
     }
 
 }
