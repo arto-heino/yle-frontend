@@ -32,13 +32,20 @@ class PlaylistContentViewController: UIViewController, UITableViewDataSource, UI
     
     // MARK: - Table view data source
     
-    
+    // TODO: Need better solution?
     func configureCell(cell: ItemInPlaylistTableViewCell, indexPath: IndexPath) {
         let podcasts = selectedPlaylist.podcast?.allObjects
-        let podcast = podcasts? as? [Podcast]
+        let podcast = podcasts as? [Podcast]
+        
+        var i = 0
         for object in podcast!{
             cell.collectionInPlaylistLabel.text = object.podcastCollection ?? "Ei otsikkoa"
             cell.durationInPlaylistLabel.text = dataParser.secondsToTimeString(seconds: object.podcastDuration)
+            
+            if indexPath.row == i {
+                break
+            }
+            i = i + 1
         }
     
     }
