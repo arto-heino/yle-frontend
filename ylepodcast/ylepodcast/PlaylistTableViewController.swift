@@ -8,11 +8,13 @@
 
 import UIKit
 import CoreData
+import Alamofire
 
 class PlaylistTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var fetchedResultsController: NSFetchedResultsController<Playlist>!
-
+    var preferences = UserDefaults.standard
+    var userPodcast = HttpPosts()
     
     @IBAction func createNewPlaylistAction(_ sender: Any) {
         
@@ -31,11 +33,19 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
             let context = DatabaseController.getContext()
             let playlist = Playlist(context: context)
             
-            playlist.playlistName = textField?.text
+            let parameters: Parameters = ["playlist_name": textField!.text!]
+            let token: String = self.preferences.object(forKey: "userKey") as! String
+            let url: String = "http://media.mw.metropolia.fi/arsu/playlists/"
             
-            DatabaseController.saveContext()
+            self.userPodcast.httpPostToBackend(url: url, token: token, parameters: parameters){ success in
+                playlist.playlistName = textField!.text
+                playlist.playlistID = success["id"] as! Int64
+                playlist.playlistUserID = self.preferences.object(forKey: "userID") as! Int64
+                
+                DatabaseController.saveContext()
+                self.refresh()
+            }
             
-            self.refresh()
         }))
         
         self.present(alert, animated: true, completion: nil)
@@ -154,19 +164,27 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         tableView.endUpdates()
     }
     
-    
-    
+    //TODO: Need to ask do you want to remove playlist
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Playlist else { fatalError("Unexpected Object in FetchedResultsController") }
         let addAction = UITableViewRowAction(style: .normal, title: "Poista", handler: { (action: UITableViewRowAction, indexPath: IndexPath) -> Void in
-            
-            
+
             let playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
             
-            DatabaseController.getContext().delete(selectedObject)
-            DatabaseController.saveContext()
+            let token: String = self.preferences.object(forKey: "userKey") as! String
+            let playlistID = String(selectedObject.playlistID)
+            let url: String = "http://media.mw.metropolia.fi/arsu/playlists/" + playlistID
             
-            self.refresh()
+            self.userPodcast.httpDeleteFromBackend(url: url, token: token){ success in
+                if(success){
+                    DatabaseController.getContext().delete(selectedObject)
+                    DatabaseController.saveContext()
+                    self.refresh()
+                }else{
+                    print("Virhe poistaessa")
+                }
+                
+            }
         })
         
         addAction.backgroundColor = UIColor.red
