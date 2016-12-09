@@ -111,17 +111,31 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Playlist else { fatalError("Unexpected Object in FetchedResultsController") }
-        selectedObject.addToPodcast(self.selectedPodcast)
-        DatabaseController.saveContext()
         
-        let message: String = self.selectedPodcast.podcastCollection! + ", lisätty listaan."
-        let alert = UIAlertController(title: "Lisätty soittolistaan", message: message, preferredStyle: .alert)
+        let token: String = preferences.object(forKey: "userKey") as? String ?? ""
+        let url: String = "http://media.mw.metropolia.fi/arsu/playlists/" + String(selectedObject.playlistID)
+        let parameters: Parameters = ["podcast_id": self.selectedPodcast.podcastID]
+        //FIXME: Need to check double podcasts
+        userPodcast.httpPutToBackend(url: url, token: token, parameters: parameters) { success in
+            if(success){
+                selectedObject.addToPodcast(self.selectedPodcast)
+                DatabaseController.saveContext()
+                let message: String = self.selectedPodcast.podcastCollection! + ", lisätty listaan."
+                let alert = UIAlertController(title: "Lisätty soittolistaan", message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+                    print(alert ?? "painoit")
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }else{
+                let message: String = self.selectedPodcast.podcastCollection! + ", lisääminen listaan epäonnistui."
+                let alert = UIAlertController(title: "Virhe", message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+                    print(alert ?? "painoit")
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
         
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-            print(alert ?? "painoit")
-        }))
-        
-        self.present(alert, animated: true, completion: nil)
     }
 
     

@@ -150,4 +150,30 @@ class HttpPosts {
         }
     }
     
+    func httpPutToBackend (url:String!, token: String!, parameters: Parameters!, completion:@escaping (Bool) -> Void) {
+        
+        let headers: HTTPHeaders = [
+            "x-access-token": token
+        ]
+        
+        Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers:headers)
+            .responseJSON{response in
+                print(response)
+                if let httpStatusCode = response.response?.statusCode {
+                    switch(httpStatusCode) {
+                    case 201:
+                            completion(true)
+                            return
+                    default:
+                            completion(false)
+                            return
+                    }
+                }else{
+                    self.setMessage(statusMessage: "Something went wrong.")
+                    return
+                }
+        }
+    }
+
+    
 }
