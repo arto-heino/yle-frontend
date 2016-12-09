@@ -1,6 +1,6 @@
 {
   "name": "Yle-frontend",
   "tagline": "",
-  "body": "### Welcome to YlePodcast.\r\nThis is a school project where our goal is to create a fully functioning podcast app with working listing, searching etc..\r\n\r\n### Installation\r\n`npm install`\r\n\r\n### TODO\r\n- List favourites\r\n- Add playlist\r\n\r\n### Authors and Contributors\r\nMilos Berka (@melguu), Carla Miettinen (@CarlaMiettinen)\r\n",
+  "body": "### Welcome to YlePodcast.\r\nYlePodcast is a school project created by students from Metropolia. Project goal is create a fully functioning podcast player, which use YleAPI to get playable podcasts.\r\n\r\n## Features\r\n- Login / Register\r\n- Create your own playlists\r\n- View your recently played and unfinished podcasts\r\n- Offline play your playlists\r\n- Search by title/duration/description or tags\r\n\r\n## Technical data\r\nYlePodcast is programmed using Swift3 on the front-end (iPhone) and Node.JS on the backend. Podcasts are parsed from YleAPI using Alamofire framework. We are also adding lots of information from podcasts to CoreData to keep the app loading time small and speeding up the search functions. The podcasts are loaded asynchronously, to keep the app as fast as possible the first time you start the app.\r\n\r\n### Authors and Contributors\r\nMilos Berka (@melguu), Carla Miettinen (@CarlaMiettinen)\r\n",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
