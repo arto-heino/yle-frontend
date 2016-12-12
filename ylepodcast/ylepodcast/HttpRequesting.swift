@@ -19,6 +19,7 @@ class HttpRequesting {
     var alertMessage: String
     var error: Bool
     var done: Bool
+    var cryptKey: String
     
     init () {
         self.message = ""
@@ -26,7 +27,12 @@ class HttpRequesting {
         self.error = true
         self.done = false
         self.apiKey = ""
+        
+        let path = Bundle.main.path(forResource: "settings", ofType: "plist")
+        let dict = NSDictionary(contentsOfFile: path!) as! [String:String]
+        self.cryptKey = dict["podcastDecryptKey"]!
     }
+    
     
     func setMessage(statusMessage: String) {
         self.alertMessage = statusMessage
@@ -206,7 +212,7 @@ class HttpRequesting {
                         let iv = Array(decodedArray[0 ... 15])
                         let message = Array(decodedArray[16 ..< (decodedArray.count)])
                         
-                        let key = "2ca36e2544614f4f"
+                        let key = self.cryptKey
                         let keyData = key.data(using: .utf8)!
                         let decodedKeyArray = [UInt8](keyData)
                         
