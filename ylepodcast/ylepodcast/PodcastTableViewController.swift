@@ -12,6 +12,7 @@ import CoreData
 class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSFetchedResultsControllerDelegate {
     
     var podcasts = [Podcast]()
+    var podcast: Podcast?
     var url: String = ""
     var name: String = ""
     let dataParser = HttpRequesting()
@@ -45,7 +46,6 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
         performSegue(withIdentifier: "AudioSegue1", sender: Any?.self)
     }
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -89,6 +89,7 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Podcast else { fatalError("Unexpected Object in FetchedResultsController") }
         name = selectedObject.podcastCollection!
+        podcast = selectedObject
         dataParser.getAndDecryptUrl(podcast: selectedObject, urlDecryptObserver: self)
     }
 
@@ -97,6 +98,7 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
                 let destination = segue.destination as! AudioController
                 destination.podcastUrl = url
                 destination.podcastName = name
+                destination.podcast = podcast
             }
     }
     
