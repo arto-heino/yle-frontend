@@ -121,14 +121,14 @@ class HttpPosts {
         }
     }
     
-    func httpPostToBackend (url:String!, token: String!, parameters: Parameters!, completion:@escaping ([String:Any]) -> Void) {
-        
+    func httpPostToBackend (url:String!, token: String!, parameters: Parameters, completion:@escaping ([String:Any]) -> Void) {
         let headers: HTTPHeaders = [
             "x-access-token": token
         ]
         
         Alamofire.request(url, method: .post, parameters:parameters, encoding: JSONEncoding.default, headers:headers)
             .responseJSON{response in
+                print(response)
                 if let httpStatusCode = response.response?.statusCode {
                     switch(httpStatusCode) {
                     case 201:
@@ -141,6 +141,30 @@ class HttpPosts {
                         completion(data)
                         return
                         }
+                    }
+                }else{
+                    self.setMessage(statusMessage: "Something went wrong.")
+                    return
+                }
+        }
+    }
+    
+    func httpDeleteFromBackend (url:String!, token: String!, completion:@escaping (Bool) -> Void) {
+        let headers: HTTPHeaders = [
+            "x-access-token": token
+        ]
+        
+        Alamofire.request(url, method: .delete, encoding: JSONEncoding.default, headers:headers)
+            .responseJSON{response in
+                print(response)
+                if let httpStatusCode = response.response?.statusCode {
+                    switch(httpStatusCode) {
+                    case 200:
+                            completion(true)
+                            return
+                    default:
+                            completion(false)
+                            return
                     }
                 }else{
                     self.setMessage(statusMessage: "Something went wrong.")
