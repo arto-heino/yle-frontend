@@ -98,6 +98,7 @@ class HttpPosts {
         
         Alamofire.request("http://media.mw.metropolia.fi/arsu/users", method: .post, parameters:parameters, encoding: JSONEncoding.default, headers:headers)
             .responseJSON{response in
+                print(response)
                 if let httpStatusCode = response.response?.statusCode {
                     switch(httpStatusCode) {
                     case 201:
@@ -150,21 +151,46 @@ class HttpPosts {
     }
     
     func httpDeleteFromBackend (url:String!, token: String!, completion:@escaping (Bool) -> Void) {
+
         let headers: HTTPHeaders = [
             "x-access-token": token
         ]
-        
+    
         Alamofire.request(url, method: .delete, encoding: JSONEncoding.default, headers:headers)
             .responseJSON{response in
-                print(response)
                 if let httpStatusCode = response.response?.statusCode {
                     switch(httpStatusCode) {
                     case 200:
+
                             completion(true)
                             return
                     default:
                             completion(false)
                             return
+                    }
+                }else{
+                    self.setMessage(statusMessage: "Something went wrong.")
+                    return
+                }
+        }
+    }
+    
+    func httpPutToBackend (url:String!, token: String!, parameters: Parameters!, completion:@escaping (Bool) -> Void) {
+        
+        let headers: HTTPHeaders = [
+            "x-access-token": token
+        ]
+        
+        Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers:headers)
+            .responseJSON{response in
+                if let httpStatusCode = response.response?.statusCode {
+                    switch(httpStatusCode) {
+                    case 201:
+                        completion(true)
+                        return
+                    default:
+                        completion(false)
+                        return
                     }
                 }else{
                     self.setMessage(statusMessage: "Something went wrong.")
