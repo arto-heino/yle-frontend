@@ -40,7 +40,8 @@ class UserLoads{
                         playlist.playlistName = playlist_item["playlist_name"] as! String?
                         playlist.playlistUserID = playlist_item["user_id"] as! Int64
                         playlist.playlistTypeName = "Omat soittolistat"
-                        //DatabaseController.saveContext()
+                        
+                        DatabaseController.saveContext()
                     }
                     self.getPodcastsToPlaylist()
                 }
