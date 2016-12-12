@@ -129,6 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    // Add timer to history, if podcast is played more than 10 seconds add to history
     func timerRunning(){
         timeLeft -= 1
         let token = preferences.object(forKey: "userKey") as? String ?? ""
@@ -146,6 +147,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     history.addToPodcast(self.podcastPlaying)
                     history.historyID = success["id"] as! Int64
                     history.historyUserID = user as! Int64
+                    
                     DatabaseController.saveContext()
                     self.timer.invalidate()
                 }
@@ -153,11 +155,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let history = result as! [History]
             for (_,object) in history.enumerated(){
                 if(object.podcast?.contains(podcastPlaying))!{
+                    self.timer.invalidate()
+                }else{
                     let parameters: Parameters = ["podcast_id": podcastPlaying.podcastID]
                     userPost.httpPostToBackend(url: url, token: token, parameters: parameters){success in
                         object.addToPodcast(self.podcastPlaying)
                         object.historyID = success["id"] as! Int64
                         object.historyUserID = user as! Int64
+                        
                         DatabaseController.saveContext()
                         self.timer.invalidate()
                     }
@@ -203,12 +208,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         player?.play()
         audioController?.play()
         updateInfoCenter()
+        
+        // Add timer to history
         timeLeft = 10
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerRunning), userInfo: nil, repeats: true)
     }
     
     func pause() {
-        //Stop the timer
+        // Stop the timer
         timer.invalidate()
         
         audioController?.pause()
