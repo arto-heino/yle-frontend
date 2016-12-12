@@ -19,7 +19,7 @@ class UserLoads{
     }
     
     func getPlaylists(){
-
+        let token = preferences.object(forKey: "userKey") as? String ?? ""
         let id: String = preferences.object(forKey: "userID") as? String ?? ""
         let url: String = "http://media.mw.metropolia.fi/arsu/playlists/user/" + id
         
@@ -28,17 +28,18 @@ class UserLoads{
             let result = try context.fetch(Playlist.fetchRequest())
             let playlist = result as! [Playlist]
             
-            if(playlist.count > 0){
-                userRequests.httpGetFromBackend(url: url, token: self.token) { success in
-                    for (_, event) in (success.enumerated()) {
+            if(playlist.count == 0){
+                userRequests.httpGetFromBackend(url: url, token: token) { success in
+                    let object = success as! [Any]
+                    for (_, event) in (object.enumerated()) {
                         let context = DatabaseController.getContext()
                         let playlist = Playlist(context: context)
-
-                        playlist.playlistID = event["id"] as! Int64
-                        playlist.playlistName = event["playlist_name"] as! String?
-                        playlist.playlistUserID = event["user_id"] as! Int64
+                        var playlist_item = event as! [String:Any]
+                        playlist.playlistID = playlist_item["id"] as! Int64
+                        playlist.playlistName = playlist_item["playlist_name"] as! String?
+                        playlist.playlistUserID = playlist_item["user_id"] as! Int64
                         playlist.playlistTypeName = "Omat soittolistat"
-                        DatabaseController.saveContext()
+                        //DatabaseController.saveContext()
                     }
                     self.getPodcastsToPlaylist()
                 }
@@ -53,20 +54,29 @@ class UserLoads{
     
     func getPodcastsToPlaylist(){
         do{
+            let token = preferences.object(forKey: "userKey") as? String ?? ""
             let context = DatabaseController.getContext()
-            let result = try context.fetch(Playlist.fetchRequest())
-            let playlist = result as! [Playlist]
+            let result_playlist = try context.fetch(Playlist.fetchRequest())
+            let result_podcast = try context.fetch(Podcast.fetchRequest())
+            let podcast = result_podcast as! [Podcast]
+            let playlist = result_playlist as! [Playlist]
             
             for (_,playlist) in playlist.enumerated(){
                 let playlistID = String(playlist.playlistID)
                 let url2: String = "http://media.mw.metropolia.fi/arsu/playlists/" + playlistID
-
-                userRequests.httpGetFromBackend(url: url2, token: self.token) { success in
-                    print(success)
-                    for (_, event) in (success.enumerated()) {
-                        let c_id = event["content"] as? [[String:String]]
-                        for(_,content) in (c_id?.enumerated())! {
-                            print(content["podcast_id"])
+                
+                userRequests.httpGetFromBackend(url: url2, token: token) { success in
+                    let object = success as! [String: AnyObject]
+                    if let details = object["content"] as? [Any]{
+                        for object in details{
+                            let content = object as! [String:Any]
+                            let podcast_id = content["podcast_id"] as! Int64
+                            for (_,podcast) in podcast.enumerated(){
+                                if(podcast.podcastID == podcast_id){
+                                    podcast.addToPlaylists(playlist)
+                                    DatabaseController.saveContext()
+                                }
+                            }
                         }
                     }
                 }

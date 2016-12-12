@@ -227,7 +227,7 @@ class HttpRequesting {
         }
     }
     
-    func httpGetFromBackend (url:String!, token: String!, completion:@escaping ([[String:Any]]) -> Void) {
+    func httpGetFromBackend (url:String!, token: String!, completion:@escaping (AnyObject) -> Void) {
         let headers: HTTPHeaders = [
             "x-access-token": token
         ]
@@ -237,13 +237,13 @@ class HttpRequesting {
                 if let httpStatusCode = response.response?.statusCode {
                     switch(httpStatusCode) {
                     case 200:
-                        if let data = response.result.value as? [[String:Any]]{
-                            completion(data)
+                        if let data = response.result.value{
+                            completion(data as AnyObject)
                             return
                         }
                     default:
-                        if let data = response.result.value as? [[String:Any]]{
-                            completion(data)
+                        if let data = response.result.value{
+                            completion(data as AnyObject)
                             return
                         }
                     }
