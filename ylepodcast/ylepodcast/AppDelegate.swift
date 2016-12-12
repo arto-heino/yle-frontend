@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import MediaPlayer
+import Alamofire
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,6 +26,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var preferences = UserDefaults.standard
     let userLoad = UserLoads()
     let podcasts = HttpRequesting()
+    let userPost = HttpPosts()
+    var timer = Timer()
+    var timeLeft: Int = 10
+    var podcastPlaying: Podcast?
     
     let commandCenter = MPRemoteCommandCenter.shared()
 
@@ -61,6 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if(token != ""){
             //Should load all login required material
             userLoad.getPlaylists()
+            userLoad.getHistory()
         }
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -78,8 +84,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = UINavigationController(rootViewController: rootViewController!)
         self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
-        
-        
         
         //STYLING
         
@@ -125,9 +129,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func setupPlayer(aController: AudioController, pUrl: String, pName: String) {
+    // Add timer to history, if podcast is played more than 10 seconds add to history
+    func timerRunning(){
+        timeLeft -= 1
+        let token = preferences.object(forKey: "userKey") as? String ?? ""
+        let user = preferences.object(forKey: "userID")
+        let url: String = "http://media.mw.metropolia.fi/arsu/history"
+        if(timeLeft == 0){
+        
+            let context = DatabaseController.getContext()
+            let history = History(context: context)
+            let parameters: Parameters = ["podcast_id": podcastPlaying!.podcastID]
+            
+            userPost.httpPostToBackend(url: url, token: token, parameters: parameters){success in
+                history.addToPodcast(self.podcastPlaying!)
+                history.historyID = success["id"] as! Int64
+                history.historyUserID = user as! Int64
+                    
+                DatabaseController.saveContext()
+                self.timer.invalidate()
+            }
+        }
+    }
+    
+    func setupPlayer(aController: AudioController, pUrl: String, podcast: Podcast) {
+        podcastPlaying = podcast
         podcastUrl = pUrl
-        podcastName = pName
+        podcastName = podcast.podcastCollection
         let url = URL(string: podcastUrl!)
         playerItem = AVPlayerItem(url: url!)
         
@@ -157,9 +185,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         player?.play()
         audioController?.play()
         self.updateInfoCenter()
+        
+        // Add timer to history
+        if((preferences.object(forKey: "userKey")) != nil && player?.rate != 0){
+        timeLeft = 10
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerRunning), userInfo: nil, repeats: true)
+        }
     }
     
     func pause() {
+        // Stop the timer
+        timer.invalidate()
+        
         audioController?.pause()
         player?.pause()
         self.updateInfoCenter()
