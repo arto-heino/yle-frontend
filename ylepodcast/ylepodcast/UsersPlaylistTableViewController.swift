@@ -17,7 +17,7 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
     let context = DatabaseController.getContext()
     var fetchedResultsController: NSFetchedResultsController<Playlist>!
     
-    var selectedPodcast = Podcast(context: DatabaseController.getContext())
+    var selectedPodcast: Podcast?
     var userPodcast = HttpPosts()
     var preferences = UserDefaults.standard
     
@@ -52,7 +52,7 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
                     playlist.playlistID = success["id"] as! Int64
                     playlist.playlistUserID = self.preferences.object(forKey: "userID") as! Int64
 
-                    playlist.addToPodcast(self.selectedPodcast)
+                    playlist.addToPodcast(self.selectedPodcast!)
                     
                     DatabaseController.saveContext()
             }
@@ -66,32 +66,27 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        func initializeFetchedResultsController() {
-            let request = NSFetchRequest<Playlist>(entityName: "Playlist")
-            let nameSort = NSSortDescriptor(key: "playlistName", ascending: true)
-            request.sortDescriptors = [nameSort]
-            
-            let moc = DatabaseController.getContext()
-            fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
-            
-            fetchedResultsController.delegate = self
-            
-            do {
-                try fetchedResultsController.performFetch()
-                
-            } catch {
-                fatalError("Failed to initialize FetchedResultsController: \(error)")
-            }
-            
-        }
         
         initializeFetchedResultsController()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    func initializeFetchedResultsController() {
+        let request = NSFetchRequest<Playlist>(entityName: "Playlist")
+        let nameSort = NSSortDescriptor(key: "playlistName", ascending: true)
+        request.sortDescriptors = [nameSort]
+        
+        let moc = DatabaseController.getContext()
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
+        
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+            
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -102,32 +97,32 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
     // MARK: - Table view data source
     
     func configureCell(cell: UsersPlaylistTableViewCell, indexPath: IndexPath) {
-        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Playlist else { fatalError("Unexpected Object in FetchedResultsController") }
-        // Populate cell from the NSManagedObject instance
+        let selectedObject = fetchedResultsController.object(at: indexPath)
         cell.ownPlaylistLabel.text = selectedObject.playlistName
         cell.itemsInPlaylistLabel.text = "\(selectedObject.podcast!.count) podcastia"
         print(indexPath)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Playlist else { fatalError("Unexpected Object in FetchedResultsController") }
+        let selectedObject = fetchedResultsController.object(at: indexPath)
         
         let token: String = preferences.object(forKey: "userKey") as? String ?? ""
         let url: String = "http://media.mw.metropolia.fi/arsu/playlists/" + String(selectedObject.playlistID)
-        let parameters: Parameters = ["podcast_id": self.selectedPodcast.podcastID]
+        let parameters: Parameters = ["podcast_id": self.selectedPodcast!.podcastID]
         //FIXME: Need to check double podcasts
         userPodcast.httpPutToBackend(url: url, token: token, parameters: parameters) { success in
             if(success){
-                selectedObject.addToPodcast(self.selectedPodcast)
+                selectedObject.addToPodcast(self.selectedPodcast!)
                 DatabaseController.saveContext()
-                let message: String = self.selectedPodcast.podcastCollection! + ", lisätty listaan."
+                let message: String = self.selectedPodcast!.podcastCollection! + ", lisätty listaan."
                 let alert = UIAlertController(title: "Lisätty soittolistaan", message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
                     print(alert ?? "painoit")
                 }))
+                self.refresh()
                 self.present(alert, animated: true, completion: nil)
             }else{
-                let message: String = self.selectedPodcast.podcastCollection! + ", lisääminen listaan epäonnistui."
+                let message: String = self.selectedPodcast!.podcastCollection! + ", lisääminen listaan epäonnistui."
                 let alert = UIAlertController(title: "Virhe", message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
                     print(alert ?? "painoit")
@@ -153,48 +148,19 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sections = fetchedResultsController.sections else {
-            fatalError("No sections in fetchedResultsController")
-        }
-        let sectionInfo = sections[section]
-        return sectionInfo.numberOfObjects
+        let sections = fetchedResultsController.sections
+        let sectionInfo = sections?[section]
+        return sectionInfo!.numberOfObjects
     }
     
-    private func controllerWillChangeContent(controller: NSFetchedResultsController<Playlist>) {
-        tableView.beginUpdates()
-    }
-    
-    private func controller(controller: NSFetchedResultsController<Playlist>, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
-            tableView.insertSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .fade)
-        case .delete:
-            tableView.deleteSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .fade)
-        case .move:
-            break
-        case .update:
-            break
+    func refresh() {
+        // refresh core data
+        self.initializeFetchedResultsController()
+        // refresh view
+        DispatchQueue.main.async{
+            self.tableView.reloadData()
         }
     }
-    
-    private func controller(controller: NSFetchedResultsController<Playlist>, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-        switch type {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath! as IndexPath], with: .fade)
-        case .delete:
-            tableView.deleteRows(at: [indexPath! as IndexPath], with: .fade)
-        case .update:
-            configureCell(cell: tableView.cellForRow(at: indexPath! as IndexPath)! as! UsersPlaylistTableViewCell, indexPath: indexPath! as IndexPath)
-        case .move:
-            tableView.moveRow(at: indexPath! as IndexPath, to: newIndexPath! as IndexPath)
-        }
-    }
-    
-    private func controllerDidChangeContent(controller: NSFetchedResultsController<Playlist>) {
-        tableView.reloadData()
-        tableView.endUpdates()
-    }
-
 
     /*
     // Override to support conditional editing of the table view.

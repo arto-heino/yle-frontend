@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let userPost = HttpPosts()
     var timer = Timer()
     var timeLeft: Int = 10
-    var podcastPlaying = Podcast(context: DatabaseController.getContext())
+    var podcastPlaying: Podcast?
     
     let commandCenter = MPRemoteCommandCenter.shared()
 
@@ -136,41 +136,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let user = preferences.object(forKey: "userID")
         let url: String = "http://media.mw.metropolia.fi/arsu/history"
         if(timeLeft == 0){
-        do{
+        
             let context = DatabaseController.getContext()
-            let result = try context.fetch(History.fetchRequest())
+            let history = History(context: context)
+            let parameters: Parameters = ["podcast_id": podcastPlaying!.podcastID]
             
-            if(result.count == 0){
-                let history = History(context: context)
-                let parameters: Parameters = ["podcast_id": podcastPlaying.podcastID]
-                userPost.httpPostToBackend(url: url, token: token, parameters: parameters){success in
-                    history.addToPodcast(self.podcastPlaying)
-                    history.historyID = success["id"] as! Int64
-                    history.historyUserID = user as! Int64
+            userPost.httpPostToBackend(url: url, token: token, parameters: parameters){success in
+                history.addToPodcast(self.podcastPlaying!)
+                history.historyID = success["id"] as! Int64
+                history.historyUserID = user as! Int64
                     
-                    DatabaseController.saveContext()
-                    self.timer.invalidate()
-                }
-            }else{
-                let history = result as! [History]
-            for (_,object) in history.enumerated(){
-                if(object.podcast?.contains(podcastPlaying))!{
-                    self.timer.invalidate()
-                }else{
-                    let parameters: Parameters = ["podcast_id": podcastPlaying.podcastID]
-                    userPost.httpPostToBackend(url: url, token: token, parameters: parameters){success in
-                        object.addToPodcast(self.podcastPlaying)
-                        object.historyID = success["id"] as! Int64
-                        object.historyUserID = user as! Int64
-                        
-                        DatabaseController.saveContext()
-                        self.timer.invalidate()
-                    }
-                }
-                }
-            }
-            }catch{
-            
+                DatabaseController.saveContext()
+                self.timer.invalidate()
             }
         }
     }
@@ -210,8 +187,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         updateInfoCenter()
         
         // Add timer to history
+        if((preferences.object(forKey: "userKey")) != nil){
         timeLeft = 10
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerRunning), userInfo: nil, repeats: true)
+        }
     }
     
     func pause() {

@@ -52,8 +52,8 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
     }
     
     func configureCell(cell: PodcastTableViewCell, indexPath: IndexPath) {
-        guard let selectedObject = (fetchedResultsController.object(at: indexPath)) as? Podcast else { fatalError("Unexpected Object in FetchedResultsController") }
-        // Populate cell from the NSManagedObject instance
+        let selectedObject = fetchedResultsController.object(at: indexPath)
+        
         cell.collectionLabel.text = selectedObject.podcastCollection
         cell.descriptionLabel.text = selectedObject.podcastDescription
         cell.durationLabel.text = dataParser.secondsToTimeString(seconds: selectedObject.podcastDuration)
@@ -74,20 +74,21 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
         return fetchedResultsController.sections!.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sections = fetchedResultsController.sections else {
-            fatalError("No sections in fetchedResultsController")
-        }
-        let sectionInfo = sections[section]
-        return sectionInfo.numberOfObjects
+        
+        let sections = fetchedResultsController.sections
+        let sectionInfo = sections?[section]
+        return sectionInfo!.numberOfObjects
     }
 
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Podcast else { fatalError("Unexpected Object in FetchedResultsController") }
+        
+        let selectedObject = fetchedResultsController.object(at: indexPath)
         name = selectedObject.podcastCollection!
         podcast = selectedObject
         dataParser.getAndDecryptUrl(podcast: selectedObject, urlDecryptObserver: self)
@@ -144,7 +145,7 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Podcast else { fatalError("Unexpected Object in FetchedResultsController") }
+        let selectedObject = fetchedResultsController.object(at: indexPath)
         let addAction = UITableViewRowAction(style: .normal, title: "Lisää", handler: { (action: UITableViewRowAction, indexPath: IndexPath) -> Void in
             
             

@@ -16,39 +16,43 @@ class HistoryTableViewController: UITableViewController, NSFetchedResultsControl
     let dataParser = HttpRequesting()
     var url: String = ""
     var name: String = ""
+    var podcast: Podcast?
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        func initializeFetchedResultsController() {
-            let request = NSFetchRequest<History>(entityName: "History")
-            let titleSort = NSSortDescriptor(key: "historyID", ascending: true)
-            request.sortDescriptors = [titleSort]
-            
-            let moc = DatabaseController.getContext()
-            fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
-            
-            fetchedResultsController.delegate = self
-            
-            do {
-                try fetchedResultsController.performFetch()
-                
-            } catch {
-                fatalError("Failed to initialize FetchedResultsController: \(error)")
-            }
-            
-        }
+
         initializeFetchedResultsController()
     }
-
+    
+    func initializeFetchedResultsController() {
+        
+        let request = NSFetchRequest<History>(entityName: "History")
+        let titleSort = NSSortDescriptor(key: "historyID", ascending: true)
+        request.sortDescriptors = [titleSort]
+        
+        let moc = DatabaseController.getContext()
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
+        
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+            
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
+        }
+        
+    }
 
     func urlDecrypted(url: String) {
+        
         self.url = url
         performSegue(withIdentifier: "AudioSegue1", sender: Any?.self)
     }
     
     override func didReceiveMemoryWarning() {
+        
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -58,13 +62,13 @@ class HistoryTableViewController: UITableViewController, NSFetchedResultsControl
     // MARK: - Table view data source
     
     func configureCell(cell: HistoryTableViewCell, indexPath: IndexPath) {
-        guard let selectedObject = (fetchedResultsController.object(at: indexPath)) as? History else { fatalError("Unexpected Object in FetchedResultsController") }
-        // Populate cell from the NSManagedObject instance
-        let podcasts = selectedObject.podcast?.allObjects
-        let podcast = podcasts as? [Podcast]
+        
+        let selectedObject = fetchedResultsController.object(at: indexPath)
+        let podcastObj = selectedObject.podcast?.allObjects
+        let podcasts = podcastObj as? [Podcast]
         
         var i = 0
-        for object in podcast!{
+        for object in podcasts!{
             cell.collectionLabel.text = object.podcastCollection
             cell.descriptionLabel.text = object.podcastDescription
             cell.durationLabel.text = dataParser.secondsToTimeString(seconds: object.podcastDuration)
@@ -83,6 +87,7 @@ class HistoryTableViewController: UITableViewController, NSFetchedResultsControl
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cellIdentifier = "HistoryCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! HistoryTableViewCell
         // Set up the cell
@@ -92,26 +97,29 @@ class HistoryTableViewController: UITableViewController, NSFetchedResultsControl
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
         return fetchedResultsController.sections!.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sections = fetchedResultsController.sections else {
-            fatalError("No sections in fetchedResultsController")
-        }
-        let sectionInfo = sections[section]
-        return sectionInfo.numberOfObjects
+        
+        let sections = fetchedResultsController.sections
+        let sectionInfo = sections?[section]
+        return sectionInfo!.numberOfObjects
     }
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedObject = fetchedResultsController.object(at: indexPath) as? History else { fatalError("Unexpected Object in FetchedResultsController") }
-        let podcasts = selectedObject.podcast?.allObjects
-        let podcast = podcasts as? [Podcast]
+        
+        let selectedObject = fetchedResultsController.object(at: indexPath)
+        
+        let podcastObj = selectedObject.podcast?.allObjects
+        let podcasts = podcastObj as? [Podcast]
         
         var i = 0
-        for object in podcast!{
+        for object in podcasts!{
                 name = object.podcastCollection!
+                podcast = object
                 dataParser.getAndDecryptUrl(podcast: object, urlDecryptObserver: self)
             if indexPath.row == i {
                 break
@@ -122,14 +130,17 @@ class HistoryTableViewController: UITableViewController, NSFetchedResultsControl
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        
         if segue.identifier == "AudioSegue1" {
             let destination = segue.destination as! AudioController
             destination.podcastUrl = url
             destination.podcastName = name
+            destination.podcast = podcast
         }
     }
     
     private func controllerWillChangeContent(controller: NSFetchedResultsController<History>) {
+        
         tableView.beginUpdates()
     }
     
@@ -160,6 +171,7 @@ class HistoryTableViewController: UITableViewController, NSFetchedResultsControl
     }
     
     private func controllerDidChangeContent(controller: NSFetchedResultsController<History>) {
+        
         tableView.endUpdates()
     }
     

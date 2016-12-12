@@ -34,6 +34,21 @@ class DatabaseController{
         return container
     }()
     
+    // MARK: - Core Data Delete support
+    class func clear(table tableName : String) {
+        
+        let context = persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: tableName)
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+        let persistentStoreCoordinator = context.persistentStoreCoordinator!
+        
+        do {
+            try persistentStoreCoordinator.execute(deleteRequest, with: context)
+        } catch let error as NSError {
+            debugPrint(error)
+        }
+    }
+    
     // MARK: - Core Data Saving support
     class func saveContext () {
         let context = persistentContainer.viewContext
