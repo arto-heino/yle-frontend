@@ -107,10 +107,12 @@ class LoginViewController: UIViewController {
         let token: String = preferences.object(forKey: "userKey") as? String ?? ""
         let url: String = "http://media.mw.metropolia.fi/arsu/users"
         users.httpGetFromBackend(url: url, token: token){ success in
-            for (_, event) in (success.enumerated()) {
-                let username: String = event["username"] as! String
+            let object = success as! [Any]
+            for (_, event) in (object.enumerated()) {
+                let user = event as! [String:Any]
+                let username: String = user["username"] as! String
                 if(username == self.preferences.object(forKey: "userName") as! String){
-                    self.preferences.set(event["id"], forKey: "userID")
+                    self.preferences.set(user["id"], forKey: "userID")
                 }
             }
         }

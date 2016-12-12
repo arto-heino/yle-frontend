@@ -51,14 +51,9 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
                     playlist.playlistName = textField!.text
                     playlist.playlistID = success["id"] as! Int64
                     playlist.playlistUserID = self.preferences.object(forKey: "userID") as! Int64
-                
-<<<<<<< HEAD
+
                     playlist.addToPodcast(self.selectedPodcast)
                     
-=======
-                    //playlist.addToPodcast(self.selectedPodcast)
-            
->>>>>>> AddPodcastToBackend
                     DatabaseController.saveContext()
             }
   

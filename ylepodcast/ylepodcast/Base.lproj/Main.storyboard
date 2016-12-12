@@ -41,17 +41,17 @@
                         <viewControllerLayoutGuide type="bottom" id="zFq-b3-YaA"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="P2d-nR-BqU">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Ct-03-8T1">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GiT-x0-9zl">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kirjaudu" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRT-Oi-VX4">
-                                                <rect key="frame" x="100" y="33" width="175" height="23"/>
+                                                <rect key="frame" x="72.5" y="33" width="175" height="23"/>
                                                 <color key="backgroundColor" red="0.99265426397323608" green="0.99590712785720825" blue="0.99583667516708374" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="23" id="Hjs-V7-OiC"/>
@@ -62,21 +62,21 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Käyttäjätunnus" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bDC-nI-UTS">
-                                                <rect key="frame" x="53" y="160" width="269" height="30"/>
+                                                <rect key="frame" x="53" y="160" width="214" height="30"/>
                                                 <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Salasana" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="A9E-ZY-ZFg">
-                                                <rect key="frame" x="53" y="209" width="269" height="30"/>
+                                                <rect key="frame" x="53" y="209" width="214" height="30"/>
                                                 <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u36-XG-Xny">
-                                                <rect key="frame" x="53" y="290" width="269" height="30"/>
+                                                <rect key="frame" x="53" y="290" width="214" height="30"/>
                                                 <color key="backgroundColor" red="0.078431372549019607" green="0.73725490196078436" blue="0.82352941176470584" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <state key="normal" title="Kirjaudu"/>
@@ -85,7 +85,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="edI-vQ-GfF">
-                                                <rect key="frame" x="100" y="408" width="175" height="30"/>
+                                                <rect key="frame" x="72.5" y="408" width="175" height="30"/>
                                                 <state key="normal" title="Rekisteröidy">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -96,7 +96,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n67-Jz-dsd">
-                                                <rect key="frame" x="164" y="337" width="46" height="30"/>
+                                                <rect key="frame" x="136.5" y="337" width="46" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="46" id="E2e-nN-nEI"/>
                                                 </constraints>
@@ -166,14 +166,14 @@
                         <viewControllerLayoutGuide type="bottom" id="Xqw-y8-7Xm"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="VPZ-Dk-89E">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="si9-a5-y67">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rekisteröityminen" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E7m-df-De9">
-                                        <rect key="frame" x="100" y="33" width="175" height="23"/>
+                                        <rect key="frame" x="72.5" y="33" width="175" height="23"/>
                                         <color key="backgroundColor" red="0.99265426397323608" green="0.99590712785720825" blue="0.99583667516708374" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="175" id="gad-Sc-DM2"/>
@@ -184,28 +184,28 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Sähköposti" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oq6-dz-Snx">
-                                        <rect key="frame" x="53" y="114" width="269" height="30"/>
+                                        <rect key="frame" x="53" y="114" width="214" height="30"/>
                                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Käyttäjätunnus" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zox-Xg-Rea">
-                                        <rect key="frame" x="53" y="160" width="269" height="30"/>
+                                        <rect key="frame" x="53" y="160" width="214" height="30"/>
                                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Salasana" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Jw-Kq-SXI">
-                                        <rect key="frame" x="53" y="209" width="269" height="30"/>
+                                        <rect key="frame" x="53" y="209" width="214" height="30"/>
                                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eYP-In-1O4">
-                                        <rect key="frame" x="53" y="290" width="269" height="30"/>
+                                        <rect key="frame" x="53" y="290" width="214" height="30"/>
                                         <color key="backgroundColor" red="0.078431372549019607" green="0.73725490196078436" blue="0.82352941176470584" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Rekisteröi tunnukset"/>
@@ -214,7 +214,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1O6-Xn-Dqf">
-                                        <rect key="frame" x="100" y="408" width="175" height="30"/>
+                                        <rect key="frame" x="72.5" y="408" width="175" height="30"/>
                                         <state key="normal" title="Minulla on jo tunnukset">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -225,7 +225,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HYj-hr-oY6">
-                                        <rect key="frame" x="164" y="337" width="46" height="30"/>
+                                        <rect key="frame" x="136.5" y="337" width="46" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="46" id="uyR-mv-PZa"/>
                                         </constraints>
@@ -919,7 +919,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NEY-0B-HJw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3446" y="231"/>
+            <point key="canvasLocation" x="3849" y="453"/>
         </scene>
         <!--Suositellut-->
         <scene sceneID="GRj-Qt-6T8">
