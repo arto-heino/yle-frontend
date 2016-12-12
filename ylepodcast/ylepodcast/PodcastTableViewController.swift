@@ -12,12 +12,14 @@ import CoreData
 class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSFetchedResultsControllerDelegate {
     
     var podcasts = [Podcast]()
+    var tabController: TabBarController?
     var url: String = ""
-    var name: String = ""
+    var podcast: Podcast? = nil
     let dataParser = HttpRequesting()
     var fetchedResultsController: NSFetchedResultsController<Podcast>!
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabController = self.tabBarController as! TabBarController?
         
         func initializeFetchedResultsController() {
             let request = NSFetchRequest<Podcast>(entityName: "Podcast")
@@ -38,6 +40,11 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
             
         }
         initializeFetchedResultsController()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabController?.showPlayer()
     }
     
     func urlDecrypted(url: String) {
@@ -88,15 +95,15 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let selectedObject = fetchedResultsController.object(at: indexPath) as? Podcast else { fatalError("Unexpected Object in FetchedResultsController") }
-        name = selectedObject.podcastCollection!
+        podcast = selectedObject
         dataParser.getAndDecryptUrl(podcast: selectedObject, urlDecryptObserver: self)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
             if segue.identifier == "AudioSegue1" {
                 let destination = segue.destination as! AudioController
+                destination.podcast = podcast
                 destination.podcastUrl = url
-                destination.podcastName = name
             }
     }
     
