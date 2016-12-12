@@ -49,6 +49,7 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
     
     func urlDecrypted(url: String) {
         self.url = url
+        self.tabController?.hidePlayer()
         performSegue(withIdentifier: "AudioSegue1", sender: Any?.self)
     }
 
