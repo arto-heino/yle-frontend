@@ -156,13 +156,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func play() {
         player?.play()
         audioController?.play()
-        updateInfoCenter()
+        self.updateInfoCenter()
     }
     
     func pause() {
         audioController?.pause()
         player?.pause()
-        updateInfoCenter()
+        self.updateInfoCenter()
         //MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyTitle : podcastName!, MPNowPlayingInfoPropertyDefaultPlaybackRate : NSNumber(value: 0), MPMediaItemPropertyPlaybackDuration : CMTimeGetSeconds((player!.currentItem?.asset.duration)!), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player!.currentTime())]
     }
     

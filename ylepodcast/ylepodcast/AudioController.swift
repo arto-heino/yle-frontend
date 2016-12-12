@@ -18,6 +18,9 @@ class AudioController: UIViewController {
     @IBOutlet weak var CurrentTime: UILabel!
     @IBOutlet weak var TimeLeft: UILabel!
     @IBOutlet weak var theProgressBar: UISlider!
+    @IBOutlet weak var PodcastNameLabel: MarqueeLabel!
+    @IBOutlet weak var PodcastImageView: UIImageView!
+    var podcast: Podcast?
     var podcastUrl: String?
     var podcastName: String?
     var path: String = ""
@@ -38,12 +41,26 @@ class AudioController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        podcastName = podcast!.podcastCollection
+        let podcastImageData = podcast?.podcastImage
+        if podcastImageData != nil {
+            let image = UIImage(data: podcastImageData as! Data)
+            PodcastImageView.image = image
+         }
+        //PodcastNameLabel.restartLabel()
         setUpPlayer()
         appDelegate.togglePlayPause()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(AudioController.finishedPlaying), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: appDelegate.playerItem)
+        PodcastNameLabel.text = podcastName
+        PodcastNameLabel.type = .continuous
+        PodcastNameLabel.speed = .rate(40)
+        PodcastNameLabel.animationCurve = .easeInOut
+        PodcastNameLabel.fadeLength = 10.0
+        PodcastNameLabel.leadingBuffer = 15.0
+        PodcastNameLabel.trailingBuffer = 15.0
     }
     
     override func viewWillDisappear(_ animated: Bool) {
