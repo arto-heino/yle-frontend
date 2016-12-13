@@ -21,7 +21,8 @@ class AudioController: UIViewController {
     @IBOutlet weak var theProgressBar: UISlider!
     @IBOutlet weak var PodcastNameLabel: MarqueeLabel!
     @IBOutlet weak var PodcastImageView: UIImageView!
-
+    @IBOutlet weak var PodcastDescription: UILabel!
+    
     var podcast: Podcast?
     var podcastUrl: String?
     var podcastName: String?
@@ -50,6 +51,7 @@ class AudioController: UIViewController {
             let image = UIImage(data: podcastImageData as! Data)
             PodcastImageView.image = image
          }
+        PodcastDescription.text = podcast?.podcastDescription
         //PodcastNameLabel.restartLabel()
         setUpPlayer()
     }
