@@ -14,6 +14,7 @@
 		1317D3711DE5B2620087EF98 /* HttpPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1317D3701DE5B2620087EF98 /* HttpPosts.swift */; };
 		1329E05D1DE59575006CE49B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		1354D66F1DFEE4D900CAE24F /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1354D66E1DFEE4D900CAE24F /* HistoryTableViewCell.swift */; };
+		1378E9271E00BC33003958A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74280FBB1DF04DE8006275F8 /* Main.storyboard */; };
 		13A5D3461DC3389400CEB0D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */; };
 		13A5D3481DC3389400CEB0D4 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3471DC3389400CEB0D4 /* TabBarController.swift */; };
 		13A5D34D1DC3389400CEB0D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13A5D34C1DC3389400CEB0D4 /* Assets.xcassets */; };
@@ -383,6 +384,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1378E9271E00BC33003958A5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
