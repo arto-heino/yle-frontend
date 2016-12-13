@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11542" systemVersion="15G1004" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11542" systemVersion="15G31" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="History" representedClassName="History" syncable="YES" codeGenerationType="class">
         <attribute name="historyID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="historyUserID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -14,7 +14,7 @@
     </entity>
     <entity name="Podcast" representedClassName="Podcast" syncable="YES" codeGenerationType="class">
         <attribute name="podcastCollection" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="podcastCollectionID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="podcastCollectionID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="podcastDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="podcastDuration" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="podcastID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -27,8 +27,8 @@
         <relationship name="playlists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Playlist" inverseName="podcast" inverseEntity="Playlist" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Playlist" positionX="198" positionY="-45" width="128" height="120"/>
-        <element name="Podcast" positionX="-63" positionY="-18" width="128" height="223"/>
         <element name="History" positionX="27" positionY="308" width="128" height="88"/>
+        <element name="Playlist" positionX="198" positionY="-45" width="128" height="120"/>
+        <element name="Podcast" positionX="-63" positionY="-18" width="128" height="225"/>
     </elements>
 </model>

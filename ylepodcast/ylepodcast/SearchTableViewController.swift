@@ -61,7 +61,7 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         // keyword in collections
         let collectionSearchResults = allPods.filter { podcast in
-            return ((podcast?.podcastCollection)?.lowercased().contains(searchText.lowercased()))!
+            return ((podcast?.podcastTitle)?.lowercased().contains(searchText.lowercased()))!
         }
         // keyword in descriptions
         let descriptionSearchResults = allPods.filter { podcast in
@@ -127,7 +127,7 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, UI
 
         let podcast = searchResults[indexPath.row]
         
-        cell.collectionLabel.text = podcast?.podcastCollection 
+        cell.collectionLabel.text = podcast?.podcastTitle
         cell.descriptionLabel.text = podcast?.podcastDescription 
         return cell
     }
