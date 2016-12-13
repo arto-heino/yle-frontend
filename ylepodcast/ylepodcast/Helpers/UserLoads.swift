@@ -19,7 +19,10 @@ class UserLoads{
         token = preferences.object(forKey: "userKey") as? String ?? ""
     }
     
+    // MARK: - PLAYLISTS
+
     func getPlaylists(){
+        
         let token = preferences.object(forKey: "userKey") as? String ?? ""
         let id: String = preferences.object(forKey: "userID") as? String ?? ""
         let url: String = "http://media.mw.metropolia.fi/arsu/playlists/user/" + id
@@ -29,6 +32,7 @@ class UserLoads{
             let result = try context.fetch(Playlist.fetchRequest())
             let playlist = result as! [Playlist]
             
+            // FIXME: Need to apply better solution to find if there is new playlists in backend
             if(playlist.count == 0){
                 userRequests.httpGetFromBackend(url: url, token: token) { success in
                     let object = success as! [Any]
@@ -39,27 +43,29 @@ class UserLoads{
                         playlist.playlistID = playlist_item["id"] as! Int64
                         playlist.playlistName = playlist_item["playlist_name"] as! String?
                         playlist.playlistUserID = playlist_item["user_id"] as! Int64
-                        playlist.playlistTypeName = "Omat soittolistat"
                         
                         DatabaseController.saveContext()
                     }
                     self.getPodcastsToPlaylist()
                 }
             }else{
-                print("do nothing")
+                // Need to check new playlists
             }
         }catch{
-            print("model is lost")
+            print("Error in fetching playlists!")
         }
 
     }
     
     func getPodcastsToPlaylist(){
+        
         do{
             let token = preferences.object(forKey: "userKey") as? String ?? ""
             let context = DatabaseController.getContext()
+            
             let result_playlist = try context.fetch(Playlist.fetchRequest())
             let result_podcast = try context.fetch(Podcast.fetchRequest())
+            
             let podcast = result_podcast as! [Podcast]
             let playlist = result_playlist as! [Playlist]
             
@@ -85,11 +91,14 @@ class UserLoads{
             
             }
         }catch{
-            
+            print("Error in fetching podcasts to playlist")
         }
     }
     
+    // MARK: - HISTORY
+
     func getHistory(){
+        
         let token = preferences.object(forKey: "userKey") as? String ?? ""
         let url: String = "http://media.mw.metropolia.fi/arsu/history"
         
@@ -101,6 +110,7 @@ class UserLoads{
             let history = result as! [History]
             let podcast = result_podcast as! [Podcast]
             
+            // FIXME: Need to apply better solution to find if there is new history in backend
             if(history.count == 0){
                 userRequests.httpGetFromBackend(url: url, token: token) { success in
                     let object = success as! [Any]
@@ -123,16 +133,18 @@ class UserLoads{
                     }
                 }
             }else{
-                print("do nothing")
+                // Need to check new playlists
             }
         }catch{
-            print("model is lost")
+            print("Error in fetching history")
         }
         
     }
     
+    // MARK: - LOGOUT
     // Delete all user-related entitys
     func logOut(){
+        
             self.preferences.removeObject(forKey: "userKey")
             self.preferences.removeObject(forKey: "userName")
             self.preferences.removeObject(forKey: "userID")

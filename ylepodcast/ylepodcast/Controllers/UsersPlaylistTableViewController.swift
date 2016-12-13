@@ -14,6 +14,8 @@ import Alamofire
 
 class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
+    // MARK: VARIABLES
+    
     let context = DatabaseController.getContext()
     var fetchedResultsController: NSFetchedResultsController<Playlist>!
     
@@ -21,14 +23,15 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
     var userPodcast = HttpPosts()
     var preferences = UserDefaults.standard
     
+    // MARK: ACTIONS
     
     @IBAction func cancelAction(_ sender: Any) {
         _ = self.navigationController?.popViewController(animated: true)
     }
     
+    // FIXME: Need to add error checking
     @IBAction func createOwnPlaylist(_ sender: Any) {
     
-        
         let alert = UIAlertController(title: "Luo soittolista", message: "Luo uusi soittolista", preferredStyle: UIAlertControllerStyle.alert)
         
         alert.addTextField { (textField) in
@@ -64,6 +67,9 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
         self.present(alert, animated: true, completion: nil)
 
     }
+    
+    // MARK: INITIALIZER
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -94,7 +100,7 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
+    // MARK: TABLEVIEW
     
     func configureCell(cell: UsersPlaylistTableViewCell, indexPath: IndexPath) {
         let selectedObject = fetchedResultsController.object(at: indexPath)
@@ -102,6 +108,7 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
         cell.itemsInPlaylistLabel.text = "\(selectedObject.podcast!.count) podcastia"
     }
     
+    // FIXME: Need to check error message and does this work
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedObject = fetchedResultsController.object(at: indexPath)
         
@@ -131,7 +138,6 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
         
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "UsersPlaylistCell"
         
@@ -165,49 +171,4 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
         }
     }
     
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

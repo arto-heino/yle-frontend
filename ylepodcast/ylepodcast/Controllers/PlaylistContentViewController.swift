@@ -11,14 +11,20 @@ import CoreData
 
 class PlaylistContentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate {
     
+    // MARK: VARIABLES
+    
     let dataParser = HttpRequesting()
     var fetchedResultsController: NSFetchedResultsController<Playlist>!
     
     var selectedPlaylist = Playlist(context: DatabaseController.getContext())
 
+    // MARK: LABELS
+    
     @IBOutlet weak var tableView: UITableView!
 
     @IBOutlet weak var playlistNameInListingLabel: UILabel!
+    
+    // MARK: INITIALIZERS
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,9 +36,9 @@ class PlaylistContentViewController: UIViewController, UITableViewDataSource, UI
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: - Table view data source
+    // MARK: HELPERS
     
-    // TODO: Need better solution?
+    // FIXME: Need better solution?
     func configureCell(cell: ItemInPlaylistTableViewCell, indexPath: IndexPath) {
         let podcasts = selectedPlaylist.podcast?.allObjects
         let podcast = podcasts as? [Podcast]
@@ -49,6 +55,20 @@ class PlaylistContentViewController: UIViewController, UITableViewDataSource, UI
         }
     
     }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch(type) {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+            return
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        default:
+            return
+        }
+    }
+    
+    // MARK: TABLEVIEW
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "ItemInPlaylistCell"
@@ -69,62 +89,4 @@ class PlaylistContentViewController: UIViewController, UITableViewDataSource, UI
         return count
     }
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch(type) {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .fade)
-            return
-        case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .fade)
-        default:
-            return
-        }
-    }
-    
-    /*private func controllerWillChangeContent(controller: NSFetchedResultsController<Playlist>) {
-        tableView.beginUpdates()
-    }
-    
-    private func controller(controller: NSFetchedResultsController<Playlist>, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
-            tableView.insertSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .fade)
-        case .delete:
-            tableView.deleteSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .fade)
-        case .move:
-            break
-        case .update:
-            break
-        }
-    }
-    
-    private func controller(controller: NSFetchedResultsController<Playlist>, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-        switch type {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath! as IndexPath], with: .fade)
-        case .delete:
-            tableView.deleteRows(at: [indexPath! as IndexPath], with: .fade)
-        case .update:
-            configureCell(cell: tableView.cellForRow(at: indexPath! as IndexPath)! as! ItemInPlaylistTableViewCell, indexPath: indexPath! as IndexPath)
-        case .move:
-            tableView.moveRow(at: indexPath! as IndexPath, to: newIndexPath! as IndexPath)
-        }
-    }
-    
-    private func controllerDidChangeContent(controller: NSFetchedResultsController<Playlist>) {
-        tableView.endUpdates()
-    }
-*/
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

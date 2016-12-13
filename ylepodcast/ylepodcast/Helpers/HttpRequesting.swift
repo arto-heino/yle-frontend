@@ -6,6 +6,8 @@
 //  Copyright © 2016 Metropolia. All rights reserved.
 //
 
+// FIXME: Need to move some of the functions to new helper class?
+
 import Foundation
 import Alamofire
 import UIKit
@@ -14,60 +16,17 @@ import CryptoSwift
 
 class HttpRequesting {
     
-    var message: String
-    var apiKey: String
-    var alertMessage: String
-    var error: Bool
-    var done: Bool
     var cryptKey: String
     
     init () {
-        self.message = ""
-        self.alertMessage = ""
-        self.error = true
-        self.done = false
-        self.apiKey = ""
         
         let path = Bundle.main.path(forResource: "settings", ofType: "plist")
         let dict = NSDictionary(contentsOfFile: path!) as! [String:String]
         self.cryptKey = dict["podcastDecryptKey"]!
     }
     
-    
-    func setMessage(statusMessage: String) {
-        self.alertMessage = statusMessage
-    }
-    
-    func setStatus(status: Bool) {
-        self.done = status
-    }
-    
-    func setError(error: Bool) {
-        self.error = error
-    }
-    
-    func setApiKey(apiKey: String) {
-        self.apiKey = apiKey
-    }
-    
-    func getMessage() -> String {
-        return self.alertMessage
-    }
-    
-    func getApiKey() -> String {
-        return self.apiKey
-    }
-    
-    func getStatus() -> Bool {
-        return self.done
-    }
-    
-    func getError() -> Bool {
-        return self.error
-    }
-    
-    
-    // Gets the apikey from the server
+    // Gets the apikey from the metropolia aanimaisema server
+    /*
     func httpGetApi () {
         
         let parameters: Parameters = ["username": "podcast", "password": "podcast16"]
@@ -83,14 +42,19 @@ class HttpRequesting {
                 }
         }
     }
+  */
     
-    // Gets podcast from the server using apikey and category
+    // MARK: - PODCASTS
+    // Parse podcast from the YLEAPI using appkey, appid, availability, mediaobject, order, limit, type and contentprotection. Returns Podcast Array
+    // FIXME: Contains lots of useless parsing
+    
     func httpGetPodCasts () {
+        
         var podcastArray: [[String : Any?]] = []
         
-        let parameters2: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"50", "type": "radioprogram", "contentprotection": "22-0,22-1" ]
+        let parametersToYle: Parameters = ["app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f", "availability": "ondemand","mediaobject": "audio", "order": "playcount.6h:desc", "limit":"50", "type": "radioprogram", "contentprotection": "22-0,22-1" ]
         
-        Alamofire.request("https://external.api.yle.fi/v1/programs/items.json", method: .get, parameters:parameters2, encoding: URLEncoding.default)
+        Alamofire.request("https://external.api.yle.fi/v1/programs/items.json", method: .get, parameters:parametersToYle, encoding: URLEncoding.default)
             .responseJSON{response in
                 if let json = response.result.value {
                     if let array = json as? [String:Any]{
@@ -103,8 +67,6 @@ class HttpRequesting {
                                     if status == "currently" && type == "OnDemandPublication" {
                                         let media = event["media"] as? [String:Any]
                                         let media_id = media?["id"] as? String ?? ""
-                                        
-                                        let tags = item["tags"] as? [String:Any]
                                         let title = item["title"] as! [String:Any]
                                         let duration = item["duration"] as? String ?? ""
                                         let description = item["description"] as! [String:Any]
@@ -112,11 +74,6 @@ class HttpRequesting {
                                         let seriesID = series["id"] as? String ?? "No series ID."
                                         let seriesTitles = series["title"] as! [String:Any]
                                         let seriesTitle = seriesTitles["fi"] as? String ?? "No series title."
-                                        print("Part of series: ")
-                                        print(seriesID)
-                                        print(seriesTitle)
-                                        
-                                        //let pUrl = item["Download link"] as? String ?? ""
                                         let program_id = item["id"] as? String ?? ""
                                         let parsedDuration = self.parseDuration(duration: duration)
                                         
@@ -144,33 +101,41 @@ class HttpRequesting {
                             }
                         }
                     }
-                    
+                    // Send the Podcast array to url check
                     self.checkPodcastAvailability(podcastArray: podcastArray)
                     
                 } else{
-                    print("Ei mene if lauseen läpi")
+                    print("Error when parsing from YLEAPI!")
                 }
         }
     }
     
+    // Check the podcast availability (program_id, media_id, protocol, app_id, app_key), is it possible to play the podcast. Add the playable podcasts to CoreData
+    
     func checkPodcastAvailability(podcastArray: Array<[String : Any?]>) {
+        
         for podcastItem in podcastArray {
-            let params: Parameters = ["program_id": podcastItem["podcastID"]!!, "media_id": podcastItem["podcastMediaID"]!!, "protocol": "PMD", "app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f"]
-            Alamofire.request("https://external.api.yle.fi/v1/media/playouts.json", method: .get, parameters:params, encoding: URLEncoding.default).responseJSON{response in
+            let parametersToYle: Parameters = ["program_id": podcastItem["podcastID"]!!, "media_id": podcastItem["podcastMediaID"]!!, "protocol": "PMD", "app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f"]
+            
+            Alamofire.request("https://external.api.yle.fi/v1/media/playouts.json", method: .get, parameters:parametersToYle, encoding: URLEncoding.default).responseJSON{response in
 
+                // If response from the server is not nil, the podcast is playable.
                 if response.result.value != nil {
                     let context = DatabaseController.getContext()
                     let podcast = Podcast(context: context)
+                    
                     if podcastItem["imageURL"] != nil {
                         self.getPodcastImage(context: context, podcast: podcast, url: podcastItem["imageURL"] as! String)
                     }
+                    
                     podcast.podcastTitle = podcastItem["podcastTitle"]! as! String?
                     podcast.podcastDescription = podcastItem["podcastDescription"]! as! String?
                     podcast.podcastDuration = Int64(podcastItem["podcastDuration"]! as! Int)
                     podcast.podcastMediaID = podcastItem["podcastMediaID"]! as? String
                     podcast.podcastCollection = podcastItem["seriesTitle"]! as? String
                     podcast.podcastCollectionID = podcastItem["seriesID"]! as? String
-                
+                    
+                    // Modify the podcast id to int, remove -
                     let modifiedID = (podcastItem["podcastID"] as AnyObject).replacingOccurrences(of: "-", with: "")
                     let podcastID = Int64(modifiedID)
                 
@@ -179,7 +144,7 @@ class HttpRequesting {
                     DatabaseController.saveContext()
                 
                 } else {
-                    print("Shit happens")
+                    // Could not play the podcast, delete it.
                 }
 
             }
@@ -193,99 +158,16 @@ class HttpRequesting {
                 let imageDataArray = [UInt8](data)
                 let imageData = NSData(bytes: imageDataArray, length: imageDataArray.count)
                 podcast.podcastImage = imageData
-                //print("image data: ")
-                //print(imageData)
+
                 DatabaseController.saveContext()
             }
         }
         
     }
     
-    func getAndDecryptUrl(podcast: Podcast, urlDecryptObserver: UrlDecryptObserver) {
-        var dec_url = ""
-        var podcastID:String {
-            return "\(podcast.podcastID)"
-        }
-        let substr1 = podcastID.substring(to: podcastID.index(after: podcastID.startIndex)).appending("-")
-        let substr2 = podcastID.substring(from: podcastID.index(after: podcastID.startIndex))
-        let programID = substr1 + substr2
-        let params: Parameters = ["program_id": programID, "media_id": podcast.podcastMediaID!, "protocol": "PMD", "app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f"]
-        print(params)
-        Alamofire.request("https://external.api.yle.fi/v1/media/playouts.json", method: .get, parameters:params, encoding: URLEncoding.default).responseJSON{response in
-            if let json = response.result.value {
-                if let array = json as? [String:Any]{
-                    if let details = array["data"] as? [[String:Any]] {
-                        let item = details[0]
-                        let enc_url = item["url"] as? String ?? ""
-                        let decodedData = Data(base64Encoded: enc_url, options:NSData.Base64DecodingOptions(rawValue: 0))
-                        let decodedArray = [UInt8](decodedData!)
-                        
-                        let iv = Array(decodedArray[0 ... 15])
-                        let message = Array(decodedArray[16 ..< (decodedArray.count)])
-                        
-                        let key = self.cryptKey
-                        let keyData = key.data(using: .utf8)!
-                        let decodedKeyArray = [UInt8](keyData)
-                        
-                        dec_url = self.aesDecrypt(key: decodedKeyArray, iv: iv, message: message)
-                    }
-                }
-                urlDecryptObserver.urlDecrypted(url: dec_url)
-            } else {
-                print("Shit happens")
-            }
-        }
-    }
-    
-    func httpGetFromBackend (url:String!, token: String!, completion:@escaping (AnyObject) -> Void) {
-        let headers: HTTPHeaders = [
-            "x-access-token": token
-        ]
-        
-        Alamofire.request(url, method: .get, headers:headers)
-            .responseJSON{response in
-                if let httpStatusCode = response.response?.statusCode {
-                    switch(httpStatusCode) {
-                    case 200:
-                        if let data = response.result.value{
-                            completion(data as AnyObject)
-                            return
-                        }
-                    default:
-                        if let data = response.result.value{
-                            completion(data as AnyObject)
-                            return
-                        }
-                    }
-                }else{
-                    self.setMessage(statusMessage: "Something went wrong.")
-                }
-        }
-    }
-
-    func base64ToByteArray(base64String: String) -> [UInt8]? {
-        if let nsdata = NSData(base64Encoded: base64String, options: []) {
-            var bytes = [UInt8](repeating: 0, count: nsdata.length)
-            nsdata.getBytes(&bytes, length: bytes.count)
-            return bytes
-        }
-        return nil // Invalid input
-    }
-    
-    
-    func aesDecrypt(key: Array<UInt8>, iv: Array<UInt8>, message: Array<UInt8>) -> String {
-        var result: NSString = ""
-        do {
-            let decrypted:[UInt8] = try AES(key: key, iv: iv, blockMode: .CBC, padding: PKCS7()).decrypt(message)
-            let decData = NSData(bytes: decrypted, length: Int(decrypted.count))
-            result = NSString(data: decData as Data, encoding: String.Encoding.utf8.rawValue)!
-        } catch {
-            print(error)
-        }
-        return String(result)
-    }
-    
+    // Parse the podcast duration to minutes
     func parseDuration(duration: String) -> Int {
+        
         var pSeconds = 0
         var pMinutes = 0
         var pHours = 0
@@ -339,4 +221,100 @@ class HttpRequesting {
         
         return timeString
     }
+
+    
+    // MARK: - BACKEND
+    // Helper function to get data from backend (url, token) return AnyObject of response
+    func httpGetFromBackend (url:String!, token: String!, completion:@escaping (AnyObject) -> Void) {
+        
+        let headers: HTTPHeaders = [
+            "x-access-token": token
+        ]
+        
+        Alamofire.request(url, method: .get, headers:headers)
+            .responseJSON{response in
+                if let httpStatusCode = response.response?.statusCode {
+                    switch(httpStatusCode) {
+                    case 200:
+                        if let data = response.result.value{
+                            completion(data as AnyObject)
+                            return
+                        }
+                    default:
+                        // Should cast an error if the get don´t complete
+                        if let data = response.result.value{
+                            completion(data as AnyObject)
+                            return
+                    }
+                }
+            }
+        }
+    }
+
+    // MARK: - ENCRYPT
+    // Probably need to move to new class?
+    
+    // Get the podcast url and decrypt it (program_id, media_id, protocol, app_id, app_key). Returns decrypted url which can be played
+    func getAndDecryptUrl(podcast: Podcast, urlDecryptObserver: UrlDecryptObserver) {
+        
+        var dec_url = ""
+        var podcastID:String {
+            return "\(podcast.podcastID)"
+        }
+        let substr1 = podcastID.substring(to: podcastID.index(after: podcastID.startIndex)).appending("-")
+        let substr2 = podcastID.substring(from: podcastID.index(after: podcastID.startIndex))
+        let programID = substr1 + substr2
+        let params: Parameters = ["program_id": programID, "media_id": podcast.podcastMediaID!, "protocol": "PMD", "app_id": "9fb5a69d", "app_key": "100c18223e4a9346ee4a7294fb3c8a1f"]
+        
+        Alamofire.request("https://external.api.yle.fi/v1/media/playouts.json", method: .get, parameters:params, encoding: URLEncoding.default).responseJSON{response in
+            if let json = response.result.value {
+                if let array = json as? [String:Any]{
+                    if let details = array["data"] as? [[String:Any]] {
+                        let item = details[0]
+                        let enc_url = item["url"] as? String ?? ""
+                        let decodedData = Data(base64Encoded: enc_url, options:NSData.Base64DecodingOptions(rawValue: 0))
+                        let decodedArray = [UInt8](decodedData!)
+                        
+                        let iv = Array(decodedArray[0 ... 15])
+                        let message = Array(decodedArray[16 ..< (decodedArray.count)])
+                        
+                        let key = self.cryptKey
+                        let keyData = key.data(using: .utf8)!
+                        let decodedKeyArray = [UInt8](keyData)
+                        
+                        dec_url = self.aesDecrypt(key: decodedKeyArray, iv: iv, message: message)
+                    }
+                }
+                // Send the decrypted url to observer and start playing the podcast
+                urlDecryptObserver.urlDecrypted(url: dec_url)
+            } else {
+                // Can´t decrypt the url, should cast an error to user and delete podcast?
+            }
+        }
+    }
+    
+    func base64ToByteArray(base64String: String) -> [UInt8]? {
+        
+        if let nsdata = NSData(base64Encoded: base64String, options: []) {
+            var bytes = [UInt8](repeating: 0, count: nsdata.length)
+            nsdata.getBytes(&bytes, length: bytes.count)
+            return bytes
+        }
+        return nil // Invalid input
+    }
+    
+    func aesDecrypt(key: Array<UInt8>, iv: Array<UInt8>, message: Array<UInt8>) -> String {
+        
+        var result: NSString = ""
+        do {
+            let decrypted:[UInt8] = try AES(key: key, iv: iv, blockMode: .CBC, padding: PKCS7()).decrypt(message)
+            let decData = NSData(bytes: decrypted, length: Int(decrypted.count))
+            result = NSString(data: decData as Data, encoding: String.Encoding.utf8.rawValue)!
+        } catch {
+            // What it should print? Warn user?
+            print(error)
+        }
+        return String(result)
+    }
+    
 }

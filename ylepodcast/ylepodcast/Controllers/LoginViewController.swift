@@ -10,7 +10,7 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
-    
+    // MARK: LABELS
     
     @IBOutlet weak var usernameLabel: UITextField!
     
@@ -18,20 +18,24 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var loginInfoButton: UIButton!
     
+    // MARK: VARIABLES
+    
     let login = HttpPosts()
     let users = HttpRequesting()
     var preferences = UserDefaults.standard
     let userLoads = UserLoads()
     
+    // MARK: INITIALIZERS
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
-        if self.preferences.object(forKey: "userKey") != nil
-        {
+        // Check if the user is loged in
+        // FIXME: Need to check this from logedin preference, should not read key if not needed.
+        if self.preferences.object(forKey: "userKey") != nil{
             LoginDone()
-        }
-        else
-        {
+        }else{
             LoginToDo()
         }
         
@@ -41,67 +45,82 @@ class LoginViewController: UIViewController {
         view.addGestureRecognizer(tap)
     }
     
+    override func didReceiveMemoryWarning() {
+        
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: HELPERS
+    // TODO: Need to code better validator and crypt the password
+    
     //Calls this function when the tap is recognized.
     func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        
         view.endEditing(true)
 
     }
+    
     func checkValidUsername() -> Bool {
+        
         let text = usernameLabel.text ?? ""
         return !text.isEmpty
     }
     
     
     func checkValidPassword() -> Bool {
+        
         let text = passwordLabel.text ?? ""
         return !text.isEmpty
     }
     func enableLoginButton(enable: Bool) {
-        loginInfoButton.isEnabled = enable
         
+        loginInfoButton.isEnabled = enable
     }
+    
     func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
+        
         view.endEditing(true)
         super.touchesBegan(touches, with: event)
     }
     
     
     func textFieldDidEndEditing(textField: UITextField) {
+        
         enableLoginButton(enable: checkValidPassword() && checkValidUsername())
     }
 
 
+    // MARK: ACTIONS
+    
     @IBAction func DoLogin(_ sender: Any) {
         
-        if(loginInfoButton.titleLabel?.text == "Kirjaudu ulos")
-        {
-
+        if(loginInfoButton.titleLabel?.text == "Kirjaudu ulos"){
             userLoads.logOut()
             LoginToDo()
-        }
-        else{
+        }else{
             login_now(username:usernameLabel.text!, password: passwordLabel.text!)
         }
         
 
     }
 
-    func login_now(username:String, password:String)
-    {
+    func login_now(username:String, password:String){
+        
         login.httpLogin(username: username, password: password) { success in
             if success {
                 self.LoginDone()
             } else {
+                // TODO: Need to show error to user
                 self.LoginToDo()
 
             }
         }
-        
     }
     
-    func LoginDone()
-    {
+    // If login will be true
+    func LoginDone(){
+        
         let token: String = preferences.object(forKey: "userKey") as? String ?? ""
         let url: String = "http://media.mw.metropolia.fi/arsu/users"
         users.httpGetFromBackend(url: url, token: token){ success in
@@ -114,6 +133,7 @@ class LoginViewController: UIViewController {
                 }
             }
         }
+        
         usernameLabel.text = self.preferences.object(forKey: "userName") as? String
         passwordLabel.text = ""
         usernameLabel.isEnabled = false
@@ -124,15 +144,18 @@ class LoginViewController: UIViewController {
         
         
         loginInfoButton.setTitle("Kirjaudu ulos", for: .normal)
+        
+        // Get all user-related stuff from CoreData/backend
         userLoads.getPlaylists()
         userLoads.getHistory()
+        
         let vc = storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! TabBarController
         self.show(vc, sender: nil)
-
     }
     
-    func LoginToDo()
-    {
+    // If user is not logged in show these
+    func LoginToDo(){
+        
         usernameLabel.text = ""
         usernameLabel.isEnabled = true
         passwordLabel.isEnabled = true
@@ -142,21 +165,5 @@ class LoginViewController: UIViewController {
         
         loginInfoButton.setTitle("Kirjaudu sisään", for: .normal)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

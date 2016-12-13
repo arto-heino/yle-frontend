@@ -11,38 +11,45 @@ import CoreData
 
 class PodcastCategoriedTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UrlDecryptObserver {
     
+    // MARK: VARIABLES
+    
     var category: String = ""
     var fetchedResultsController: NSFetchedResultsController<Podcast>!
     let dataParser = HttpRequesting()
     var url: String = ""
     var podcast: Podcast?
     
+    // MARK: INITIALIZER
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        func initializeFetchedResultsController() {
-            let request = NSFetchRequest<Podcast>(entityName: "Podcast")
-            let titleSort = NSSortDescriptor(key: "podcastTitle", ascending: true)
-            request.sortDescriptors = [titleSort]
-            
-            let commentPredicate = NSPredicate(format: "%K == %@", "podcastCategory", category)
-            request.predicate = commentPredicate
-            
-            let moc = DatabaseController.getContext()
-            fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
-            
-            fetchedResultsController.delegate = self
-            
-            do {
-                try fetchedResultsController.performFetch()
-                
-            } catch {
-                fatalError("Failed to initialize FetchedResultsController: \(error)")
-            }
-            
-        }
         initializeFetchedResultsController()
     }
+    
+    func initializeFetchedResultsController() {
+        let request = NSFetchRequest<Podcast>(entityName: "Podcast")
+        let titleSort = NSSortDescriptor(key: "podcastTitle", ascending: true)
+        request.sortDescriptors = [titleSort]
+        
+        // Filter podcast by using category, which is sended by Category
+        let commentPredicate = NSPredicate(format: "%K == %@", "podcastCategory", category)
+        request.predicate = commentPredicate
+        
+        let moc = DatabaseController.getContext()
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
+        
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+            
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
+        }
+        
+    }
+    
+    // MARK: HELPERS
     
     func urlDecrypted(url: String) {
         self.url = url
@@ -61,6 +68,8 @@ class PodcastCategoriedTableViewController: UITableViewController, NSFetchedResu
             cell.podcastImageView.image = image
         }
     }
+    
+    // MARK: TABLEVIEW
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "PodcastCell"
@@ -83,20 +92,11 @@ class PodcastCategoriedTableViewController: UITableViewController, NSFetchedResu
         return sectionInfo!.numberOfObjects
     }
     
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let selectedObject = fetchedResultsController.object(at: indexPath)
         podcast = selectedObject
         dataParser.getAndDecryptUrl(podcast: selectedObject, urlDecryptObserver: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        if segue.identifier == "AudioSegue1" {
-            let destination = segue.destination as! AudioController
-            destination.podcast = podcast
-            destination.podcastUrl = url
-        }
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -122,6 +122,16 @@ class PodcastCategoriedTableViewController: UITableViewController, NSFetchedResu
         
         addAction.backgroundColor = UIColor.init(red: 20/255.0, green: 188/255.0, blue: 210/255.0, alpha: 0.5)
         return [addAction]
+    }
+    
+    // MARK: NAVIGATION
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if segue.identifier == "AudioSegue1" {
+            let destination = segue.destination as! AudioController
+            destination.podcast = podcast
+            destination.podcastUrl = url
+        }
     }
     
 }

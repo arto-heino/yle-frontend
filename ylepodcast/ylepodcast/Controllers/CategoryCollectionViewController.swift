@@ -9,12 +9,20 @@
 import UIKit
 class CategoryCollectionViewController: UICollectionViewController {
     
+    // MARK: VARIABLES
+    
+    // Add categories
+    // TODO: Should they be hard coded? YLEAPI will provide all categories!
     var categories = ["Viihde", "Musiikki", "Draama", "Asia", "Kulttuuri", "Historia", "Luonto", "Hartaudet", "Lapset", "Ajankohtaisohjelmat", "Uutiset", "Urheilu"]
     var selectedCategory: String = ""
 
+    // MARK: INITIALIZERS
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    // MARK: TABLEVIEW
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -41,6 +49,8 @@ class CategoryCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedCategory = categories[indexPath.row]
     }
+    
+    // MARK: NAVIGATION
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "CategorySegue" {
