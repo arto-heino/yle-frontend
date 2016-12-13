@@ -153,7 +153,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func setupPlayer(aController: AudioController, pUrl: String, podcast: Podcast) {
+    func registerAudioController(aController: AudioController) {
+        audioController = aController
+    }
+    
+    func setupPlayer(pUrl: String, podcast: Podcast) {
         podcastPlaying = podcast
         podcastUrl = pUrl
         podcastName = podcast.podcastTitle
@@ -166,7 +170,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             player?.pause()
             player?.replaceCurrentItem(with: playerItem)
         }
-        audioController = aController
         commandCenter.playCommand.isEnabled = true
         commandCenter.playCommand.addTarget(self, action: #selector(play))
         

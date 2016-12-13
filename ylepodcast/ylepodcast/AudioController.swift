@@ -32,6 +32,7 @@ class AudioController: UIViewController {
     var newDurationSeconds: Float64 = 0.0
     let preDurationString: String = "-"
     var inRunLoop: Bool = false
+    var newPlayerInit: Bool = false
     
     let timeRemainingFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
@@ -81,18 +82,24 @@ class AudioController: UIViewController {
     
     func setUpPlayer() {
         //appDelegate.setupPlayer(aController: self, pUrl: podcastUrl!, podcast: self.podcast!)
+        appDelegate.registerAudioController(aController: self)
         if appDelegate.player == nil || appDelegate.podcastName != self.podcast?.podcastTitle {
-            appDelegate.setupPlayer(aController: self, pUrl: podcastUrl!, podcast: self.podcast!)
+            appDelegate.setupPlayer(pUrl: podcastUrl!, podcast: self.podcast!)
+            newPlayerInit = true
         }
         let playerLayer = AVPlayerLayer(player: appDelegate.player!)
         playerLayer.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         self.view.layer.addSublayer(playerLayer)
         updater = CADisplayLink(target: self, selector: #selector(AudioController.trackAudio))
         addObserver(self, forKeyPath: #keyPath(appDelegate.player.currentItem.duration), options: [.new, .initial], context: &myContext)
-        if appDelegate.player?.rate == 0 {
+        if newPlayerInit == true {
             appDelegate.togglePlayPause()
         } else {
-            self.play()
+            if appDelegate.player?.rate == 0 {
+                self.pause()
+            } else {
+                self.play()
+            }
         }
     }
     
