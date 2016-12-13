@@ -76,9 +76,7 @@ class LoginViewController: UIViewController {
         
         if(loginInfoButton.titleLabel?.text == "Kirjaudu ulos")
         {
-            self.preferences.removeObject(forKey: "userKey")
-            self.preferences.removeObject(forKey: "userName")
-            self.preferences.removeObject(forKey: "userID")
+
             userLoads.logOut()
             LoginToDo()
         }

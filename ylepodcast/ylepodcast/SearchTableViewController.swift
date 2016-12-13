@@ -7,131 +7,135 @@
 //
 
 import UIKit
+import CoreData
 
-class SearchTableViewController: UITableViewController , UISearchBarDelegate, UISearchResultsUpdating {
+class SearchTableViewController: UITableViewController , UISearchBarDelegate, NSFetchedResultsControllerDelegate {
     
     let searchController = UISearchController(searchResultsController: nil)
-    var searchResults = [Podcast?]()
-    var allPods = [Podcast?]()
+    let dataParser = HttpRequesting()
+
+    var fetchedResultsController: NSFetchedResultsController<Podcast>!
+    let moc = DatabaseController.getContext()
 
     override func viewDidLoad() {
 
         super.viewDidLoad()
+        getData(scope: 0, searchString: nil)
         
-        //luodaan searchbar
-        searchController.searchResultsUpdater = self
+        //Create a search bar
         searchController.searchBar.delegate = self
+        searchController.searchBar.placeholder = "Hae..."
+        searchController.searchBar.scopeButtonTitles = ["Jakso","Sarja","Kuvaus","Avainsanat"]
         definesPresentationContext = true
         searchController.dimsBackgroundDuringPresentation = false
         tableView.tableHeaderView = searchController.searchBar
         
-        let context = DatabaseController.getContext()
-        let dataParser = HttpRequesting()
+    }
+    
+    func getData(scope: Int, searchString: String?){
         
-        do{
-            //context.predicate = NSPredicate(format: "firstName == %@", firstName)
-            let result = try context.fetch(Podcast.fetchRequest())
-            let podcast = result as! [Podcast]
-            
-            // FIXME: apply better logic here, now nothing is fetched from the server if CoreData at least one item
-            if podcast.count == 0 {
-                // Set and Get the podcasts to observer
-                dataParser.httpGetPodCasts()
-            } else {
-                allPods = podcast
+        let request = NSFetchRequest<Podcast>(entityName: "Podcast")
+        var attribute = ""
+
+        if(searchString != nil){
+            switch(scope){
+            case 0:
+                attribute = "podcastTitle"
+            case 1:
+                attribute = "podcastCollection"
+            case 2:
+                attribute = "podcastDescription"
+            case 3:
+                attribute = "podcastTags"
+            default:
+                attribute = "podcastTitle"
+                break
             }
-        }catch{
-            print("Error")
+            
+            let sorter = NSSortDescriptor(key: attribute, ascending: true)
+            request.sortDescriptors = [sorter]
+            let commentPredicate = NSPredicate(format: "%K CONTAINS[cd] %@", attribute, searchString!)
+            request.predicate = commentPredicate
+        }else{
+            let sorter = NSSortDescriptor(key: "podcastCollection", ascending: true)
+            request.sortDescriptors = [sorter]
         }
-
         
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: nil, cacheName: nil)
+        
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController?.performFetch()
+            controllerWillChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
+            
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
+        }
     }
     
-    //Updates the search results
-
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchText: searchController.searchBar.text!)
+    func searchBar(_ searchBar: UISearchBar,textDidChange searchText: String) {
+        filterContent(forSearchText: searchText)
     }
+    
     //filters through keyword(s)
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        filterContentForSearchText(searchText: searchBar.text!)
-
-    }
-    //filters the whole data through
-    func filterContentForSearchText(searchText: String, scope: String = "All") {
-        // keyword in collections
-        let collectionSearchResults = allPods.filter { podcast in
-            return ((podcast?.podcastCollection)?.lowercased().contains(searchText.lowercased()))!
-        }
-        // keyword in descriptions
-        let descriptionSearchResults = allPods.filter { podcast in
-            return (podcast?.podcastDescription?.lowercased().contains(searchText.lowercased()))!
-        }
-        // keyword int tags
-       //let tagsSearchResults = allPods.filter { podcast in
-         //   for tag in podcast?.podcastTags! {
-           //     if tag.lowercased().contains(searchText.lowercased()) {
-             //       return true
-               // }
-            //}
-            //return false
-        //}
-    
-    
-        
-        // first set that has all the results
-        
-        //let set1:Set<Podcast> = Set<Podcast>(collectionSearchResults)
-        
-        // set that has also descriptions and tags
-        
-        //searchResults = Array(set1.union(descriptionSearchResults))
-            //.union(tagsSearchResults))
-
-        tableView.reloadData()
-    
-
-    // keyword int tags
-      //let tagsSearchResults = AppDelegate.fetchPodcastsFromCoreData().filter { podcast in
-      //for tag in podcast.podcastTags! {
-      // if tag.lowercased().contains(searchText.lowercased()) {
-        // return true
-      //}
-    // }
-     //return false
-     //}
-    
+    func filterContent(forSearchText searchText: String) {
+        let scope = searchController.searchBar.selectedScopeButtonIndex
+        getData(scope: scope, searchString: searchText)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    
     //Returns results to tableview
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.isActive && searchController.searchBar.text != "" {
-            return searchResults.count
+        guard let sections = fetchedResultsController?.sections else {
+            fatalError("No sections in fetchedResultsController")
         }
-        return allPods.count
+        let sectionInfo = sections[section]
+        return sectionInfo.numberOfObjects
     }
 
-    //Results to a list
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let selectedObject = fetchedResultsController?.object(at: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchItemTableViewCell", for: indexPath ) as! SearchItemTableViewCell
 
-        let podcast = searchResults[indexPath.row]
+        let podcast = selectedObject
         
-        cell.collectionLabel.text = podcast?.podcastCollection 
-        cell.descriptionLabel.text = podcast?.podcastDescription 
+        cell.collectionLabel.text = podcast?.podcastCollection
+        cell.descriptionLabel.text = podcast?.podcastDescription
+        cell.durationLabel.text = dataParser.secondsToTimeString(seconds: (podcast?.podcastDuration)!)
+        
+        let podcastImageData = podcast?.podcastImage
+        if podcastImageData != nil {
+            let image = UIImage(data: podcastImageData as! Data)
+            
+            cell.podcastImage.image = image
+        }
         return cell
     }
-
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch(type) {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+            return
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        default:
+            return
+        }
+    }
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.reloadData()
+    }
 
     /*
     // Override to support conditional editing of the table view.
