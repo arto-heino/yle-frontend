@@ -39,7 +39,7 @@ class PlaylistContentViewController: UIViewController, UITableViewDataSource, UI
         
         var i = 0
         for object in podcast!{
-            cell.collectionInPlaylistLabel.text = object.podcastCollection ?? "Ei otsikkoa"
+            cell.collectionInPlaylistLabel.text = object.podcastTitle ?? "Ei otsikkoa"
             cell.durationInPlaylistLabel.text = dataParser.secondsToTimeString(seconds: object.podcastDuration)
             
             if indexPath.row == i {

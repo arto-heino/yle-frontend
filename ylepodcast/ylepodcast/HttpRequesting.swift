@@ -108,6 +108,13 @@ class HttpRequesting {
                                         let title = item["title"] as! [String:Any]
                                         let duration = item["duration"] as? String ?? ""
                                         let description = item["description"] as! [String:Any]
+                                        let series = item["partOfSeries"] as! [String:Any]
+                                        let seriesID = series["id"] as? String ?? "No series ID."
+                                        let seriesTitles = series["title"] as! [String:Any]
+                                        let seriesTitle = seriesTitles["fi"] as? String ?? "No series title."
+                                        print("Part of series: ")
+                                        print(seriesID)
+                                        print(seriesTitle)
                                         
                                         //let pUrl = item["Download link"] as? String ?? ""
                                         let program_id = item["id"] as? String ?? ""
@@ -119,6 +126,8 @@ class HttpRequesting {
                                         podcastItem["podcastID"] = program_id
                                         podcastItem["podcastDescription"] = description["fi"] as! String? ?? "Ei kuvausta"
                                         podcastItem["podcastDuration"] = parsedDuration
+                                        podcastItem["seriesTitle"] = seriesTitle
+                                        podcastItem["seriesID"] = seriesID
                                         
                                         let image = item["image"] as? [String:Any]
                                         if image!["id"] != nil {
@@ -155,10 +164,12 @@ class HttpRequesting {
                     if podcastItem["imageURL"] != nil {
                         self.getPodcastImage(context: context, podcast: podcast, url: podcastItem["imageURL"] as! String)
                     }
-                    podcast.podcastCollection = podcastItem["podcastTitle"]! as! String?
+                    podcast.podcastTitle = podcastItem["podcastTitle"]! as! String?
                     podcast.podcastDescription = podcastItem["podcastDescription"]! as! String?
                     podcast.podcastDuration = Int64(podcastItem["podcastDuration"]! as! Int)
                     podcast.podcastMediaID = podcastItem["podcastMediaID"]! as? String
+                    podcast.podcastCollection = podcastItem["seriesTitle"]! as? String
+                    podcast.podcastCollectionID = podcastItem["seriesID"]! as? String
                 
                     let modifiedID = (podcastItem["podcastID"] as AnyObject).replacingOccurrences(of: "-", with: "")
                     let podcastID = Int64(modifiedID)

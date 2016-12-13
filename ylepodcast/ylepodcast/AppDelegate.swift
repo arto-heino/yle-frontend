@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let userLoad = UserLoads()
     let podcasts = HttpRequesting()
     let userPost = HttpPosts()
+    var podcastImage: MPMediaItemArtwork?
     var timer = Timer()
     var timeLeft: Int = 10
     var podcastPlaying: Podcast?
@@ -155,7 +156,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setupPlayer(aController: AudioController, pUrl: String, podcast: Podcast) {
         podcastPlaying = podcast
         podcastUrl = pUrl
-        podcastName = podcast.podcastCollection
+        podcastName = podcast.podcastTitle
         let url = URL(string: podcastUrl!)
         playerItem = AVPlayerItem(url: url!)
         
@@ -171,6 +172,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         commandCenter.pauseCommand.isEnabled = true
         commandCenter.pauseCommand.addTarget(self, action: #selector(pause))
+        let podcastImageData = podcastPlaying?.podcastImage
+        if podcastImageData != nil {
+            podcastImage = MPMediaItemArtwork(boundsSize: CGSize(width: 240, height: 240)) { sz in
+                return UIImage(data: podcastImageData as! Data)!
+            }
+        }
     }
     
     func togglePlayPause() {
@@ -204,7 +211,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func updateInfoCenter() {
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyTitle : podcastName!, MPNowPlayingInfoPropertyDefaultPlaybackRate : NSNumber(value: 1), MPMediaItemPropertyPlaybackDuration : CMTimeGetSeconds((player!.currentItem?.asset.duration)!), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player!.currentTime())]
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyTitle : podcastName!, MPNowPlayingInfoPropertyDefaultPlaybackRate : NSNumber(value: 1), MPMediaItemPropertyPlaybackDuration : CMTimeGetSeconds((player!.currentItem?.asset.duration)!), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player!.currentTime()), MPMediaItemPropertyArtwork : podcastImage!]
     }
 }
 

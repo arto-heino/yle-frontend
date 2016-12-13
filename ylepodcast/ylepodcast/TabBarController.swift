@@ -16,6 +16,7 @@ class TabBarController: UITabBarController {
     var playPause: UIButton?
     var inRunLoop: Bool = false
     var myView: UIView?
+    var currentView: Playable?
     
 
     override func viewDidLoad() {
@@ -32,10 +33,12 @@ class TabBarController: UITabBarController {
         // Dispose of any resources that can be recreated.
     }
     
-    func showPlayer() {
-        if appDelegate.player != nil {
+    func showPlayer(currentView: Playable) {
+        self.currentView = currentView
+        if appDelegate.player != nil && (myView == nil || !((myView?.isDescendant(of: self.view))!)){
             let screenSize: CGRect = UIScreen.main.bounds
             myView = UIView(frame: CGRect(x: 0, y: screenSize.height - 99, width: screenSize.width, height: 50))
+            
             let labelFrame = CGRect(x: 0, y: 0, width: screenSize.width - 50, height: 50)
             let PodcastNameLabel = MarqueeLabel.init(frame: labelFrame)
             PodcastNameLabel.text = appDelegate.podcastName
@@ -47,7 +50,7 @@ class TabBarController: UITabBarController {
             PodcastNameLabel.leadingBuffer = 15.0
             PodcastNameLabel.trailingBuffer = 15.0
             
-            let tap = UITapGestureRecognizer(target: self, action: #selector(hidePlayer))
+            let tap = UITapGestureRecognizer(target: self, action: #selector(openPlayerView))
             PodcastNameLabel.isUserInteractionEnabled = true
             PodcastNameLabel.addGestureRecognizer(tap)
             
@@ -65,9 +68,15 @@ class TabBarController: UITabBarController {
         }
     }
     
+    func openPlayerView() {
+        hidePlayer()
+        currentView?.toPlayerView()
+    }
+    
     func hidePlayer() {
         if inRunLoop {
             updater?.remove(from: RunLoop.current, forMode: RunLoopMode.commonModes)
+            inRunLoop = false
         }
         myView?.removeFromSuperview()
     }

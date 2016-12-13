@@ -108,7 +108,7 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, NS
 
         let podcast = selectedObject
         
-        cell.collectionLabel.text = podcast?.podcastCollection
+        cell.collectionLabel.text = podcast?.podcastTitle
         cell.descriptionLabel.text = podcast?.podcastDescription
         cell.durationLabel.text = dataParser.secondsToTimeString(seconds: (podcast?.podcastDuration)!)
         
@@ -118,6 +118,7 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, NS
             
             cell.podcastImage.image = image
         }
+
         return cell
     }
     

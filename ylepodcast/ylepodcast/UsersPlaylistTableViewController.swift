@@ -113,14 +113,14 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
             if(success){
                 selectedObject.addToPodcast(self.selectedPodcast!)
                 DatabaseController.saveContext()
-                let message: String = self.selectedPodcast!.podcastCollection! + ", lisätty listaan."
+                let message: String = self.selectedPodcast!.podcastTitle! + ", lisätty listaan."
                 let alert = UIAlertController(title: "Lisätty soittolistaan", message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
                     print(alert ?? "painoit")
                 }))
                 self.present(alert, animated: true, completion: nil)
             }else{
-                let message: String = self.selectedPodcast!.podcastCollection! + ", lisääminen listaan epäonnistui."
+                let message: String = self.selectedPodcast!.podcastTitle! + ", lisääminen listaan epäonnistui."
                 let alert = UIAlertController(title: "Virhe", message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
                     print(alert ?? "painoit")

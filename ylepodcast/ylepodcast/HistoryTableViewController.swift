@@ -69,7 +69,7 @@ class HistoryTableViewController: UITableViewController, NSFetchedResultsControl
         
         var i = 0
         for object in podcasts!{
-            cell.collectionLabel.text = object.podcastCollection
+            cell.collectionLabel.text = object.podcastTitle
             cell.descriptionLabel.text = object.podcastDescription
             cell.durationLabel.text = dataParser.secondsToTimeString(seconds: object.podcastDuration)
             let podcastImageData = object.podcastImage
@@ -118,7 +118,7 @@ class HistoryTableViewController: UITableViewController, NSFetchedResultsControl
         
         var i = 0
         for object in podcasts!{
-                name = object.podcastCollection!
+                name = object.podcastTitle!
                 podcast = object
                 dataParser.getAndDecryptUrl(podcast: object, urlDecryptObserver: self)
             if indexPath.row == i {

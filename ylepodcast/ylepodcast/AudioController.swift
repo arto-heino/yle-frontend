@@ -30,6 +30,7 @@ class AudioController: UIViewController {
     var newDuration: CMTime = kCMTimeZero
     var newDurationSeconds: Float64 = 0.0
     let preDurationString: String = "-"
+    var inRunLoop: Bool = false
     
     let timeRemainingFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
@@ -43,7 +44,7 @@ class AudioController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        podcastName = podcast!.podcastCollection
+        podcastName = podcast!.podcastTitle
         let podcastImageData = podcast?.podcastImage
         if podcastImageData != nil {
             let image = UIImage(data: podcastImageData as! Data)
@@ -51,7 +52,6 @@ class AudioController: UIViewController {
          }
         //PodcastNameLabel.restartLabel()
         setUpPlayer()
-        appDelegate.togglePlayPause()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,7 +67,9 @@ class AudioController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
-        updater.remove(from: RunLoop.current, forMode: RunLoopMode.commonModes)
+        /*if inRunLoop {
+            updater.remove(from: RunLoop.current, forMode: RunLoopMode.commonModes)
+        }*/
     }
     
     override func didReceiveMemoryWarning() {
@@ -76,12 +78,20 @@ class AudioController: UIViewController {
     }
     
     func setUpPlayer() {
-        appDelegate.setupPlayer(aController: self, pUrl: podcastUrl!, podcast: self.podcast!)
+        //appDelegate.setupPlayer(aController: self, pUrl: podcastUrl!, podcast: self.podcast!)
+        if appDelegate.player == nil || appDelegate.podcastName != self.podcast?.podcastTitle {
+            appDelegate.setupPlayer(aController: self, pUrl: podcastUrl!, podcast: self.podcast!)
+        }
         let playerLayer = AVPlayerLayer(player: appDelegate.player!)
         playerLayer.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         self.view.layer.addSublayer(playerLayer)
         updater = CADisplayLink(target: self, selector: #selector(AudioController.trackAudio))
         addObserver(self, forKeyPath: #keyPath(appDelegate.player.currentItem.duration), options: [.new, .initial], context: &myContext)
+        if appDelegate.player?.rate == 0 {
+            appDelegate.togglePlayPause()
+        } else {
+            self.play()
+        }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
@@ -144,6 +154,7 @@ class AudioController: UIViewController {
         PlayPause.setImage(UIImage(named: "Pause"), for: UIControlState.normal)
         updater.preferredFramesPerSecond = 15
         updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
+        inRunLoop = true
     }
     
     func pause() {
@@ -161,5 +172,13 @@ class AudioController: UIViewController {
         components.second = Int(max(0.0, time))
         
         return timeRemainingFormatter.string(from: components as DateComponents)!
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if segue.identifier == "GetSeries" {
+            let destination = segue.destination as! PodcastSeriesController
+            destination.seriesID = podcast?.podcastCollectionID
+            
+        }
     }
 }
