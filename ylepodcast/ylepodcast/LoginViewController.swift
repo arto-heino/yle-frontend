@@ -127,6 +127,7 @@ class LoginViewController: UIViewController {
         
         loginInfoButton.setTitle("Kirjaudu ulos", for: .normal)
         userLoads.getPlaylists()
+        userLoads.getHistory()
         let vc = storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! TabBarController
         self.show(vc, sender: nil)
 

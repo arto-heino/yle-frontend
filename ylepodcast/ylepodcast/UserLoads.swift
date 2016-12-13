@@ -89,23 +89,38 @@ class UserLoads{
         }
     }
     
-    func logOut(){
+    func getHistory(){
+        let token = preferences.object(forKey: "userKey") as? String ?? ""
+        let url: String = "http://media.mw.metropolia.fi/arsu/history"
         
         do{
             let context = DatabaseController.getContext()
-            let result = try context.fetch(Playlist.fetchRequest())
-            let playlist = result as! [Playlist]
+            let result = try context.fetch(History.fetchRequest())
+            let result_podcast = try context.fetch(Podcast.fetchRequest())
+
+            let history = result as! [History]
+            let podcast = result_podcast as! [Podcast]
             
-            if(playlist.count != 0){
-                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Playlist")
-                
-                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-                
-                do {
-                    try context.execute(deleteRequest)
-                    DatabaseController.saveContext()
-                }
-                catch {
+            if(history.count == 0){
+                userRequests.httpGetFromBackend(url: url, token: token) { success in
+                    let object = success as! [Any]
+                    for (_, event) in (object.enumerated()) {
+                        let context = DatabaseController.getContext()
+                        let history = History(context: context)
+                        var history_item = event as! [String:Any]
+                        
+                        history.historyID = history_item["id"] as! Int64
+                        let podcast_id = history_item["podcast_id"] as! Int64
+                        history.historyUserID = history_item["user_id"] as! Int64
+                        
+                        for (_,podcast) in podcast.enumerated(){
+                            if(podcast.podcastID == podcast_id){
+                                history.addToPodcast(podcast)
+                            }
+                        }
+                        
+                        DatabaseController.saveContext()
+                    }
                 }
             }else{
                 print("do nothing")
@@ -113,6 +128,13 @@ class UserLoads{
         }catch{
             print("model is lost")
         }
+        
+    }
+    
+    // Delete all user-related entitys
+    func logOut(){
+            DatabaseController.clear(table: "Playlist")
+            DatabaseController.clear(table: "History")
     }
 
 }

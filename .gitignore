@@ -67,6 +67,5 @@ fastlane/test_output
 ./DS_Store
 .DS_Store
 ylepodcast/.DS_Store
-ylepodcast/ylepodcast/settings.plist
-ylepodcast/settings.plist
 settings.plist
+ylepodcast/ylepodcast/settings.plist

@@ -21,6 +21,7 @@ class AudioController: UIViewController {
     @IBOutlet weak var theProgressBar: UISlider!
     @IBOutlet weak var PodcastNameLabel: MarqueeLabel!
     @IBOutlet weak var PodcastImageView: UIImageView!
+
     var podcast: Podcast?
     var podcastUrl: String?
     var podcastName: String?
@@ -75,7 +76,7 @@ class AudioController: UIViewController {
     }
     
     func setUpPlayer() {
-        appDelegate.setupPlayer(aController: self, pUrl: podcastUrl!, pName: podcastName!)
+        appDelegate.setupPlayer(aController: self, pUrl: podcastUrl!, podcast: self.podcast!)
         let playerLayer = AVPlayerLayer(player: appDelegate.player!)
         playerLayer.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         self.view.layer.addSublayer(playerLayer)
