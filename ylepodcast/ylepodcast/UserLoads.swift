@@ -133,6 +133,10 @@ class UserLoads{
     
     // Delete all user-related entitys
     func logOut(){
+            self.preferences.removeObject(forKey: "userKey")
+            self.preferences.removeObject(forKey: "userName")
+            self.preferences.removeObject(forKey: "userID")
+        
             DatabaseController.clear(table: "Playlist")
             DatabaseController.clear(table: "History")
     }

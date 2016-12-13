@@ -11,9 +11,14 @@ import UIKit
 class SearchItemTableViewCell: UITableViewCell {
     
     @IBOutlet weak var collectionLabel: UILabel!
+    
+    @IBOutlet weak var durationLabel: UILabel!
+    
+    @IBOutlet weak var descriptionLabel: UILabel!
+    
+    @IBOutlet weak var podcastImage: UIImageView!
 
    
-    @IBOutlet weak var descriptionLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -42,7 +42,6 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
                 playlist.playlistUserID = self.preferences.object(forKey: "userID") as! Int64
                 
                 DatabaseController.saveContext()
-                self.refresh()
             }
             
         }))
@@ -50,19 +49,11 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         self.present(alert, animated: true, completion: nil)
     }
     
-    func refresh() {
-        // refresh core data
-        self.initializeFetchedResultsController()
-        // refresh view
-        DispatchQueue.main.async{
-            self.tableView.reloadData()
-        }
-    }
-    
     func initializeFetchedResultsController() {
         let request = NSFetchRequest<Playlist>(entityName: "Playlist")
         let nameSort = NSSortDescriptor(key: "playlistName", ascending: true)
         request.sortDescriptors = [nameSort]
+        request.predicate = NSPredicate(format: "playlistName != nil")
         
         let moc = DatabaseController.getContext()
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
@@ -143,9 +134,8 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
                 if(success){
                     DatabaseController.getContext().delete(selectedObject)
                     DatabaseController.saveContext()
-                    self.refresh()
                 }else{
-                    print("Virhe poistaessa")
+                    print("Error when deleting playlist")
                 }
                 
             }
@@ -153,6 +143,18 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         
         addAction.backgroundColor = UIColor.red
         return [addAction]
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch(type) {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+            return
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        default:
+            return
+        }
     }
     
     // MARK: - Table view data source

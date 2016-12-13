@@ -139,40 +139,16 @@ class HistoryTableViewController: UITableViewController, NSFetchedResultsControl
         }
     }
     
-    private func controllerWillChangeContent(controller: NSFetchedResultsController<History>) {
-        
-        tableView.beginUpdates()
-    }
-    
-    func controller(controller: NSFetchedResultsController<History>, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
-        switch type {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch(type) {
         case .insert:
-            tableView.insertSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .fade)
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+            return
         case .delete:
-            tableView.deleteSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .fade)
-        case .move:
-            break
-        case .update:
-            break
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        default:
+            return
         }
-    }
-    
-    private func controller(controller: NSFetchedResultsController<History>, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-        switch type {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath! as IndexPath], with: .fade)
-        case .delete:
-            tableView.deleteRows(at: [indexPath! as IndexPath], with: .fade)
-        case .update:
-            configureCell(cell: tableView.cellForRow(at: indexPath! as IndexPath)! as! HistoryTableViewCell, indexPath: indexPath! as IndexPath)
-        case .move:
-            tableView.moveRow(at: indexPath! as IndexPath, to: newIndexPath! as IndexPath)
-        }
-    }
-    
-    private func controllerDidChangeContent(controller: NSFetchedResultsController<History>) {
-        
-        tableView.endUpdates()
     }
     
     /*

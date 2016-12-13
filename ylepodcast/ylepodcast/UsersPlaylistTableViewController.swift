@@ -100,7 +100,6 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
         let selectedObject = fetchedResultsController.object(at: indexPath)
         cell.ownPlaylistLabel.text = selectedObject.playlistName
         cell.itemsInPlaylistLabel.text = "\(selectedObject.podcast!.count) podcastia"
-        print(indexPath)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -119,7 +118,6 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
                     print(alert ?? "painoit")
                 }))
-                self.refresh()
                 self.present(alert, animated: true, completion: nil)
             }else{
                 let message: String = self.selectedPodcast!.podcastCollection! + ", lisääminen listaan epäonnistui."
@@ -153,15 +151,20 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
         return sectionInfo!.numberOfObjects
     }
     
-    func refresh() {
-        // refresh core data
-        self.initializeFetchedResultsController()
-        // refresh view
-        DispatchQueue.main.async{
-            self.tableView.reloadData()
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch(type) {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+            return
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        case .update:
+            configureCell(cell: tableView.cellForRow(at: indexPath!) as! UsersPlaylistTableViewCell, indexPath: indexPath!)
+        default:
+            return
         }
     }
-
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

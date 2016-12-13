@@ -105,7 +105,6 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
                 let destination = segue.destination as! AudioController
                 destination.podcast = podcast
                 destination.podcastUrl = url
-
             }
     }
     
@@ -132,6 +131,18 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, NSF
         
         addAction.backgroundColor = UIColor.init(red: 20/255.0, green: 188/255.0, blue: 210/255.0, alpha: 0.5)
         return [addAction]
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch(type) {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+            return
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        default:
+            return
+        }
     }
     
     

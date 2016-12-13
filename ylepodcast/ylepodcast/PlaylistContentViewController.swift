@@ -69,6 +69,18 @@ class PlaylistContentViewController: UIViewController, UITableViewDataSource, UI
         return count
     }
     
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch(type) {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+            return
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        default:
+            return
+        }
+    }
+    
     /*private func controllerWillChangeContent(controller: NSFetchedResultsController<Playlist>) {
         tableView.beginUpdates()
     }
