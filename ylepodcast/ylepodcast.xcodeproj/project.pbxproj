@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1303A5EE1DEDCE2F00FCF967 /* UserLoads.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1303A5ED1DEDCE2F00FCF967 /* UserLoads.swift */; };
+		130AF4821E00522D00250253 /* CategoryCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130AF4811E00522D00250253 /* CategoryCollectionViewController.swift */; };
+		130AF4841E00537000250253 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130AF4831E00537000250253 /* CategoryCollectionViewCell.swift */; };
+		130AF4861E00629C00250253 /* PodcastCategoriedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130AF4851E00629C00250253 /* PodcastCategoriedTableViewController.swift */; };
 		1317D3711DE5B2620087EF98 /* HttpPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1317D3701DE5B2620087EF98 /* HttpPosts.swift */; };
 		1329E05D1DE59575006CE49B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		1354D66F1DFEE4D900CAE24F /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1354D66E1DFEE4D900CAE24F /* HistoryTableViewCell.swift */; };
@@ -78,6 +81,9 @@
 
 /* Begin PBXFileReference section */
 		1303A5ED1DEDCE2F00FCF967 /* UserLoads.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLoads.swift; sourceTree = "<group>"; };
+		130AF4811E00522D00250253 /* CategoryCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewController.swift; sourceTree = "<group>"; };
+		130AF4831E00537000250253 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		130AF4851E00629C00250253 /* PodcastCategoriedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastCategoriedTableViewController.swift; sourceTree = "<group>"; };
 		1317D3701DE5B2620087EF98 /* HttpPosts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpPosts.swift; sourceTree = "<group>"; };
 		1354D66E1DFEE4D900CAE24F /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		13A5D3421DC3389400CEB0D4 /* ylepodcast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ylepodcast.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,8 +186,11 @@
 				740CC9331DE43EBE006EBA6E /* SplashScreenViewController.swift */,
 				7416C13E1DDC918C0029E6EC /* SettingsTableViewController.swift */,
 				74D06DF51DEDA58100226F3A /* UsersPlaylistTableViewController.swift */,
+				130AF4851E00629C00250253 /* PodcastCategoriedTableViewController.swift */,
 				746D25791DF1882C00379B90 /* PlaylistContentViewController.swift */,
+				130AF4811E00522D00250253 /* CategoryCollectionViewController.swift */,
 				7416C1401DDC923E0029E6EC /* LoginViewController.swift */,
+				130AF4831E00537000250253 /* CategoryCollectionViewCell.swift */,
 				74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */,
 				7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */,
 				1354D66E1DFEE4D900CAE24F /* HistoryTableViewCell.swift */,
@@ -362,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1317D3711DE5B2620087EF98 /* HttpPosts.swift in Sources */,
+				130AF4861E00629C00250253 /* PodcastCategoriedTableViewController.swift in Sources */,
 				13E8491A1DD0694100B655D5 /* HttpRequesting.swift in Sources */,
 				1303A5EE1DEDCE2F00FCF967 /* UserLoads.swift in Sources */,
 				74D312541DC77504002C1E3C /* PodcastTableViewController.swift in Sources */,
@@ -369,9 +379,11 @@
 				74ECA2721DE1DC4300789040 /* CoreData.xcdatamodeld in Sources */,
 				747DAD281DF030E000CE5EB0 /* ItemInPlaylistTableViewCell.swift in Sources */,
 				1329E05D1DE59575006CE49B /* (null) in Sources */,
+				130AF4821E00522D00250253 /* CategoryCollectionViewController.swift in Sources */,
 				74D06DF61DEDA58100226F3A /* UsersPlaylistTableViewController.swift in Sources */,
 				13A5D3481DC3389400CEB0D4 /* TabBarController.swift in Sources */,
 				74031AF31DCC89BE00000BB1 /* PlaylistTableViewController.swift in Sources */,
+				130AF4841E00537000250253 /* CategoryCollectionViewCell.swift in Sources */,
 				74031AF11DCC89A300000BB1 /* HistoryTableViewController.swift in Sources */,
 				13BC702A1DEC588C00A5718E /* DatabaseController.swift in Sources */,
 				13A5D3461DC3389400CEB0D4 /* AppDelegate.swift in Sources */,
