@@ -22,7 +22,7 @@ class UserLoads{
     // MARK: - PLAYLISTS
 
     func getPlaylists(){
-        
+
         let token = preferences.object(forKey: "userKey") as? String ?? ""
         let id: String = preferences.object(forKey: "userID") as? String ?? ""
         let url: String = "http://media.mw.metropolia.fi/arsu/playlists/user/" + id

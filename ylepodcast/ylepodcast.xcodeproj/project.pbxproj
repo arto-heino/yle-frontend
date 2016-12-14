@@ -15,6 +15,8 @@
 		1329E05D1DE59575006CE49B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		1354D66F1DFEE4D900CAE24F /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1354D66E1DFEE4D900CAE24F /* HistoryTableViewCell.swift */; };
 		1378E9271E00BC33003958A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74280FBB1DF04DE8006275F8 /* Main.storyboard */; };
+		139B2BF41E017BF300F8CA3E /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 139B2BF21E017BF300F8CA3E /* Fabric.framework */; };
+		139B2BF51E017BF300F8CA3E /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 139B2BF31E017BF300F8CA3E /* Crashlytics.framework */; };
 		13A5D3461DC3389400CEB0D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */; };
 		13A5D3481DC3389400CEB0D4 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3471DC3389400CEB0D4 /* TabBarController.swift */; };
 		13A5D34D1DC3389400CEB0D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13A5D34C1DC3389400CEB0D4 /* Assets.xcassets */; };
@@ -89,6 +91,8 @@
 		130AF4851E00629C00250253 /* PodcastCategoriedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastCategoriedTableViewController.swift; sourceTree = "<group>"; };
 		1317D3701DE5B2620087EF98 /* HttpPosts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpPosts.swift; sourceTree = "<group>"; };
 		1354D66E1DFEE4D900CAE24F /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
+		139B2BF21E017BF300F8CA3E /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		139B2BF31E017BF300F8CA3E /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		13A5D3421DC3389400CEB0D4 /* ylepodcast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ylepodcast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13A5D3471DC3389400CEB0D4 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -136,6 +140,8 @@
 			files = (
 				86FB4D7C1DE71A5600BD8F44 /* CryptoSwift.framework in Frameworks */,
 				13E849181DD0690C00B655D5 /* Alamofire.framework in Frameworks */,
+				139B2BF51E017BF300F8CA3E /* Crashlytics.framework in Frameworks */,
+				139B2BF41E017BF300F8CA3E /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,6 +236,8 @@
 		13A5D3441DC3389400CEB0D4 /* ylepodcast */ = {
 			isa = PBXGroup;
 			children = (
+				139B2BF21E017BF300F8CA3E /* Fabric.framework */,
+				139B2BF31E017BF300F8CA3E /* Crashlytics.framework */,
 				13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */,
 				1392D4B01E009671007E8C98 /* Helpers */,
 				1392D4AF1E009666007E8C98 /* Controllers */,
@@ -273,6 +281,7 @@
 				13A5D33F1DC3389400CEB0D4 /* Frameworks */,
 				13A5D3401DC3389400CEB0D4 /* Resources */,
 				13E8491C1DD06F7000B655D5 /* CopyFiles */,
+				139B2BF11E017BC100F8CA3E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -396,6 +405,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		139B2BF11E017BC100F8CA3E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run ad937bc4edf9a2e530870227b4211e2584b96ff1 f21c38fb6b77e87844b4c7f3ddb77dc3ec78b6ab562df297aed0287e1d815735";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		13A5D33E1DC3389400CEB0D4 /* Sources */ = {
@@ -590,6 +615,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/ylepodcast",
 				);
 				INFOPLIST_FILE = ylepodcast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
@@ -609,6 +635,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/ylepodcast",
 				);
 				INFOPLIST_FILE = ylepodcast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
