@@ -144,8 +144,6 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let selectedObject = fetchedResultsController.object(at: indexPath)
         let addAction = UITableViewRowAction(style: .normal, title: "Poista", handler: { (action: UITableViewRowAction, indexPath: IndexPath) -> Void in
-
-            let playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
             
             let token: String = self.preferences.object(forKey: "userKey") as! String
             let playlistID = String(selectedObject.playlistID)

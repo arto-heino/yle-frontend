@@ -93,8 +93,9 @@ class HttpRequesting {
                                             imageURL.append(".png")
                                             podcastItem["imageURL"] = imageURL
                                         }
-                                        podcastArray.append(podcastItem)
-                                        
+                                        if podcastItem["podcastTitle"] as! String != "Ei nimeä" {
+                                            podcastArray.append(podcastItem)
+                                        }
                                     }
                                 }
 
