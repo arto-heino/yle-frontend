@@ -12,10 +12,13 @@ import Alamofire
 
 class PlaylistTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
+    // MARK: VARIABLES
     var fetchedResultsController: NSFetchedResultsController<Playlist>!
     var preferences = UserDefaults.standard
     var userPodcast = HttpPosts()
     
+    // MARK: ACTIONS
+    // Add new playlist to backend and CoreData
     @IBAction func createNewPlaylistAction(_ sender: Any) {
         
         let alert = UIAlertController(title: "Luo soittolista", message: "Luo uusi soittolista", preferredStyle: UIAlertControllerStyle.alert)
@@ -28,7 +31,7 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         alert.addAction(UIAlertAction(title: "Peruuta", style: UIAlertActionStyle.default, handler: nil))
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-            let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            let textField = alert?.textFields![0]
             let context = DatabaseController.getContext()
             let playlist = Playlist(context: context)
             
@@ -47,6 +50,13 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         }))
         
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: INITIALIZER
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        initializeFetchedResultsController()
     }
     
     func initializeFetchedResultsController() {
@@ -68,18 +78,14 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         }
         
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        initializeFetchedResultsController()
-    }
 
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    // MARK: HELPERS
     
     func configureCell(cell: PlaylistTableViewCell, indexPath: IndexPath) {
         
@@ -89,11 +95,25 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
     
     }
     
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch(type) {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+            return
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        default:
+            return
+        }
+    }
+    
+    // MARK: TABLEVIEW
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "PlaylistTableViewCell"
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PlaylistTableViewCell
-        // Set up the cell
+
         configureCell(cell: cell, indexPath: indexPath)
         return cell
     }
@@ -119,7 +139,8 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         }
     }
     
-    //TODO: Need to ask do you want to remove playlist
+    // FIXME: Need to ask do you want to remove playlist
+    // Add action to delete playlist by swiping
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let selectedObject = fetchedResultsController.object(at: indexPath)
         let addAction = UITableViewRowAction(style: .normal, title: "Poista", handler: { (action: UITableViewRowAction, indexPath: IndexPath) -> Void in
@@ -135,6 +156,7 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
                     DatabaseController.getContext().delete(selectedObject)
                     DatabaseController.saveContext()
                 }else{
+                    // Need to give error to user too?
                     print("Error when deleting playlist")
                 }
                 
@@ -145,74 +167,4 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         return [addAction]
     }
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch(type) {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .fade)
-            return
-        case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .fade)
-        default:
-            return
-        }
-    }
-    
-    // MARK: - Table view data source
-    
-    
-        /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

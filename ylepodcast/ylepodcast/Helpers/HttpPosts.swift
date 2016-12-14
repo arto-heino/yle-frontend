@@ -12,53 +12,10 @@ import UIKit
 
 class HttpPosts {
     
-    var message: String
-    var userKey: String
-    var alertMessage: String
-    var error: Bool
-    var done: Bool
-    
-    init () {
-        self.message = ""
-        self.alertMessage = ""
-        self.error = true
-        self.done = false
-        self.userKey = ""
-    }
-    
-    func setMessage(statusMessage: String) {
-        self.alertMessage = statusMessage
-    }
-    
-    func setStatus(status: Bool) {
-        self.done = status
-    }
-    
-    func setError(error: Bool) {
-        self.error = error
-    }
-    
-    func setUserKey(userKey: String) {
-        self.userKey = userKey
-    }
-    
-    func getMessage() -> String {
-        return self.alertMessage
-    }
-    
-    func getUserKey() -> String {
-        return self.userKey
-    }
-    
-    func getStatus() -> Bool {
-        return self.done
-    }
-    
-    func getError() -> Bool {
-        return self.error
-    }
-    
+    // Helper function Log In to server (username, password) Return Bool (True if logged in), set preferences to UserDefaults.
+    // FIXME: Token should only be set to KeyChain!
     func httpLogin (username:String, password: String, completion:@escaping (Bool) -> Void) {
+        
         let parameters: Parameters = ["username": username, "password": password]
         
         Alamofire.request("http://media.mw.metropolia.fi/arsu/login", method: .post, parameters:parameters, encoding: JSONEncoding.default)
@@ -67,29 +24,27 @@ class HttpPosts {
                     switch(httpStatusCode) {
                     case 200:
                         if let data = response.result.value as? [String: String]{
-                            self.message = data["message"]!
                             let preferences = UserDefaults.standard
                             preferences.set(data["token"], forKey: "userKey")
                             preferences.set(username, forKey: "userName")
+                            completion(true)
+                            return
                         }
-                        completion(true)
-                        return
                     default:
-                        if let data = response.result.value as? [String: String]{
-                            self.message = data["message"]!
-                        }
                         completion(false)
                         return
                     }
                 }else{
-                    self.setMessage(statusMessage: "Something went wrong.")
                     completion(false)
                     return
                 }
         }
     }
     
+    // Helper function to register user (username, password, email) Return Bool (true if user is created)
+    // Token is vulnerable?
     func httpRegister (username:String, password: String, email: String, completion:@escaping (Bool) -> Void) {
+        
         let parameters: Parameters = ["username": username, "password": password, "email": email]
         
         let headers: HTTPHeaders = [
@@ -102,26 +57,20 @@ class HttpPosts {
                 if let httpStatusCode = response.response?.statusCode {
                     switch(httpStatusCode) {
                     case 201:
-                        if let data = response.result.value as? [String: String]{
-                            self.message = data["message"]!
-                        }
                         completion(true)
                         return
                     default:
-                        if let data = response.result.value as? [String: String]{
-                            self.message = data["message"]!
-                        }
                         completion(false)
                         return
                     }
                 }else{
-                    self.setMessage(statusMessage: "Something went wrong.")
                     completion(false)
                     return
                 }
         }
     }
     
+    // Helper function to post content to backend (url, token, parameters) Return ([String:Any])
     func httpPostToBackend (url:String!, token: String!, parameters: Parameters, completion:@escaping ([String:Any]) -> Void) {
         let headers: HTTPHeaders = [
             "x-access-token": token
@@ -144,12 +93,12 @@ class HttpPosts {
                         }
                     }
                 }else{
-                    self.setMessage(statusMessage: "Something went wrong.")
                     return
                 }
         }
     }
     
+    // Helper function to delete content in backend (url, token) Return Bool (true if the content is deleted from database)
     func httpDeleteFromBackend (url:String!, token: String!, completion:@escaping (Bool) -> Void) {
 
         let headers: HTTPHeaders = [
@@ -161,7 +110,6 @@ class HttpPosts {
                 if let httpStatusCode = response.response?.statusCode {
                     switch(httpStatusCode) {
                     case 200:
-
                             completion(true)
                             return
                     default:
@@ -169,12 +117,13 @@ class HttpPosts {
                             return
                     }
                 }else{
-                    self.setMessage(statusMessage: "Something went wrong.")
+                    completion(false)
                     return
                 }
         }
     }
     
+    // Helper function to put content in backend (url, token, parameters) Return Bool (true if the content is added in database)
     func httpPutToBackend (url:String!, token: String!, parameters: Parameters!, completion:@escaping (Bool) -> Void) {
         
         let headers: HTTPHeaders = [
@@ -193,7 +142,7 @@ class HttpPosts {
                         return
                     }
                 }else{
-                    self.setMessage(statusMessage: "Something went wrong.")
+                    completion(false)
                     return
                 }
         }

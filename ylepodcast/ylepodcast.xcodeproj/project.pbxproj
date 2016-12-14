@@ -14,6 +14,7 @@
 		1317D3711DE5B2620087EF98 /* HttpPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1317D3701DE5B2620087EF98 /* HttpPosts.swift */; };
 		1329E05D1DE59575006CE49B /* (null) in Sources */ = {isa = PBXBuildFile; };
 		1354D66F1DFEE4D900CAE24F /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1354D66E1DFEE4D900CAE24F /* HistoryTableViewCell.swift */; };
+		1378E9271E00BC33003958A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74280FBB1DF04DE8006275F8 /* Main.storyboard */; };
 		13A5D3461DC3389400CEB0D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */; };
 		13A5D3481DC3389400CEB0D4 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3471DC3389400CEB0D4 /* TabBarController.swift */; };
 		13A5D34D1DC3389400CEB0D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13A5D34C1DC3389400CEB0D4 /* Assets.xcassets */; };
@@ -155,6 +156,55 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1392D4AE1E009655007E8C98 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				130AF4831E00537000250253 /* CategoryCollectionViewCell.swift */,
+				74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */,
+				7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */,
+				1354D66E1DFEE4D900CAE24F /* HistoryTableViewCell.swift */,
+				74D06DF31DED9EFB00226F3A /* UsersPlaylistTableViewCell.swift */,
+				747DAD271DF030E000CE5EB0 /* ItemInPlaylistTableViewCell.swift */,
+				740CC9351DE59D59006EBA6E /* PlaylistTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1392D4AF1E009666007E8C98 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8669E0E11DD9E5FA00B427CF /* AudioController.swift */,
+				13A5D3471DC3389400CEB0D4 /* TabBarController.swift */,
+				74D312531DC77504002C1E3C /* PodcastTableViewController.swift */,
+				866A239D1E0062220090DB8C /* PodcastSeriesController.swift */,
+				74031AF01DCC89A300000BB1 /* HistoryTableViewController.swift */,
+				74031AF21DCC89BE00000BB1 /* PlaylistTableViewController.swift */,
+				74031AF41DCC89D400000BB1 /* SearchTableViewController.swift */,
+				740CC9331DE43EBE006EBA6E /* SplashScreenViewController.swift */,
+				7416C13E1DDC918C0029E6EC /* SettingsTableViewController.swift */,
+				74D06DF51DEDA58100226F3A /* UsersPlaylistTableViewController.swift */,
+				130AF4851E00629C00250253 /* PodcastCategoriedTableViewController.swift */,
+				746D25791DF1882C00379B90 /* PlaylistContentViewController.swift */,
+				130AF4811E00522D00250253 /* CategoryCollectionViewController.swift */,
+				7416C1401DDC923E0029E6EC /* LoginViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		1392D4B01E009671007E8C98 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				866A239B1E0013D80090DB8C /* Playable.swift */,
+				868CC9801DF991A90092DA62 /* MarqueeLabel.swift */,
+				13BC70291DEC588C00A5718E /* DatabaseController.swift */,
+				8693E8121DEC6F3B00993263 /* UrlDecryptObserver.swift */,
+				1303A5ED1DEDCE2F00FCF967 /* UserLoads.swift */,
+				1317D3701DE5B2620087EF98 /* HttpPosts.swift */,
+				13E849191DD0694100B655D5 /* HttpRequesting.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		13A5D3391DC3389400CEB0D4 = {
 			isa = PBXGroup;
 			children = (
@@ -181,34 +231,9 @@
 			isa = PBXGroup;
 			children = (
 				13A5D3451DC3389400CEB0D4 /* AppDelegate.swift */,
-				13A5D3471DC3389400CEB0D4 /* TabBarController.swift */,
-				74D312531DC77504002C1E3C /* PodcastTableViewController.swift */,
-				866A239D1E0062220090DB8C /* PodcastSeriesController.swift */,
-				74031AF01DCC89A300000BB1 /* HistoryTableViewController.swift */,
-				74031AF21DCC89BE00000BB1 /* PlaylistTableViewController.swift */,
-				868CC9801DF991A90092DA62 /* MarqueeLabel.swift */,
-				74031AF41DCC89D400000BB1 /* SearchTableViewController.swift */,
-				740CC9331DE43EBE006EBA6E /* SplashScreenViewController.swift */,
-				7416C13E1DDC918C0029E6EC /* SettingsTableViewController.swift */,
-				74D06DF51DEDA58100226F3A /* UsersPlaylistTableViewController.swift */,
-				130AF4851E00629C00250253 /* PodcastCategoriedTableViewController.swift */,
-				746D25791DF1882C00379B90 /* PlaylistContentViewController.swift */,
-				130AF4811E00522D00250253 /* CategoryCollectionViewController.swift */,
-				7416C1401DDC923E0029E6EC /* LoginViewController.swift */,
-				130AF4831E00537000250253 /* CategoryCollectionViewCell.swift */,
-				74D312511DC76DF7002C1E3C /* PodcastTableViewCell.swift */,
-				7409F2E51DD3B26C007E3F4A /* SearchItemTableViewCell.swift */,
-				1354D66E1DFEE4D900CAE24F /* HistoryTableViewCell.swift */,
-				74D06DF31DED9EFB00226F3A /* UsersPlaylistTableViewCell.swift */,
-				747DAD271DF030E000CE5EB0 /* ItemInPlaylistTableViewCell.swift */,
-				740CC9351DE59D59006EBA6E /* PlaylistTableViewCell.swift */,
-				8669E0E11DD9E5FA00B427CF /* AudioController.swift */,
-				13BC70291DEC588C00A5718E /* DatabaseController.swift */,
-				8693E8121DEC6F3B00993263 /* UrlDecryptObserver.swift */,
-				866A239B1E0013D80090DB8C /* Playable.swift */,
-				1303A5ED1DEDCE2F00FCF967 /* UserLoads.swift */,
-				1317D3701DE5B2620087EF98 /* HttpPosts.swift */,
-				13E849191DD0694100B655D5 /* HttpRequesting.swift */,
+				1392D4B01E009671007E8C98 /* Helpers */,
+				1392D4AF1E009666007E8C98 /* Controllers */,
+				1392D4AE1E009655007E8C98 /* Views */,
 				13A5D34C1DC3389400CEB0D4 /* Assets.xcassets */,
 				74280FBB1DF04DE8006275F8 /* Main.storyboard */,
 				13A5D34E1DC3389400CEB0D4 /* LaunchScreen.storyboard */,
@@ -359,6 +384,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1378E9271E00BC33003958A5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

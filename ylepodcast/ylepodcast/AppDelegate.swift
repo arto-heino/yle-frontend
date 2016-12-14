@@ -13,7 +13,8 @@ import Alamofire
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
+    // MARK: VARIABLES
     var window: UIWindow?
 
     static var splashScreenShown = false
@@ -34,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let commandCenter = MPRemoteCommandCenter.shared()
 
+    // MARK: INITIALIZATION
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -153,6 +155,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    // MARK: AUDIO PLAYER SETUP & PLAYBACK
+    
     func registerAudioController(aController: AudioController) {
         audioController = aController
     }
@@ -210,7 +214,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         audioController?.pause()
         player?.pause()
         self.updateInfoCenter()
-        //MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyTitle : podcastName!, MPNowPlayingInfoPropertyDefaultPlaybackRate : NSNumber(value: 0), MPMediaItemPropertyPlaybackDuration : CMTimeGetSeconds((player!.currentItem?.asset.duration)!), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player!.currentTime())]
     }
     
     func updateInfoCenter() {

@@ -603,7 +603,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HoN-G7-2Pb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2589.5999999999999" y="262.21889055472263"/>
+            <point key="canvasLocation" x="2149" y="206"/>
         </scene>
         <!--Lisää soittolistaan-->
         <scene sceneID="Ogn-6e-1iy">
@@ -686,13 +686,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" alpha="0.14999999999999999" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="82p-Oj-vct" customClass="UIImageView">
-                                <rect key="frame" x="16" y="72" width="288" height="276"/>
+                                <rect key="frame" x="16" y="28" width="288" height="276"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="276" id="GfK-8o-I7M"/>
                                 </constraints>
                             </view>
                             <slider opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" semanticContentAttribute="playback" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="6Kb-W9-UaE">
-                                <rect key="frame" x="22" y="255" width="276" height="31"/>
+                                <rect key="frame" x="22" y="211" width="276" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="3Qs-0D-QwB"/>
                                 </constraints>
@@ -701,19 +701,19 @@
                                 </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RrF-fx-saI">
-                                <rect key="frame" x="24" y="295" width="29" height="14"/>
+                                <rect key="frame" x="24" y="251" width="29" height="14"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M0o-Xw-Bdr">
-                                <rect key="frame" x="267" y="295" width="29" height="14"/>
+                                <rect key="frame" x="267" y="251" width="29" height="14"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RYE-pV-jmN">
-                                <rect key="frame" x="134.5" y="162" width="50" height="50"/>
+                                <rect key="frame" x="134.5" y="118" width="50" height="50"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" image="YES"/>
                                 </accessibility>
@@ -727,7 +727,7 @@
                                 </connections>
                             </button>
                             <label autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wAU-D9-HZF" customClass="MarqueeLabel" customModule="ylepodcast" customModuleProvider="target">
-                                <rect key="frame" x="16" y="111" width="288" height="20"/>
+                                <rect key="frame" x="16" y="67" width="288" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="NDM-9V-4n0"/>
                                 </constraints>
@@ -744,13 +744,13 @@
                                 </userDefinedRuntimeAttributes>
                             </label>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rBv-Nn-K3l">
-                                <rect key="frame" x="0.0" y="369" width="320" height="150"/>
+                                <rect key="frame" x="0.0" y="325" width="320" height="243"/>
                                 <connections>
                                     <segue destination="QAx-ho-VpI" kind="embed" identifier="GetSeries" id="fcb-wL-16q"/>
                                 </connections>
                             </containerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HtX-sX-e6U">
-                                <rect key="frame" x="16" y="317" width="288" height="18"/>
+                                <rect key="frame" x="16" y="273" width="288" height="18"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -896,7 +896,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="116" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fRK-Le-ir9">
                                 <rect key="frame" x="0.0" y="211" width="320" height="357"/>
-                                <color key="backgroundColor" red="0.94901960780000005" green="0.62352941179999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ItemInPlaylistCell" rowHeight="116" id="Av5-32-eHD" customClass="ItemInPlaylistTableViewCell" customModule="ylepodcast" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="116"/>
@@ -914,7 +914,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sarjan nimi" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KQF-sc-mBq">
                                                     <rect key="frame" x="109" y="11" width="203" height="38"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kesto" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fge-yR-eck">
@@ -933,10 +933,11 @@
                                                         <constraint firstAttribute="height" constant="31" id="lnc-i2-uNm"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstItem="Fge-yR-eck" firstAttribute="top" secondItem="Vyi-Af-Lhs" secondAttribute="bottom" constant="3" id="CL0-2I-LCg"/>
                                                 <constraint firstItem="Fge-yR-eck" firstAttribute="bottom" secondItem="Fcb-s7-3Kz" secondAttribute="bottomMargin" id="F1T-Da-clO"/>
@@ -966,16 +967,16 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vq6-ot-s58">
-                                <rect key="frame" x="0.0" y="20" width="320" height="172"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="174.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Soittolistan nimi" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bp7-RO-4bM">
-                                        <rect key="frame" x="20" y="74" width="279" height="23"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <nil key="textColor"/>
+                                        <rect key="frame" x="20" y="74" width="279" height="25.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Bp7-RO-4bM" firstAttribute="top" secondItem="vq6-ot-s58" secondAttribute="top" constant="74" id="Ka8-KZ-h6U"/>
                                     <constraint firstItem="Bp7-RO-4bM" firstAttribute="centerX" secondItem="vq6-ot-s58" secondAttribute="centerX" id="ceO-UX-Uzp"/>
@@ -984,7 +985,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                         <constraints>
                             <constraint firstItem="vq6-ot-s58" firstAttribute="leading" secondItem="HY4-0W-HAA" secondAttribute="leading" id="580-8t-xb2"/>
                             <constraint firstItem="vq6-ot-s58" firstAttribute="top" secondItem="Znj-5A-deZ" secondAttribute="bottom" id="8hq-zB-WmG"/>
@@ -998,11 +999,12 @@
                     <connections>
                         <outlet property="playlistNameInListingLabel" destination="Bp7-RO-4bM" id="BOy-Di-dhs"/>
                         <outlet property="tableView" destination="fRK-Le-ir9" id="qkY-yB-EH7"/>
+                        <segue destination="M2F-DV-ZyH" kind="show" identifier="AudioSegue5" id="xc8-8X-xco"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NEY-0B-HJw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3878" y="360"/>
+            <point key="canvasLocation" x="3699" y="386"/>
         </scene>
         <!--Suositellut-->
         <scene sceneID="GRj-Qt-6T8">
@@ -1353,7 +1355,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="PlayerPodcastListing" title="YLE" id="QAx-ho-VpI" customClass="PodcastSeriesController" customModule="ylepodcast" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="105" sectionHeaderHeight="28" sectionFooterHeight="28" id="H5M-eY-LHP">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="243"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.1241510579" green="0.094827056169999993" blue="0.070819894709999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -1447,8 +1449,8 @@
             <objects>
                 <viewController id="kMf-V7-lsY" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="6Wo-zV-uqf"/>
-                        <viewControllerLayoutGuide type="bottom" id="KSq-14-CQz"/>
+                        <viewControllerLayoutGuide type="top" id="QDP-Uj-q77"/>
+                        <viewControllerLayoutGuide type="bottom" id="dcO-Pk-nPc"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="naa-jj-igg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -1471,9 +1473,9 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="51C-jJ-LGS"/>
-        <segue reference="1Vj-p3-rcx"/>
-        <segue reference="EN9-lG-e4c"/>
-        <segue reference="NkT-te-Dkw"/>
+        <segue reference="bym-ww-ldi"/>
+        <segue reference="rdm-fz-2cP"/>
+        <segue reference="xc8-8X-xco"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.50196081400000003" green="0.43795780375141946" blue="0.27095141558949914" alpha="1" colorSpace="calibratedRGB"/>
 </document>

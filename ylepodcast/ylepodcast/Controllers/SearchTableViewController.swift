@@ -9,17 +9,25 @@
 import UIKit
 import CoreData
 
-class SearchTableViewController: UITableViewController , UISearchBarDelegate, NSFetchedResultsControllerDelegate {
+class SearchTableViewController: UITableViewController, Playable, UrlDecryptObserver, UISearchBarDelegate, NSFetchedResultsControllerDelegate {
+    
+    // MARK: VARIABLES
     
     let searchController = UISearchController(searchResultsController: nil)
     let dataParser = HttpRequesting()
+    var tabController: TabBarController?
+    var podcast: Podcast?
+    var url: String = ""
 
     var fetchedResultsController: NSFetchedResultsController<Podcast>!
     let moc = DatabaseController.getContext()
 
+    // MARK: INITIALIZERS
+    
     override func viewDidLoad() {
 
         super.viewDidLoad()
+        tabController = self.tabBarController as! TabBarController?
         getData(scope: 0, searchString: nil)
         
         //Create a search bar
@@ -29,9 +37,21 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, NS
         definesPresentationContext = true
         searchController.dimsBackgroundDuringPresentation = false
         tableView.tableHeaderView = searchController.searchBar
-        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabController?.showPlayer(currentView: self)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: FUNCTIONS
+    // FIXME: Should not fetch anything if user don´t search nothing
+    // Do a fetch result by using a user typed search string and selected search scope (Jakso, Sarja, Kuvaus, Avainsanat), (scope, searchString) Return Podcasts
     func getData(scope: Int, searchString: String?){
         
         let request = NSFetchRequest<Podcast>(entityName: "Podcast")
@@ -73,29 +93,53 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, NS
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
     }
+    // MARK: HELPERS
+    func urlDecrypted(url: String) {
+        self.url = url
+        self.tabController?.hidePlayer()
+        toPlayerView()
+    }
+    
+    // Set up the segue to play the podcast send (podcast, podcastUrl)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        
+        if segue.identifier == "AudioSegue4" {
+            let destination = segue.destination as! AudioController
+            destination.podcast = podcast
+            destination.podcastUrl = url
+        }
+    }
+    
+    func toPlayerView() {
+        performSegue(withIdentifier: "AudioSegue4", sender: Any?.self)
+    }
     
     func searchBar(_ searchBar: UISearchBar,textDidChange searchText: String) {
+        
         filterContent(forSearchText: searchText)
     }
     
-    //filters through keyword(s)
+    //filters through keyword and scope
     func filterContent(forSearchText searchText: String) {
+        
         let scope = searchController.searchBar.selectedScopeButtonIndex
         getData(scope: scope, searchString: searchText)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.reloadData()
     }
+    
+    // MARK: TABLEVIEW
 
     override func numberOfSections(in tableView: UITableView) -> Int {
+        
         return 1
     }
     
-    //Returns results to tableview
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sections = fetchedResultsController?.sections else {
+            
             fatalError("No sections in fetchedResultsController")
         }
         let sectionInfo = sections[section]
@@ -103,6 +147,7 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, NS
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let selectedObject = fetchedResultsController?.object(at: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchItemTableViewCell", for: indexPath ) as! SearchItemTableViewCell
 
@@ -134,53 +179,13 @@ class SearchTableViewController: UITableViewController , UISearchBarDelegate, NS
         }
     }
     
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.reloadData()
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let selectedObject = fetchedResultsController.object(at: indexPath)
+        podcast = selectedObject
+        
+        // Decrypt the selected podcast url
+        dataParser.getAndDecryptUrl(podcast: selectedObject, urlDecryptObserver: self)
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

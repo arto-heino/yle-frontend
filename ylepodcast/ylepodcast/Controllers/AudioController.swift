@@ -12,6 +12,8 @@ import MediaPlayer
 
 class AudioController: UIViewController {
     
+    // MARK: OUTLETS & VARIABLES
+    
     var myContext:Int? = nil
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -42,6 +44,8 @@ class AudioController: UIViewController {
         return formatter
     }()
     
+    // MARK: INITIALIZERS
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updatePlayerVisuals()
@@ -54,19 +58,15 @@ class AudioController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
-        /*if inRunLoop {
-            updater.remove(from: RunLoop.current, forMode: RunLoopMode.commonModes)
-        }*/
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func setUpPlayer() {
-        //appDelegate.setupPlayer(aController: self, pUrl: podcastUrl!, podcast: self.podcast!)
         appDelegate.registerAudioController(aController: self)
+        // (Re)initialize player, if it has not been initialized or the currently playing item is different from the one we want to play.
         if appDelegate.player == nil || appDelegate.podcastName != self.podcast?.podcastTitle {
             appDelegate.setupPlayer(pUrl: podcastUrl!, podcast: self.podcast!)
             newPlayerInit = true
@@ -87,6 +87,37 @@ class AudioController: UIViewController {
         }
     }
     
+    func updatePlayerVisuals() {
+        podcastName = podcast!.podcastTitle
+        let podcastImageData = podcast?.podcastImage
+        if podcastImageData != nil {
+            let image = UIImage(data: podcastImageData as! Data)
+            PodcastImageView.image = image
+        }
+        PodcastDescription.text = podcast?.podcastDescription
+        
+        
+        PodcastNameLabel.text = podcastName
+        PodcastNameLabel.type = .continuous
+        PodcastNameLabel.speed = .rate(40)
+        PodcastNameLabel.animationCurve = .easeInOut
+        PodcastNameLabel.fadeLength = 10.0
+        PodcastNameLabel.leadingBuffer = 15.0
+        PodcastNameLabel.trailingBuffer = 15.0
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if segue.identifier == "GetSeries" {
+            let destination = segue.destination as! PodcastSeriesController
+            destination.seriesID = podcast?.podcastCollectionID
+            destination.parentVC = self
+            
+        }
+    }
+    
+    // MARK: HELPERS
+    
+    // Observe playerItem duration. Update player view and labels accordingly.
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         // Make sure the this KVO callback was intended for this view controller.
         guard context == &myContext else {
@@ -165,33 +196,5 @@ class AudioController: UIViewController {
         components.second = Int(max(0.0, time))
         
         return timeRemainingFormatter.string(from: components as DateComponents)!
-    }
-    
-    func updatePlayerVisuals() {
-        podcastName = podcast!.podcastTitle
-        let podcastImageData = podcast?.podcastImage
-        if podcastImageData != nil {
-            let image = UIImage(data: podcastImageData as! Data)
-            PodcastImageView.image = image
-        }
-        PodcastDescription.text = podcast?.podcastDescription
-        
-        
-        PodcastNameLabel.text = podcastName
-        PodcastNameLabel.type = .continuous
-        PodcastNameLabel.speed = .rate(40)
-        PodcastNameLabel.animationCurve = .easeInOut
-        PodcastNameLabel.fadeLength = 10.0
-        PodcastNameLabel.leadingBuffer = 15.0
-        PodcastNameLabel.trailingBuffer = 15.0
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        if segue.identifier == "GetSeries" {
-            let destination = segue.destination as! PodcastSeriesController
-            destination.seriesID = podcast?.podcastCollectionID
-            destination.parentVC = self
-            
-        }
     }
 }
