@@ -32,7 +32,8 @@ class PodcastCategoriedTableViewController: UITableViewController, NSFetchedResu
         request.sortDescriptors = [titleSort]
         
         // Filter podcast by using category, which is sended by Category
-        let commentPredicate = NSPredicate(format: "%K == %@", "podcastCategory", category)
+        let attribute = "category.categoryTag"
+        let commentPredicate = NSPredicate(format: "%K CONTAINS[cd] %@", attribute, category)
         request.predicate = commentPredicate
         
         let moc = DatabaseController.getContext()
@@ -42,7 +43,6 @@ class PodcastCategoriedTableViewController: UITableViewController, NSFetchedResu
         
         do {
             try fetchedResultsController.performFetch()
-            
         } catch {
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
