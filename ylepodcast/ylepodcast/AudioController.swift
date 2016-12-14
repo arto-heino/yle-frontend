@@ -42,30 +42,14 @@ class AudioController: UIViewController {
         return formatter
     }()
     
-    //let commandCenter = MPRemoteCommandCenter.shared()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        podcastName = podcast!.podcastTitle
-        let podcastImageData = podcast?.podcastImage
-        if podcastImageData != nil {
-            let image = UIImage(data: podcastImageData as! Data)
-            PodcastImageView.image = image
-         }
-        PodcastDescription.text = podcast?.podcastDescription
-        //PodcastNameLabel.restartLabel()
+        updatePlayerVisuals()
         setUpPlayer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(AudioController.finishedPlaying), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: appDelegate.playerItem)
-        PodcastNameLabel.text = podcastName
-        PodcastNameLabel.type = .continuous
-        PodcastNameLabel.speed = .rate(40)
-        PodcastNameLabel.animationCurve = .easeInOut
-        PodcastNameLabel.fadeLength = 10.0
-        PodcastNameLabel.leadingBuffer = 15.0
-        PodcastNameLabel.trailingBuffer = 15.0
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -183,10 +167,30 @@ class AudioController: UIViewController {
         return timeRemainingFormatter.string(from: components as DateComponents)!
     }
     
+    func updatePlayerVisuals() {
+        podcastName = podcast!.podcastTitle
+        let podcastImageData = podcast?.podcastImage
+        if podcastImageData != nil {
+            let image = UIImage(data: podcastImageData as! Data)
+            PodcastImageView.image = image
+        }
+        PodcastDescription.text = podcast?.podcastDescription
+        
+        
+        PodcastNameLabel.text = podcastName
+        PodcastNameLabel.type = .continuous
+        PodcastNameLabel.speed = .rate(40)
+        PodcastNameLabel.animationCurve = .easeInOut
+        PodcastNameLabel.fadeLength = 10.0
+        PodcastNameLabel.leadingBuffer = 15.0
+        PodcastNameLabel.trailingBuffer = 15.0
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "GetSeries" {
             let destination = segue.destination as! PodcastSeriesController
             destination.seriesID = podcast?.podcastCollectionID
+            destination.parentVC = self
             
         }
     }

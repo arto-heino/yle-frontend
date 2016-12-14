@@ -9,19 +9,18 @@
 import UIKit
 import CoreData
 
-class PodcastSeriesController: UITableViewController, UrlDecryptObserver, Playable, NSFetchedResultsControllerDelegate {
+class PodcastSeriesController: UITableViewController, UrlDecryptObserver, NSFetchedResultsControllerDelegate {
     
     var podcasts = [Podcast]()
-    var tabController: TabBarController?
     var podcast: Podcast?
     var seriesID: String?
     var url: String = ""
     let dataParser = HttpRequesting()
     var fetchedResultsController: NSFetchedResultsController<Podcast>!
+    var parentVC: AudioController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabController = self.tabBarController as! TabBarController?
         
         func initializeFetchedResultsController() {
             let request = NSFetchRequest<Podcast>(entityName: "Podcast")
@@ -53,10 +52,10 @@ class PodcastSeriesController: UITableViewController, UrlDecryptObserver, Playab
     
     func urlDecrypted(url: String) {
         self.url = url
-    }
-    
-    func toPlayerView() {
-        performSegue(withIdentifier: "AudioSegue1", sender: Any?.self)
+        self.parentVC?.podcast = self.podcast
+        self.parentVC?.podcastUrl = self.url
+        self.parentVC?.updatePlayerVisuals()
+        self.parentVC?.setUpPlayer()
     }
     
     override func didReceiveMemoryWarning() {
@@ -102,16 +101,9 @@ class PodcastSeriesController: UITableViewController, UrlDecryptObserver, Playab
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let selectedObject = fetchedResultsController.object(at: indexPath)
-        podcast = selectedObject
-        dataParser.getAndDecryptUrl(podcast: selectedObject, urlDecryptObserver: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        if segue.identifier == "AudioSegue1" {
-            let destination = segue.destination as! AudioController
-            destination.podcast = podcast
-            destination.podcastUrl = url
-            
+        self.podcast = selectedObject
+        if self.parentVC?.podcast != self.podcast {
+            dataParser.getAndDecryptUrl(podcast: selectedObject, urlDecryptObserver: self)
         }
     }
     
