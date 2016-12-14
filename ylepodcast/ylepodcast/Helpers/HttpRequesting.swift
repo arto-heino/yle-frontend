@@ -76,8 +76,19 @@ class HttpRequesting {
                                         let seriesTitle = seriesTitles["fi"] as? String ?? "No series title."
                                         let program_id = item["id"] as? String ?? ""
                                         let parsedDuration = self.parseDuration(duration: duration)
+                                        let subject = item["subject"] as? [[String:Any]]
+                                        
+                                        var categoryArray = [String]()
+                                        for (_, subject) in (subject?.enumerated())!{
+                                            let cat = subject["title"] as! [String:String]
+                                            if categoryArray.contains(cat["fi"]!) {
+                                            }else{
+                                                categoryArray.append(cat["fi"]!)
+                                            }
+                                        }
                                         
                                         var podcastItem = [String : Any?]()
+                                        podcastItem["podcastCategories"] = categoryArray
                                         podcastItem["podcastTitle"] = title["fi"] as! String? ?? "Ei nimeä"
                                         podcastItem["podcastMediaID"] = media_id
                                         podcastItem["podcastID"] = program_id
@@ -134,6 +145,14 @@ class HttpRequesting {
                     podcast.podcastMediaID = podcastItem["podcastMediaID"]! as? String
                     podcast.podcastCollection = podcastItem["seriesTitle"]! as? String
                     podcast.podcastCollectionID = podcastItem["seriesID"]! as? String
+                    
+                    let cat = podcastItem["podcastCategories"] as! [String]
+                    
+                    for(_, tag) in cat.enumerated(){
+                        let category = Category(context: context)
+                        category.categoryTag = tag
+                        category.addToPodcast(podcast)
+                    }
                     
                     // Modify the podcast id to int, remove -
                     let modifiedID = (podcastItem["podcastID"] as AnyObject).replacingOccurrences(of: "-", with: "")
