@@ -19,7 +19,7 @@
 		13A5D3481DC3389400CEB0D4 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3471DC3389400CEB0D4 /* TabBarController.swift */; };
 		13A5D34D1DC3389400CEB0D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13A5D34C1DC3389400CEB0D4 /* Assets.xcassets */; };
 		13A5D3501DC3389400CEB0D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A5D34E1DC3389400CEB0D4 /* LaunchScreen.storyboard */; };
-		13A5D35B1DC3389400CEB0D4 /* ylepodcastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D35A1DC3389400CEB0D4 /* ylepodcastTests.swift */; };
+		13A5D35B1DC3389400CEB0D4 /* ylepodcastSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D35A1DC3389400CEB0D4 /* ylepodcastSearchTests.swift */; };
 		13A5D3661DC3389500CEB0D4 /* ylepodcastUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D3651DC3389500CEB0D4 /* ylepodcastUITests.swift */; };
 		13AAF2691DE3011C007F9D7A /* settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13AAF2681DE3011C007F9D7A /* settings.plist */; };
 		13BC702A1DEC588C00A5718E /* DatabaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BC70291DEC588C00A5718E /* DatabaseController.swift */; };
@@ -96,7 +96,7 @@
 		13A5D34F1DC3389400CEB0D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		13A5D3511DC3389400CEB0D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		13A5D3561DC3389400CEB0D4 /* ylepodcastTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ylepodcastTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		13A5D35A1DC3389400CEB0D4 /* ylepodcastTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ylepodcastTests.swift; sourceTree = "<group>"; };
+		13A5D35A1DC3389400CEB0D4 /* ylepodcastSearchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ylepodcastSearchTests.swift; sourceTree = "<group>"; };
 		13A5D35C1DC3389400CEB0D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		13A5D3611DC3389500CEB0D4 /* ylepodcastUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ylepodcastUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A5D3651DC3389500CEB0D4 /* ylepodcastUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ylepodcastUITests.swift; sourceTree = "<group>"; };
@@ -247,7 +247,7 @@
 		13A5D3591DC3389400CEB0D4 /* ylepodcastTests */ = {
 			isa = PBXGroup;
 			children = (
-				13A5D35A1DC3389400CEB0D4 /* ylepodcastTests.swift */,
+				13A5D35A1DC3389400CEB0D4 /* ylepodcastSearchTests.swift */,
 				13A5D35C1DC3389400CEB0D4 /* Info.plist */,
 			);
 			path = ylepodcastTests;
@@ -440,7 +440,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13A5D35B1DC3389400CEB0D4 /* ylepodcastTests.swift in Sources */,
+				13A5D35B1DC3389400CEB0D4 /* ylepodcastSearchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

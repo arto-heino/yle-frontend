@@ -63,6 +63,8 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         let request = NSFetchRequest<Playlist>(entityName: "Playlist")
         let nameSort = NSSortDescriptor(key: "playlistName", ascending: true)
         request.sortDescriptors = [nameSort]
+        
+        // FIXME: Bug in playlist names
         request.predicate = NSPredicate(format: "playlistName != nil")
         
         let moc = DatabaseController.getContext()
@@ -145,7 +147,7 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         let selectedObject = fetchedResultsController.object(at: indexPath)
         let addAction = UITableViewRowAction(style: .normal, title: "Poista", handler: { (action: UITableViewRowAction, indexPath: IndexPath) -> Void in
 
-            let playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
+            //let playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
             
             let token: String = self.preferences.object(forKey: "userKey") as! String
             let playlistID = String(selectedObject.playlistID)
