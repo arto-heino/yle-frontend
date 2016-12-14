@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class PodcastCategoriedTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UrlDecryptObserver {
+class PodcastCategoriedTableViewController: UITableViewController, Playable, NSFetchedResultsControllerDelegate, UrlDecryptObserver {
     
     // MARK: VARIABLES
     
@@ -18,12 +18,20 @@ class PodcastCategoriedTableViewController: UITableViewController, NSFetchedResu
     let dataParser = HttpRequesting()
     var url: String = ""
     var podcast: Podcast?
+    var tabController: TabBarController?
+    var name: String = ""
     
     // MARK: INITIALIZER
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabController = self.tabBarController as! TabBarController?
         initializeFetchedResultsController()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabController?.showPlayer(currentView: self)
     }
     
     func initializeFetchedResultsController() {
@@ -53,13 +61,28 @@ class PodcastCategoriedTableViewController: UITableViewController, NSFetchedResu
     
     func urlDecrypted(url: String) {
         self.url = url
-        performSegue(withIdentifier: "AudioSegue1", sender: Any?.self)
+        self.tabController?.hidePlayer()
+        toPlayerView()
+    }
+    
+    // Set up the segue to play the podcast send (podcast, podcastUrl)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        
+        if segue.identifier == "AudioSegue6" {
+            let destination = segue.destination as! AudioController
+            destination.podcast = podcast
+            destination.podcastUrl = url
+        }
+    }
+    
+    func toPlayerView() {
+        performSegue(withIdentifier: "AudioSegue6", sender: Any?.self)
     }
     
     func configureCell(cell: PodcastTableViewCell, indexPath: IndexPath) {
         let selectedObject = fetchedResultsController.object(at: indexPath)
         
-        cell.collectionLabel.text = selectedObject.podcastCollection
+        cell.collectionLabel.text = selectedObject.podcastTitle
         cell.descriptionLabel.text = selectedObject.podcastDescription
         cell.durationLabel.text = dataParser.secondsToTimeString(seconds: selectedObject.podcastDuration)
         let podcastImageData = selectedObject.podcastImage
@@ -122,16 +145,6 @@ class PodcastCategoriedTableViewController: UITableViewController, NSFetchedResu
         
         addAction.backgroundColor = UIColor.init(red: 20/255.0, green: 188/255.0, blue: 210/255.0, alpha: 0.5)
         return [addAction]
-    }
-    
-    // MARK: NAVIGATION
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        if segue.identifier == "AudioSegue1" {
-            let destination = segue.destination as! AudioController
-            destination.podcast = podcast
-            destination.podcastUrl = url
-        }
     }
     
 }

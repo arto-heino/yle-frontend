@@ -31,7 +31,7 @@ class HistoryTableViewController: UITableViewController, Playable, NSFetchedResu
         initializeFetchedResultsController()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabController?.showPlayer(currentView: self)
     }
