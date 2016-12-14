@@ -37,7 +37,7 @@ class ylepodcastTests: XCTestCase {
         DatabaseController.saveContext()
         
         // Create SearchTableViewController
-        let searchViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SearchTableViewController") as! SearchTableViewController
+        let searchViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Search") as! SearchTableViewController
         searchViewController.loadViewIfNeeded()
         
         // Scope 0 searches for title with search string "kissa"

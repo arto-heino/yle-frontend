@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9tR-9j-pKv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9tR-9j-pKv">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -686,13 +686,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" alpha="0.14999999999999999" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="82p-Oj-vct" customClass="UIImageView">
-                                <rect key="frame" x="16" y="28" width="288" height="276"/>
+                                <rect key="frame" x="16" y="72" width="288" height="276"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="276" id="GfK-8o-I7M"/>
                                 </constraints>
                             </view>
                             <slider opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" semanticContentAttribute="playback" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="6Kb-W9-UaE">
-                                <rect key="frame" x="22" y="211" width="276" height="31"/>
+                                <rect key="frame" x="22" y="255" width="276" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="3Qs-0D-QwB"/>
                                 </constraints>
@@ -701,19 +701,19 @@
                                 </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RrF-fx-saI">
-                                <rect key="frame" x="24" y="251" width="29" height="14"/>
+                                <rect key="frame" x="24" y="295" width="29" height="14"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M0o-Xw-Bdr">
-                                <rect key="frame" x="267" y="251" width="29" height="14"/>
+                                <rect key="frame" x="267" y="295" width="29" height="14"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RYE-pV-jmN">
-                                <rect key="frame" x="134.5" y="118" width="50" height="50"/>
+                                <rect key="frame" x="134.5" y="162" width="50" height="50"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" image="YES"/>
                                 </accessibility>
@@ -727,7 +727,7 @@
                                 </connections>
                             </button>
                             <label autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wAU-D9-HZF" customClass="MarqueeLabel" customModule="ylepodcast" customModuleProvider="target">
-                                <rect key="frame" x="16" y="67" width="288" height="20"/>
+                                <rect key="frame" x="16" y="111" width="288" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="NDM-9V-4n0"/>
                                 </constraints>
@@ -744,13 +744,13 @@
                                 </userDefinedRuntimeAttributes>
                             </label>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rBv-Nn-K3l">
-                                <rect key="frame" x="0.0" y="325" width="320" height="243"/>
+                                <rect key="frame" x="0.0" y="369" width="320" height="150"/>
                                 <connections>
                                     <segue destination="QAx-ho-VpI" kind="embed" identifier="GetSeries" id="fcb-wL-16q"/>
                                 </connections>
                             </containerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HtX-sX-e6U">
-                                <rect key="frame" x="16" y="273" width="288" height="18"/>
+                                <rect key="frame" x="16" y="317" width="288" height="18"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1068,7 +1068,7 @@
         <!--Haku-->
         <scene sceneID="e0l-Y9-Xkd">
             <objects>
-                <tableViewController id="CeN-7t-7tb" customClass="SearchTableViewController" customModule="ylepodcast" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="Search" id="CeN-7t-7tb" customClass="SearchTableViewController" customModule="ylepodcast" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="83" sectionHeaderHeight="28" sectionFooterHeight="28" id="9HX-Wr-50I" userLabel="Search Table View Controller" customClass="SearchTableViewController">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1355,7 +1355,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="PlayerPodcastListing" title="YLE" id="QAx-ho-VpI" customClass="PodcastSeriesController" customModule="ylepodcast" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="105" sectionHeaderHeight="28" sectionFooterHeight="28" id="H5M-eY-LHP">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="243"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.1241510579" green="0.094827056169999993" blue="0.070819894709999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -1475,7 +1475,7 @@
         <segue reference="51C-jJ-LGS"/>
         <segue reference="bym-ww-ldi"/>
         <segue reference="rdm-fz-2cP"/>
-        <segue reference="xc8-8X-xco"/>
+        <segue reference="soq-HS-Mm5"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.50196081400000003" green="0.43795780375141946" blue="0.27095141558949914" alpha="1" colorSpace="calibratedRGB"/>
 </document>
