@@ -63,6 +63,8 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         let request = NSFetchRequest<Playlist>(entityName: "Playlist")
         let nameSort = NSSortDescriptor(key: "playlistName", ascending: true)
         request.sortDescriptors = [nameSort]
+        
+        // FIXME: Bug in playlist names
         request.predicate = NSPredicate(format: "playlistName != nil")
         
         let moc = DatabaseController.getContext()

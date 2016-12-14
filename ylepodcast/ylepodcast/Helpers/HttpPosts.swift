@@ -53,7 +53,6 @@ class HttpPosts {
         
         Alamofire.request("http://media.mw.metropolia.fi/arsu/users", method: .post, parameters:parameters, encoding: JSONEncoding.default, headers:headers)
             .responseJSON{response in
-                print(response)
                 if let httpStatusCode = response.response?.statusCode {
                     switch(httpStatusCode) {
                     case 201:
@@ -78,18 +77,17 @@ class HttpPosts {
         
         Alamofire.request(url, method: .post, parameters:parameters, encoding: JSONEncoding.default, headers:headers)
             .responseJSON{response in
-                print(response)
                 if let httpStatusCode = response.response?.statusCode {
                     switch(httpStatusCode) {
                     case 201:
                         if let data = response.result.value as? [String: Any]{
-                        completion(data)
-                        return
+                            completion(data)
+                            return
                         }
                     default:
                         if let data = response.result.value as? [String: Any]{
-                        completion(data)
-                        return
+                            completion(data)
+                            return
                         }
                     }
                 }else{
@@ -100,21 +98,21 @@ class HttpPosts {
     
     // Helper function to delete content in backend (url, token) Return Bool (true if the content is deleted from database)
     func httpDeleteFromBackend (url:String!, token: String!, completion:@escaping (Bool) -> Void) {
-
+        
         let headers: HTTPHeaders = [
             "x-access-token": token
         ]
-    
+        
         Alamofire.request(url, method: .delete, encoding: JSONEncoding.default, headers:headers)
             .responseJSON{response in
                 if let httpStatusCode = response.response?.statusCode {
                     switch(httpStatusCode) {
                     case 200:
-                            completion(true)
-                            return
+                        completion(true)
+                        return
                     default:
-                            completion(false)
-                            return
+                        completion(false)
+                        return
                     }
                 }else{
                     completion(false)
