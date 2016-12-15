@@ -84,6 +84,9 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
         let nameSort = NSSortDescriptor(key: "playlistName", ascending: true)
         request.sortDescriptors = [nameSort]
         
+        // FIXME: Why there are empty playlists?
+        request.predicate = NSPredicate(format: "playlistName != nil")
+        
         let moc = DatabaseController.getContext()
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc,sectionNameKeyPath: nil, cacheName: nil)
         
@@ -126,7 +129,10 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
                 let message: String = self.selectedPodcast!.podcastTitle! + ", lisätty listaan."
                 let alert = UIAlertController(title: "Lisätty soittolistaan", message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-                    print(alert ?? "painoit")
+                    // FIXME: Need to be smooth and switch to sended view
+                    let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "MainView") as! PodcastTableViewController
+                    
+                    self.navigationController?.pushViewController(secondViewController, animated: true)
                 }))
                 self.present(alert, animated: true, completion: nil)
             }else{

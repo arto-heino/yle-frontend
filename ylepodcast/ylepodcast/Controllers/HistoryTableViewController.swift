@@ -159,15 +159,45 @@ class HistoryTableViewController: UITableViewController, Playable, NSFetchedResu
         
         var i = 0
         for object in podcasts!{
-                name = object.podcastTitle!
-                podcast = object
-                dataParser.getAndDecryptUrl(podcast: object, urlDecryptObserver: self)
+            name = object.podcastTitle!
+            podcast = object
+            dataParser.getAndDecryptUrl(podcast: object, urlDecryptObserver: self)
             if indexPath.row == i {
                 break
             }
             i = i + 1
         }
-
+        
     }
+    
+    // Add, add podcast to playlist action to tableview
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let selectedObject = fetchedResultsController.object(at: indexPath)
+        let addAction = UITableViewRowAction(style: .normal, title: "Lisää", handler: { (action: UITableViewRowAction, indexPath: IndexPath) -> Void in
+            
+            let usersPlaylistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "UsersPlaylist") as! UsersPlaylistTableViewController
+            
+            let podcastObj = selectedObject.podcast?.allObjects
+            let podcasts = podcastObj as? [Podcast]
+            
+            var i = 0
+            for object in podcasts!{
+                usersPlaylistController.selectedPodcast = object
+                if indexPath.row == i {
+                    break
+                }
+                i = i + 1
+            }
+            
+            
+            
+            self.show(usersPlaylistController, sender: nil)
+        })
+        
+        addAction.backgroundColor = UIColor.init(red: 20/255.0, green: 188/255.0, blue: 210/255.0, alpha: 0.5)
+        return [addAction]
+    }
+    
     
 }

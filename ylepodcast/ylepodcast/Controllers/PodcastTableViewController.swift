@@ -18,6 +18,7 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, Pla
     var url: String = ""
     let dataParser = HttpRequesting()
     var fetchedResultsController: NSFetchedResultsController<Podcast>!
+    var sortStyle: String = "podcastTitle"
     
     // MARK: INITIALIZER
     override func viewDidLoad() {
@@ -27,12 +28,12 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, Pla
         self.navigationItem.titleView!.contentMode = UIViewContentMode.scaleAspectFit
         self.navigationItem.titleView!.frame = CGRect(x: 0, y: 0, width: 0, height: 50)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50)))
-        initializeFetchedResultsController()
+        initializeFetchedResultsController(sortStyle: sortStyle)
     }
     
-    func initializeFetchedResultsController() {
+    func initializeFetchedResultsController(sortStyle: String) {
         let request = NSFetchRequest<Podcast>(entityName: "Podcast")
-        let titleSort = NSSortDescriptor(key: "podcastTitle", ascending: true)
+        let titleSort = NSSortDescriptor(key: sortStyle, ascending: true)
         request.sortDescriptors = [titleSort]
         
         let moc = DatabaseController.getContext()
@@ -42,6 +43,7 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, Pla
         
         do {
             try fetchedResultsController.performFetch()
+            controllerWillChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
             
         } catch {
             fatalError("Failed to initialize FetchedResultsController: \(error)")
@@ -60,6 +62,10 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, Pla
     }
     
     // MARK: HELPERS
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.reloadData()
+    }
     
     func urlDecrypted(url: String) {
         self.url = url
@@ -108,6 +114,37 @@ class PodcastTableViewController: UITableViewController, UrlDecryptObserver, Pla
             destination.podcast = podcast
             destination.podcastUrl = url
         }
+    }
+    
+    // MARK: ACTIONS
+
+    @IBAction func sortPodcast(_ sender: Any) {
+        let alert = UIAlertController(title: "", message: "SUODATA", preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Otsikko", style: .default , handler:{ (UIAlertAction)in
+            self.sortStyle = "podcastTitle"
+            self.initializeFetchedResultsController(sortStyle: self.sortStyle)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Päivämäärä", style: .default , handler:{ (UIAlertAction)in
+            //self.sortStyle = "podcastDate"
+            //self.initializeFetchedResultsController(sortStyle: self.sortStyle)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Kesto", style: .default , handler:{ (UIAlertAction)in
+            self.sortStyle = "podcastDuration"
+            self.initializeFetchedResultsController(sortStyle: self.sortStyle)
+        }))
+        
+        
+        alert.addAction(UIAlertAction(title: "Peruuta", style: UIAlertActionStyle.cancel, handler:{ (UIAlertAction)in
+            print("User click Dismiss button")
+            
+            
+        }))
+        self.present(alert, animated: true, completion: {
+            print("completion block")
+        })
     }
     
     // MARK: TABLEVIEW
