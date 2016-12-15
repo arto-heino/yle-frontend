@@ -49,6 +49,11 @@ class AudioController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updatePlayerVisuals()
+    
+        self.navigationItem.titleView = UIImageView(image: UIImage(named: "logo"))
+        self.navigationItem.titleView!.contentMode = UIViewContentMode.scaleAspectFit
+        self.navigationItem.titleView!.frame = CGRect(x: 0, y: 0, width: 0, height: 50)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50)))
         setUpPlayer()
     }
     

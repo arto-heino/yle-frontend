@@ -7,7 +7,7 @@
 //
 
 import UIKit
-class CategoryCollectionViewController: UICollectionViewController {
+class CategoryCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     // MARK: VARIABLES
     
@@ -20,6 +20,10 @@ class CategoryCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.titleView = UIImageView(image: UIImage(named: "logo"))
+        self.navigationItem.titleView!.contentMode = UIViewContentMode.scaleAspectFit
+        self.navigationItem.titleView!.frame = CGRect(x: 0, y: 0, width: 0, height: 50)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50)))
     }
     
     // MARK: TABLEVIEW
@@ -39,10 +43,22 @@ class CategoryCollectionViewController: UICollectionViewController {
         let imageView = UIImageView()
         let image = UIImage(named: "defaultImage")
         imageView.image = image
+        imageView.clipsToBounds = true
+        imageView.contentMode = UIViewContentMode.scaleAspectFill
         cell.backgroundView = imageView
         
         // Configure the cell
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let picDimension = self.view.frame.size.width / 2.5
+        return CGSize(width: picDimension, height: picDimension)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        let leftRightInset = self.view.frame.size.width / 14.0
+        return UIEdgeInsetsMake(0, leftRightInset, 0, leftRightInset)
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
