@@ -110,6 +110,7 @@ class UsersPlaylistTableViewController: UITableViewController, NSFetchedResultsC
     func configureCell(cell: UsersPlaylistTableViewCell, indexPath: IndexPath) {
         let selectedObject = fetchedResultsController.object(at: indexPath)
         cell.ownPlaylistLabel.text = selectedObject.playlistName
+        // FIXME: Does not refresh podcast count correct
         cell.itemsInPlaylistLabel.text = "\(selectedObject.podcast!.count) podcastia"
     }
     
