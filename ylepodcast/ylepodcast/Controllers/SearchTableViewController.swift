@@ -18,22 +18,22 @@ class SearchTableViewController: UITableViewController, Playable, UrlDecryptObse
     var tabController: TabBarController?
     var podcast: Podcast?
     var url: String = ""
-
+    
     var fetchedResultsController: NSFetchedResultsController<Podcast>!
     let moc = DatabaseController.getContext()
-
+    
     // MARK: INITIALIZERS
     
     override func viewDidLoad() {
-
+        
         super.viewDidLoad()
         tabController = self.tabBarController as! TabBarController?
-        getData(scope: 0, searchString: nil)
+        //getData(scope: 0, searchString: nil)
         
         //Create a search bar
         searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Hae..."
-        searchController.searchBar.scopeButtonTitles = ["Jakso","Sarja","Kuvaus","Avainsanat"]
+        searchController.searchBar.scopeButtonTitles = ["Kaikki","Avainsanat"]
         definesPresentationContext = true
         searchController.dimsBackgroundDuringPresentation = false
         tableView.tableHeaderView = searchController.searchBar
@@ -50,36 +50,31 @@ class SearchTableViewController: UITableViewController, Playable, UrlDecryptObse
     }
     
     // MARK: FUNCTIONS
-    // FIXME: Should not fetch anything if user don´t search nothing
-    // Do a fetch result by using a user typed search string and selected search scope (Jakso, Sarja, Kuvaus, Avainsanat), (scope, searchString) Return Podcasts
+    // Do a fetch result by using a user typed search string and selected search scope (Kaikki, Avainsanat), (scope, searchString) Return Podcasts
     func getData(scope: Int, searchString: String?){
         
         let request = NSFetchRequest<Podcast>(entityName: "Podcast")
         var attribute = ""
-
-        if(searchString != nil){
-            switch(scope){
-            case 0:
-                attribute = "podcastTitle"
-            case 1:
-                attribute = "podcastCollection"
-            case 2:
-                attribute = "podcastDescription"
-            case 3:
-                attribute = "podcastTags"
-            default:
-                attribute = "podcastTitle"
-                break
-            }
-            
-            let sorter = NSSortDescriptor(key: attribute, ascending: true)
-            request.sortDescriptors = [sorter]
-            let commentPredicate = NSPredicate(format: "%K CONTAINS[cd] %@", attribute, searchString!)
-            request.predicate = commentPredicate
-        }else{
-            let sorter = NSSortDescriptor(key: "podcastCollection", ascending: true)
-            request.sortDescriptors = [sorter]
+        let sorter = "podcastTitle"
+        
+        switch(scope){
+        case 0:
+            let predicate1 = NSPredicate(format: "podcastTitle CONTAINS[cd] %@", searchString!)
+            let predicate2 = NSPredicate(format: "podcastCollection CONTAINS[cd] %@", searchString!)
+            let predicate3 = NSPredicate(format: "podcastDescription CONTAINS[cd] %@", searchString!)
+            let predicateCompound = NSCompoundPredicate.init(type: .or, subpredicates: [predicate1,predicate2,predicate3])
+            request.predicate = predicateCompound
+        case 1:
+            attribute = "category.categoryTag"
+            let predicateCompound = NSPredicate(format: "%K CONTAINS[cd] %@", attribute, searchString!)
+            request.predicate = predicateCompound
+        default:
+            attribute = ""
+            break
         }
+        
+        let podcastSorter = NSSortDescriptor(key: sorter, ascending: true)
+        request.sortDescriptors = [podcastSorter]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: nil, cacheName: nil)
         
@@ -115,7 +110,7 @@ class SearchTableViewController: UITableViewController, Playable, UrlDecryptObse
     }
     
     func searchBar(_ searchBar: UISearchBar,textDidChange searchText: String) {
-        
+        searchBar.placeholder = searchText
         filterContent(forSearchText: searchText)
     }
     
@@ -131,39 +126,68 @@ class SearchTableViewController: UITableViewController, Playable, UrlDecryptObse
     }
     
     // MARK: TABLEVIEW
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
+        let selectedObject = fetchedResultsController?.fetchedObjects
         
-        return 1
+        if (selectedObject?.count != 0) {
+            
+            tableView.separatorStyle = .singleLine
+            tableView.backgroundView = nil
+            return 1;
+            
+        } else {
+            
+            // Display a message when the table is empty
+            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text             = "Ei hakutuloksia"
+            noDataLabel.textColor        = UIColor.white
+            noDataLabel.textAlignment    = .center
+            tableView.backgroundView = noDataLabel
+            tableView.separatorStyle = .none
+            
+        }
+        
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sections = fetchedResultsController?.sections else {
-            
-            fatalError("No sections in fetchedResultsController")
+            // Display a message when the table is empty
+            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text             = "Hae PodCatista"
+            noDataLabel.textColor        = UIColor.white
+            noDataLabel.textAlignment    = .center
+            tableView.backgroundView = noDataLabel
+            tableView.separatorStyle = .none
+            return 0
         }
         let sectionInfo = sections[section]
         return sectionInfo.numberOfObjects
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let selectedObject = fetchedResultsController?.object(at: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchItemTableViewCell", for: indexPath ) as! SearchItemTableViewCell
-
-        let podcast = selectedObject
+        let selectedObjects = fetchedResultsController?.fetchedObjects
         
-        cell.collectionLabel.text = podcast?.podcastTitle
-        cell.descriptionLabel.text = podcast?.podcastDescription
-        cell.durationLabel.text = dataParser.secondsToTimeString(seconds: (podcast?.podcastDuration)!)
-        
-        let podcastImageData = podcast?.podcastImage
-        if podcastImageData != nil {
-            let image = UIImage(data: podcastImageData as! Data)
+        if (selectedObjects?.count != 0) {
+            let selectedObject = fetchedResultsController?.object(at: indexPath)
             
-            cell.podcastImage.image = image
+            let podcast = selectedObject
+            
+            cell.collectionLabel.text = podcast?.podcastTitle
+            cell.descriptionLabel.text = podcast?.podcastDescription
+            cell.durationLabel.text = dataParser.secondsToTimeString(seconds: (podcast?.podcastDuration)!)
+            
+            let podcastImageData = podcast?.podcastImage
+            if podcastImageData != nil {
+                let image = UIImage(data: podcastImageData as! Data)
+                
+                cell.podcastImage.image = image
+            }
+            
+            return cell
         }
-
         return cell
     }
     
@@ -187,5 +211,5 @@ class SearchTableViewController: UITableViewController, Playable, UrlDecryptObse
         // Decrypt the selected podcast url
         dataParser.getAndDecryptUrl(podcast: selectedObject, urlDecryptObserver: self)
     }
-
+    
 }
