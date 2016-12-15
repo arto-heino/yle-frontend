@@ -56,6 +56,10 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.titleView = UIImageView(image: UIImage(named: "logo"))
+        self.navigationItem.titleView!.contentMode = UIViewContentMode.scaleAspectFit
+        self.navigationItem.titleView!.frame = CGRect(x: 0, y: 0, width: 0, height: 50)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50)))
         initializeFetchedResultsController()
     }
     

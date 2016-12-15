@@ -70,27 +70,29 @@ class ylepodcastTests: XCTestCase {
         let searchViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Search") as! SearchTableViewController
         searchViewController.loadViewIfNeeded()
         
-        // Scope 0 searches for title with search string "kissa"
+        // Scope 0 searches for title with search string "kani"
         searchViewController.getData(scope: 0, searchString: "kani")
         
-        // Make sure we have one podcast visible in search results
+        // Make sure we have zero podcast visible in search results
         XCTAssertTrue(searchViewController.tableView.visibleCells.count == 0)
     }
     
-    // Test search with invalid scope
+    // Test search with 2 valid search strings
     
     func testSearchWithInvalidSearchScope() {
         DatabaseController.clear(table: "Podcast")
         
         let context = DatabaseController.getContext()
         
-        // Add one podcast to coredata with title "Kissa"
+        // Add one podcast to coredata with title "Kissa" and description "Kissalla on korvat, kissa ei ole koira"
         let podcast1 = Podcast(context: context)
         podcast1.podcastCollection = "Kissa"
+        podcast1.podcastDescription = "Kissalla on korvat, kissa ei ole koira"
         
-        // Add one podcast to coredata with title "Koira"
+        // Add one podcast to coredata with title "Koira" and description "Kissalla on korvat, koira ei ole kissa"
         let podcast2 = Podcast(context: context)
         podcast2.podcastCollection = "Koira"
+        podcast2.podcastDescription = "Koiralla on korvat, koira ei ole kissa"
         
         DatabaseController.saveContext()
         
@@ -98,11 +100,11 @@ class ylepodcastTests: XCTestCase {
         let searchViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Search") as! SearchTableViewController
         searchViewController.loadViewIfNeeded()
         
-        // Scope 0 searches for title with search string "kissa"
+        // Scope 0 searches for all with search string "kissa"
         searchViewController.getData(scope: 0, searchString: "kissa")
         
-        // Make sure we have one podcast visible in search results
-        XCTAssertTrue(searchViewController.tableView.visibleCells.count == 0)
+        // Make sure we have two podcast visible in search results
+        XCTAssertTrue(searchViewController.tableView.visibleCells.count == 2)
     }
     
 }
