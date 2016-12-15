@@ -68,7 +68,7 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         let nameSort = NSSortDescriptor(key: "playlistName", ascending: true)
         request.sortDescriptors = [nameSort]
         
-        // FIXME: Bug in playlist names
+        // FIXME: Bug in playlist names to be empty sometimes
         request.predicate = NSPredicate(format: "playlistName != nil")
         
         let moc = DatabaseController.getContext()
@@ -84,7 +84,7 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         }
         
     }
-
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -98,7 +98,6 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         let selectedObject = fetchedResultsController.object(at: indexPath)
         cell.myPlaylistNameLabel.text = selectedObject.playlistName
         cell.myItemsInPlaylist.text = "\(selectedObject.podcast!.count) podcastia"
-    
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
@@ -119,7 +118,7 @@ class PlaylistTableViewController: UITableViewController, NSFetchedResultsContro
         let cellIdentifier = "PlaylistTableViewCell"
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PlaylistTableViewCell
-
+        
         configureCell(cell: cell, indexPath: indexPath)
         return cell
     }
